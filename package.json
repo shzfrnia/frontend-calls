@@ -45,6 +45,6 @@
   },
   "main": "dist-electron/main.js",
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "**/*": "prettier --check --ignore-unknown"
   }
 }
