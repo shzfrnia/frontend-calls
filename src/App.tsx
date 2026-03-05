@@ -1,8 +1,8 @@
-import { StrictMode } from "react"
+import { StrictMode } from "react";
 
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/theme-provider";
 
-import { ThemeToggler } from "@/components/ThemeToggler"
+import { ThemeToggler } from "@/components/ThemeToggler";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <ThemeToggler />
       </ThemeProvider>
     </StrictMode>
-  )
+  );
 }
 
-export default App
+export default App;
