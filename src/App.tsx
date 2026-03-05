@@ -1,13 +1,17 @@
-import { ThemeProvider } from "@/components/theme-provider";
+import { StrictMode } from 'react'
 
-import { ThemeToggler } from "@/components/ThemeToggler";
+import { ThemeProvider } from '@/components/theme-provider'
+
+import { ThemeToggler } from '@/components/ThemeToggler'
 
 function App() {
-  return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <ThemeToggler />
-    </ThemeProvider>
-  );
+    return (
+        <StrictMode>
+            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                <ThemeToggler />
+            </ThemeProvider>
+        </StrictMode>
+    )
 }
 
-export default App;
+export default App
