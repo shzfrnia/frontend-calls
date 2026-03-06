@@ -1,16 +1,15 @@
-import { useTranslation } from "react-i18next";
-import { Moon, Sun } from "lucide-react";
+import { useTranslation } from "react-i18next"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu"
 
 export function LocalizationToggler() {
-  const { i18n } = useTranslation();
+  const { i18n } = useTranslation()
 
   return (
     <DropdownMenu>
@@ -27,9 +26,9 @@ export function LocalizationToggler() {
             >
               {themeName}
             </DropdownMenuItem>
-          );
+          )
         })}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }
