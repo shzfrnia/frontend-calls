@@ -1,4 +1,3 @@
-import { StrictMode } from "react"
 import { useTranslation } from "react-i18next"
 
 import { ThemeProvider } from "@/components/theme-provider"
@@ -10,16 +9,14 @@ function App() {
   const { t } = useTranslation()
 
   return (
-    <StrictMode>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <div className="flex gap-5 mb-5">
-          <ThemeToggler />
-          <LocalizationToggler />
-        </div>
+    <ThemeProvider>
+      <div className="flex gap-5 mb-5">
+        <ThemeToggler />
+        <LocalizationToggler />
+      </div>
 
-        <p>{t("title")}</p>
-      </ThemeProvider>
-    </StrictMode>
+      <p>{t("title")}</p>
+    </ThemeProvider>
   )
 }
 

@@ -32,20 +32,23 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement
-
-    root.classList.remove("light", "dark")
-
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light"
-
-      root.classList.add(systemTheme)
-      return
+    const setTheme = (currentTheme: Theme) => {
+      root.classList.remove("light", "dark")
+      root.classList.add(currentTheme)
     }
 
-    root.classList.add(theme)
+    if (theme === "system") {
+      window.ipcRenderer.on("system-theme-updated", () => {
+        window.ipcRenderer.getSystemTheme().then((systemTheme) => {
+          setTheme(systemTheme)
+        })
+      })
+      return
+    } else {
+      window.ipcRenderer.removeAllListeners("system-theme-updated")
+    }
+
+    setTheme(theme)
   }, [theme])
 
   const value = {
@@ -65,6 +68,10 @@ export function ThemeProvider({
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
+
+  useEffect(() => {
+    window.ipcRenderer.applyTheme(context.theme)
+  }, [context.theme])
 
   if (context === undefined)
     throw new Error("useTheme must be used within a ThemeProvider")

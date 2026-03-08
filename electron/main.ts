@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron"
+import { app, BrowserWindow, nativeTheme, ipcMain } from "electron"
 import { createRequire } from "node:module"
 import { fileURLToPath } from "node:url"
 import path from "node:path"
@@ -42,10 +42,16 @@ function createWindow() {
     win?.webContents.send("main-process-message", new Date().toLocaleString())
   })
 
+  nativeTheme.on("updated", () => {
+    win?.webContents.send(
+      "system-theme-updated",
+      nativeTheme.shouldUseDarkColors ? "dark" : "light"
+    )
+  })
+
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
   } else {
-    // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, "index.html"))
   }
 }
@@ -66,6 +72,14 @@ app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
+})
+
+ipcMain.handle("apply-theme", (_event, theme) => {
+  nativeTheme.themeSource = theme
+})
+
+ipcMain.handle("get-system-theme", () => {
+  return nativeTheme.shouldUseDarkColors ? "dark" : "light"
 })
 
 app.whenReady().then(createWindow)
