@@ -21,7 +21,12 @@ declare namespace NodeJS {
   }
 }
 
+type Theme = "light" | "dark" | "system"
+
 // Used in Renderer process, expose in `preload.ts`
 interface Window {
-  ipcRenderer: import("electron").IpcRenderer
+  ipcRenderer: import("electron").IpcRenderer & {
+    applyTheme: (theme: Theme) => void
+    getSystemTheme: () => Promise<Exclude<Theme, "system">>
+  }
 }

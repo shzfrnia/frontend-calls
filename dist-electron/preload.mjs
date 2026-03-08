@@ -1,6 +1,13 @@
 "use strict";
 const electron = require("electron");
-electron.contextBridge.exposeInMainWorld("ipcRenderer", {
+const applyTheme = (theme) => {
+  electron.ipcRenderer.invoke("apply-theme", theme);
+};
+const getSystemTheme = () => {
+  return electron.ipcRenderer.invoke("get-system-theme");
+};
+const themeFunctions = { applyTheme, getSystemTheme };
+const ipcRendererObject = {
   on(...args) {
     const [channel, listener] = args;
     return electron.ipcRenderer.on(channel, (event, ...args2) => listener(event, ...args2));
@@ -16,7 +23,10 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
   invoke(...args) {
     const [channel, ...omit] = args;
     return electron.ipcRenderer.invoke(channel, ...omit);
-  }
-  // You can expose other APTs you need here.
-  // ...
-});
+  },
+  removeAllListeners(...args) {
+    return electron.ipcRenderer.removeAllListeners(...args);
+  },
+  ...themeFunctions
+};
+electron.contextBridge.exposeInMainWorld("ipcRenderer", ipcRendererObject);
