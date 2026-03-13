@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { RouterProvider } from "react-router-dom"
 
+import "electron-fetch"
 import { router } from "./routes.ts"
 import "./index.css"
 import "./i18n.ts"

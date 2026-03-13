@@ -32,9 +32,11 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement
+
     const setTheme = (currentTheme: Theme) => {
       root.classList.remove("light", "dark")
       root.classList.add(currentTheme)
+      window.ipcRenderer.applyTheme(theme)
     }
 
     if (theme === "system") {
@@ -68,10 +70,6 @@ export function ThemeProvider({
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
-
-  useEffect(() => {
-    window.ipcRenderer.applyTheme(context.theme)
-  }, [context.theme])
 
   if (context === undefined)
     throw new Error("useTheme must be used within a ThemeProvider")
