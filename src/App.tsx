@@ -5,18 +5,17 @@ import { Toaster } from "@/components/ui/sonner"
 
 import "./App.css"
 import { useApplicationServer } from "./services/app-server"
-import { ThemeToggler } from "@/components/ThemeToggler"
-import { LocalizationToggler } from "@/components/LocalizationToggler"
 
 function App() {
   useApplicationServer()
 
+  // fetch("https://dummyjson.com/todos/random")
+  //   .then((res) => res.json())
+  //   .then((body) => console.log(body))
+
   return (
     <ThemeProvider>
       <Toaster />
-
-      {/* <ThemeToggler /> */}
-      {/* <LocalizationToggler /> */}
 
       <Outlet />
     </ThemeProvider>
