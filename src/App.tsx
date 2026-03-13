@@ -1,23 +1,22 @@
-import { useTranslation } from "react-i18next"
-
-import { Link, Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 
 import { ThemeProvider } from "./components/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
+
+import "./App.css"
+import { useApplicationServer } from "./services/app-server"
 import { ThemeToggler } from "@/components/ThemeToggler"
 import { LocalizationToggler } from "@/components/LocalizationToggler"
 
 function App() {
-  const { t } = useTranslation()
+  useApplicationServer()
 
   return (
     <ThemeProvider>
-      <div className="flex gap-5 mb-5">
-        <ThemeToggler />
-        <LocalizationToggler />
-      </div>
+      <Toaster />
 
-      <p>{t("title")}</p>
-      <Link to="/start-page">Start Page</Link>
+      {/* <ThemeToggler /> */}
+      {/* <LocalizationToggler /> */}
 
       <Outlet />
     </ThemeProvider>
