@@ -1,3 +1,19 @@
 {
-  "title": "Заголовок"
+  "title": "Заголовок",
+  "common": {
+    "field-is-required": "Поле не может быть пустым"
+  },
+  "views": {
+    "start-page": {
+      "title": "Настройка приложения",
+      "welcome-alert": {
+        "title": "Внимание",
+        "description": "Для работы приложения нужно указать ссылку на self-hosted сервер"
+      },
+      "server-url": { "label": "Ссылка на сервер" }
+    },
+    "home-page": {
+      "title": "Домашняя страница"
+    }
+  }
 }
