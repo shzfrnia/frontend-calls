@@ -5,8 +5,8 @@ import { Toaster } from "@/components/ui/sonner"
 
 import "./App.css"
 import { useApplicationServer } from "./services/app-server"
-// import { ThemeToggler } from "@/components/ThemeToggler"
-// import { LocalizationToggler } from "@/components/LocalizationToggler"
+import { ThemeToggler } from "@/components/ThemeToggler"
+import { LocalizationToggler } from "@/components/LocalizationToggler"
 
 function App() {
   useApplicationServer()
@@ -14,10 +14,9 @@ function App() {
   return (
     <ThemeProvider>
       <Toaster />
-      {/* <div className="flex gap-5 mb-5">
-        <ThemeToggler />
-        <LocalizationToggler />
-      </div> */}
+
+      {/* <ThemeToggler /> */}
+      {/* <LocalizationToggler /> */}
 
       <Outlet />
     </ThemeProvider>
