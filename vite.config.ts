@@ -10,6 +10,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    nodePolyfills(),
     electron({
       main: {
         // Shortcut of `build.lib.entry`.
@@ -29,7 +30,6 @@ export default defineConfig({
             undefined
           : {},
     }),
-    nodePolyfills(),
   ] as PluginOption[],
   resolve: {
     alias: {
