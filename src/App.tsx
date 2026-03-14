@@ -1,8 +1,6 @@
 import { Outlet } from "react-router-dom"
 
-import { ThemeProvider } from "./components/theme-provider"
-import { Toaster } from "@/components/ui/sonner"
-
+import Layout from "./components/layout"
 import "./App.css"
 import { useApplicationServer } from "./services/app-server"
 
@@ -14,11 +12,9 @@ function App() {
   //   .then((body) => console.log(body))
 
   return (
-    <ThemeProvider>
-      <Toaster />
-
+    <Layout>
       <Outlet />
-    </ThemeProvider>
+    </Layout>
   )
 }
 

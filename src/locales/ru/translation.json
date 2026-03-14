@@ -15,5 +15,9 @@
     "home-page": {
       "title": "Домашняя страница"
     }
+  },
+  "sidebar": {
+    "header": { "house-tooltip": "Личные сообщения" },
+    "footer": { "add-server-tooltip": "Добавить сервер" }
   }
 }

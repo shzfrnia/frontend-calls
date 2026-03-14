@@ -1,4 +1,4 @@
-import { usePageTitle } from "@/hooks/usePageTitle"
+import { usePageTitle } from "@/hooks/use-page-title"
 import { useApplicationServer } from "@/services/app-server"
 import { useTranslation } from "react-i18next"
 
@@ -9,7 +9,7 @@ export function HomePage() {
 
   return (
     <div>
-      <div>Home page</div>
+      <div>{t("views.home-page.title")}</div>
       <button onClick={() => setApplicationServerUrl("")}>reset</button>
     </div>
   )
