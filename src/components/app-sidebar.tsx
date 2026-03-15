@@ -42,8 +42,11 @@ const icons = [
   <Snail />,
 ]
 
-const navigates = new Array(40).fill("").map((x) => {
-  return icons[getRandomInt(icons.length)]
+const navigates = new Array(3).fill("").map((_x, index) => {
+  return {
+    icon: icons[getRandomInt(icons.length)],
+    name: `Девичий цитатник ${index}`,
+  }
 })
 
 export function AppSidebar() {
@@ -67,13 +70,13 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent className="!overflow-auto">
         <SidebarGroup>
-          {navigates.map((icon, index) => {
+          {navigates.map((navItem, index) => {
             return (
               <SidebarMenuButton
-                tooltip={String(index)}
-                onClick={() => navigate(`/${index}`)}
+                tooltip={navItem.name}
+                onClick={() => navigate(`/${navItem.name}`)}
               >
-                {icon}
+                {navItem.icon}
               </SidebarMenuButton>
             )
           })}

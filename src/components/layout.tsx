@@ -5,6 +5,8 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
+import { Separator } from "@/components/ui/separator"
+import { cn } from "@/lib/utils"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -28,7 +30,9 @@ function LayoutLeftPanel({ children }: { children: React.ReactNode }) {
   return (
     <>
       <ResizablePanel defaultSize="25%" minSize="190px" maxSize="360px">
-        <div className="flex flex-col">{children}</div>
+        <div className="flex flex-col h-full dark:bg-neutral-900 bg-neutral-50">
+          {children}
+        </div>
       </ResizablePanel>
 
       <ResizableHandle />
@@ -39,12 +43,30 @@ function LayoutLeftPanel({ children }: { children: React.ReactNode }) {
 function LayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <ResizablePanel defaultSize="75%">
-      <div className="flex flex-col">{children}</div>
+      <div className="flex flex-col h-full">{children}</div>
     </ResizablePanel>
+  )
+}
+
+function LayoutHeaderPanel({
+  children,
+  className,
+  separator = true,
+}: {
+  children: React.ReactNode
+  className?: string
+  separator?: boolean
+}) {
+  return (
+    <div className={cn("h-[54px] flex flex-col shrink-0", className)}>
+      <div className="flex flex-1 align-center p-2">{children}</div>
+      {separator && <Separator />}
+    </div>
   )
 }
 
 DefaultLayout.LayoutLeftPanel = LayoutLeftPanel
 DefaultLayout.LayoutContent = LayoutContent
+DefaultLayout.LayoutHeaderPanel = LayoutHeaderPanel
 
 export { DefaultLayout }
