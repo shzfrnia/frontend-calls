@@ -61,7 +61,7 @@ export function AppSidebar() {
             <SidebarMenuButton
               className={cn(sidebarMenuButtonLg())}
               tooltip={t("sidebar.header.house-tooltip")}
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/home/friends")}
             >
               <House />
             </SidebarMenuButton>
@@ -74,7 +74,7 @@ export function AppSidebar() {
             return (
               <SidebarMenuButton
                 tooltip={navItem.name}
-                onClick={() => navigate(`/${navItem.name}`)}
+                onClick={() => navigate(`/${index}`)}
               >
                 {navItem.icon}
               </SidebarMenuButton>

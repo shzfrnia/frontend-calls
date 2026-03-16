@@ -43,7 +43,7 @@ function LayoutLeftPanel({ children }: { children: React.ReactNode }) {
 function LayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <ResizablePanel defaultSize="75%">
-      <div className="flex flex-col h-full">{children}</div>
+      <div className="flex flex-col h-full overflow-hidden">{children}</div>
     </ResizablePanel>
   )
 }
@@ -58,7 +58,9 @@ function LayoutHeaderPanel({
   separator?: boolean
 }) {
   return (
-    <div className={cn("h-[54px] flex flex-col shrink-0", className)}>
+    <div
+      className={cn("h-[54px] max-h-[54px] flex flex-col shrink-0", className)}
+    >
       <div className="flex flex-1 align-center p-2">{children}</div>
       {separator && <Separator />}
     </div>
