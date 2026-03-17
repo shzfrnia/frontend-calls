@@ -1,7 +1,12 @@
 {
   "title": "Заголовок",
   "common": {
-    "field-is-required": "Поле не может быть пустым"
+    "field-is-required": "Поле не может быть пустым",
+    "friends": "Друзья",
+    "online": "В сети",
+    "all": "Все",
+    "search": "Поиск",
+    "back": "Назад"
   },
   "views": {
     "start-page": {
@@ -13,7 +18,22 @@
       "server-url": { "label": "Ссылка на сервер" }
     },
     "home-page": {
-      "title": "Домашняя страница"
+      "title": "Домашняя страница",
+      "find-or-start-call": "Найти или начать беседу"
+    },
+    "friends": {
+      "title": "Друзья"
+    },
+    "404": {
+      "title": "404",
+      "empty": {
+        "title": "404 — страница не найдена",
+        "description": "Кажется, что-то пошло не так, вернитесь назад и повторите операцию"
+      }
     }
+  },
+  "sidebar": {
+    "header": { "house-tooltip": "Личные сообщения" },
+    "footer": { "add-server-tooltip": "Добавить сервер" }
   }
 }

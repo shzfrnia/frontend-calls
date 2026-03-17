@@ -36,18 +36,21 @@ export function ThemeProvider({
     const setTheme = (currentTheme: Theme) => {
       root.classList.remove("light", "dark")
       root.classList.add(currentTheme)
+
       window.ipcRenderer.applyTheme(theme)
     }
 
-    if (theme === "system") {
-      window.ipcRenderer.on("system-theme-updated", () => {
-        window.ipcRenderer.getSystemTheme().then((systemTheme) => {
-          setTheme(systemTheme)
-        })
+    const setSystemTheme = () => {
+      window.ipcRenderer.getSystemTheme().then((systemTheme) => {
+        setTheme(systemTheme)
       })
-      return
+    }
+
+    if (theme === "system") {
+      setSystemTheme()
+      // window.ipcRenderer.on("system-theme-updated", () => setSystemTheme())
     } else {
-      window.ipcRenderer.removeAllListeners("system-theme-updated")
+      // window.ipcRenderer.removeAllListeners("system-theme-updated")
     }
 
     setTheme(theme)
