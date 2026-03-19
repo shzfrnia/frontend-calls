@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { UserRound } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
-import { usePageTitle } from "@/hooks/use-page-title"
 import { DefaultLayout } from "@/components/layout"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"

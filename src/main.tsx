@@ -1,7 +1,9 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import { RouterProvider } from "react-router-dom"
+import { Provider } from "react-redux"
 
+import { store } from "./store/index.ts"
 import { ThemeProvider } from "./components/theme-provider.tsx"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/sonner"
@@ -15,7 +17,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <ThemeProvider>
       <TooltipProvider>
         <Toaster />
-        <RouterProvider router={router} />
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
       </TooltipProvider>
     </ThemeProvider>
   </React.StrictMode>
