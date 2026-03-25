@@ -16,7 +16,7 @@ import {
 import { usePageTitle } from "@/hooks/use-page-title"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { useApplicationServer } from "@/services/app-server"
+import { useApplicationServer } from "@/api/app-server"
 
 import { ThemeToggler } from "@/components/theme-toggler"
 

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { usePageTitle } from "@/hooks/use-page-title"
 import { DefaultLayout } from "@/components/layout"
@@ -19,12 +19,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ChevronDown } from "lucide-react"
+import { useApplicationData } from "@/hooks/use-application-data"
 
 export function ServerPage() {
+  const navigate = useNavigate()
   const { t } = useTranslation()
   usePageTitle(t("views.home-page.title"))
 
   const { id } = useParams()
+  const { getServer } = useApplicationData()
+
+  if (!id) {
+    navigate("/404")
+    return null
+  }
+
+  const server = getServer(id)
 
   return (
     <DefaultLayout>
@@ -33,7 +43,7 @@ export function ServerPage() {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Button variant="ghost">
-                {id} <ChevronDown />
+                {server?.name} <ChevronDown />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-40" align="start">
