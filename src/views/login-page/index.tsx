@@ -76,7 +76,9 @@ export function LoginPage() {
               </div>
 
               <div className="flex justify-between items-center">
-                <p className="text-muted-foreground">{applicationServerUrl}</p>
+                <p className="text-muted-foreground">
+                  {applicationServerUrl || "—"}
+                </p>
                 <Button
                   size="sm"
                   variant="outline"
