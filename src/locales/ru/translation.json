@@ -6,16 +6,27 @@
     "online": "В сети",
     "all": "Все",
     "search": "Поиск",
-    "back": "Назад"
+    "back": "Назад",
+    "localizations": { "ru": "Русский", "en": "Английский" },
+    "theme": { "light": "Cветлая", "dark": "Темная", "system": "Системная" },
+    "edit": "Редактировать",
+    "server": "Сервер",
+    "cancel": "Отмена",
+    "save": "Сохранить"
   },
   "views": {
-    "start-page": {
-      "title": "Настройка приложения",
-      "welcome-alert": {
-        "title": "Внимание",
-        "description": "Для работы приложения нужно указать ссылку на self-hosted сервер"
-      },
-      "server-url": { "label": "Ссылка на сервер" }
+    "login-page": {
+      "title": "Войти",
+      "server-tip": "Для работы приложения нужно указать ссылку на self-hosted сервер",
+      "server-url": { "label": "Ссылка на сервер" },
+      "server-dialog": {
+        "title": "Войдите на свой сервер",
+        "url": {
+          "errors": {
+            "is-not-url": "Введенное значение не является ссылкой"
+          }
+        }
+      }
     },
     "home-page": {
       "title": "Домашняя страница",

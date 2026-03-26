@@ -1,7 +1,7 @@
 import { createHashRouter } from "react-router-dom"
 
 import App from "./App"
-import { StartPage } from "./views/start-page"
+import { LoginPage } from "./views/login-page"
 import { HomePage } from "./views/home-page"
 import { ServerPage } from "./views/server-page"
 import { Friends } from "./views/friends"
@@ -20,6 +20,6 @@ export const router = createHashRouter([
       { path: ":id", Component: ServerPage },
     ],
   },
-  { path: "start-page", Component: StartPage },
+  { path: "login", Component: LoginPage },
   { path: "*", Component: Page404 },
 ])
