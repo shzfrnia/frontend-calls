@@ -109,7 +109,9 @@ export function ServerDialog({
 
           <DialogFooter>
             <DialogClose>
-              <Button variant="outline">{t("common.cancel")}</Button>
+              <Button type="button" variant="outline">
+                {t("common.cancel")}
+              </Button>
             </DialogClose>
             <Button type="submit">{t("common.save")}</Button>
           </DialogFooter>
