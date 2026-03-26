@@ -10,5 +10,5 @@ export function UserPanel() {
     error: { text: "❌ Ошибка подключения", color: "red" },
   }[connectionState]
 
-  return <div>{JSON.stringify(statusConfig)}</div>
+  return <div>{statusConfig.text}</div>
 }

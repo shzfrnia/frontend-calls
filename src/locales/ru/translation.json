@@ -6,15 +6,15 @@
     "online": "В сети",
     "all": "Все",
     "search": "Поиск",
-    "back": "Назад"
+    "back": "Назад",
+    "localizations": { "ru": "Русский", "en": "Английский" },
+    "theme": { "light": "Cветлая", "dark": "Темная", "system": "Системная" },
+    "edit": "Редактировать"
   },
   "views": {
-    "start-page": {
-      "title": "Настройка приложения",
-      "welcome-alert": {
-        "title": "Внимание",
-        "description": "Для работы приложения нужно указать ссылку на self-hosted сервер"
-      },
+    "login-page": {
+      "title": "Войти",
+      "server-tip": "Для работы приложения нужно указать ссылку на self-hosted сервер",
       "server-url": { "label": "Ссылка на сервер" }
     },
     "home-page": {

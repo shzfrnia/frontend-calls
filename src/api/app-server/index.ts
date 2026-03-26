@@ -7,7 +7,7 @@ import {
 } from "@/store/slices/api-slice"
 import { useAppSelector, useAppDispatch } from "@/hooks/use-store"
 
-const START_PAGE_URL = "/start-page"
+const LOGIN_PAGE_URL = "/login"
 
 export function useApplicationServer() {
   const dispatch = useAppDispatch()
@@ -17,7 +17,7 @@ export function useApplicationServer() {
 
   useEffect(() => {
     if (!url) {
-      navigate(START_PAGE_URL)
+      navigate(LOGIN_PAGE_URL)
     } else if (location.pathname === "/") {
       navigate("/home")
     }
@@ -27,7 +27,7 @@ export function useApplicationServer() {
     setApplicationServerUrl: (url: string) => {
       dispatch(setApplicationServerUrl(url))
       if (!url) {
-        navigate(START_PAGE_URL)
+        navigate(LOGIN_PAGE_URL)
       }
     },
     applicationServerUrl: url,

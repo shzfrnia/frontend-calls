@@ -1,34 +1,35 @@
 import { useTranslation } from "react-i18next"
 
-import { Button } from "@/components/ui/button"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 export function LocalizationToggler() {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
+
+  const languages = Object.keys(i18n.services.resourceStore.data)
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Button variant="outline">{i18n.language}</Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        {(["ru", "en"] as const).map((themeName) => {
-          return (
-            <DropdownMenuItem
-              key={themeName}
-              disabled={i18n.language === themeName}
-              onClick={() => i18n.changeLanguage(themeName)}
-            >
-              {themeName}
-            </DropdownMenuItem>
-          )
-        })}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Select defaultValue={i18n.language} disabled>
+      <SelectTrigger className="w-full max-w-48">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {languages.map((lang) => {
+            return (
+              <SelectItem key={lang} value={lang}>
+                {t(`common.localizations.${lang}`)}
+              </SelectItem>
+            )
+          })}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   )
 }
