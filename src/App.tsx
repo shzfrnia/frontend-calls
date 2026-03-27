@@ -10,9 +10,11 @@ import Layout from "./components/layout"
 import { ApplicationVersions } from "./components/application-versions"
 
 import "./App.css"
+import { usePageTitle } from "./hooks/use-page-title"
 
 function App() {
   useApplicationServer()
+  usePageTitle("Цитатник")
   const { data } = useApplicationDataQuery() // init ws
 
   if (!data || data.connectionState === "connecting") {
