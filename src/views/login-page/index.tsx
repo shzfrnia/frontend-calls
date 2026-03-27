@@ -148,7 +148,7 @@ export function LoginPage() {
               <Button
                 size="icon-sm"
                 disabled={!canLogin}
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/home/friends")}
               >
                 <ScanFace />
               </Button>

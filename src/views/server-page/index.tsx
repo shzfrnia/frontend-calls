@@ -24,7 +24,7 @@ import { useApplicationData } from "@/hooks/use-application-data"
 export function ServerPage() {
   const navigate = useNavigate()
   const { t } = useTranslation()
-  usePageTitle(t("views.home-page.title"))
+  const { setTitle } = usePageTitle()
 
   const { id } = useParams()
   const { getServer } = useApplicationData()
@@ -35,6 +35,13 @@ export function ServerPage() {
   }
 
   const server = getServer(id)
+
+  if (!server) {
+    navigate("/404")
+    return null
+  }
+
+  setTitle(server?.name)
 
   return (
     <DefaultLayout>
