@@ -1,15 +1,23 @@
 import { configureStore, combineSlices } from "@reduxjs/toolkit"
 
-import { apiSlice } from "./slices/api-slice"
+import { applicationSlice } from "./slices/application-slice"
 
-import { api } from "@/api/application-ws"
+import { applicationWs } from "@/api/application-ws"
+import { systemApi } from "@/api/system"
 
-export const rootReducer = combineSlices(apiSlice, api)
+export const rootReducer = combineSlices(
+  applicationSlice,
+  applicationWs,
+  systemApi
+)
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
+    getDefaultMiddleware().concat(
+      applicationWs.middleware,
+      systemApi.middleware
+    ),
 })
 
 export type RootState = ReturnType<typeof store.getState>

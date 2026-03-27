@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom"
 
-import "./App.css"
-import Layout from "./components/layout"
-import { Spinner } from "./components/ui/spinner"
 import { useApplicationServer } from "./api/app-server"
 import { useApplicationDataQuery } from "./api/application-ws"
 
+import { Spinner } from "@/components/ui/spinner"
 import { Dialog, DialogOverlay } from "@/components/ui/dialog"
+
+import Layout from "./components/layout"
+import { ApplicationVersions } from "./components/application-versions"
+
+import "./App.css"
 
 function App() {
   useApplicationServer()
@@ -20,6 +23,8 @@ function App() {
             <Spinner className="size-12" />
           </div>
         </DialogOverlay>
+
+        <ApplicationVersions />
       </Dialog>
     )
   }
@@ -31,6 +36,8 @@ function App() {
   return (
     <Layout>
       <Outlet />
+
+      <ApplicationVersions />
     </Layout>
   )
 }

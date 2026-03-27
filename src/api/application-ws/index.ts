@@ -7,8 +7,8 @@ import { type Server } from "@/types/server"
 
 type ConnectionState = "connecting" | "online" | "closed" | "error"
 
-export const api = createApi({
-  reducerPath: "ws",
+export const applicationWs = createApi({
+  reducerPath: "application-ws",
   baseQuery: fetchBaseQuery({ baseUrl: "/" }),
   endpoints: (build) => ({
     applicationData: build.query<
@@ -32,7 +32,7 @@ export const api = createApi({
 
         await new Promise((r) => setTimeout(r, 1000))
 
-        const socket = getSocket(state.api.url)
+        const socket = getSocket(state.application.url)
 
         socket.onopen = () => {
           updateCachedData((draft) => {
@@ -76,4 +76,4 @@ export const api = createApi({
   }),
 })
 
-export const { useApplicationDataQuery } = api
+export const { useApplicationDataQuery } = applicationWs
