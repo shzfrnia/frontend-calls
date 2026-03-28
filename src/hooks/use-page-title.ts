@@ -1,12 +1,15 @@
 import { useEffect } from "react"
 
-export function usePageTitle(title: string) {
+export function usePageTitle(title?: string) {
   useEffect(() => {
-    const prevTitle = document.title
-    document.title = title
-
-    return () => {
-      document.title = prevTitle
+    if (title) {
+      document.title = title
     }
   }, [title])
+
+  return {
+    setTitle: (title: string) => {
+      document.title = title
+    },
+  }
 }

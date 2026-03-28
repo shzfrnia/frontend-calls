@@ -1,10 +1,10 @@
 import { configureStore, combineSlices } from "@reduxjs/toolkit"
 
-import { apiSlice } from "./slices/api-slice"
+import { applicationSlice } from "./slices/application-slice"
 
-import { api } from "@/api/application-ws"
+import { api } from "@/api"
 
-export const rootReducer = combineSlices(apiSlice, api)
+export const rootReducer = combineSlices(api, applicationSlice)
 
 export const store = configureStore({
   reducer: rootReducer,

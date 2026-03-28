@@ -67,6 +67,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        <NavLink to="login">login</NavLink>
         <SidebarMenuButton
           className={cn(sidebarMenuButtonLg())}
           tooltip={t("sidebar.footer.add-server-tooltip")}

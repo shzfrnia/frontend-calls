@@ -13,13 +13,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Field, FieldLabel, FieldError } from "@/components/ui/field"
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-  InputGroupText,
-} from "@/components/ui/input-group"
+import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useEffect } from "react"
 
 const formSchema = z.object({
   url: z.string().refine(
@@ -35,26 +31,39 @@ const formSchema = z.object({
   ),
 })
 
-export function ServerDialog({
+type FormData = { url: string }
+
+export function ServerUrlDialog({
+  defaultValues,
   open,
   onOpenChange,
   onSubmit,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSubmit: (formData: { url: string }) => void
+  onSubmit: (formData: FormData) => void
+  defaultValues: FormData
 }) {
   const { t } = useTranslation()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { url: "" },
+    defaultValues,
   })
 
   function onFormSubmit(data: z.infer<typeof formSchema>) {
     onSubmit({ url: data.url })
     onOpenChange(false)
   }
+
+  useEffect(() => {
+    if (open) {
+      const keys = Object.keys(defaultValues) as Array<
+        keyof typeof defaultValues
+      >
+      keys.forEach((name) => form.setValue(name, defaultValues[name]))
+    }
+  }, [open, defaultValues, form])
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -65,9 +74,7 @@ export function ServerDialog({
           onSubmit={form.handleSubmit(onFormSubmit)}
         >
           <DialogHeader>
-            <DialogTitle>
-              {t("views.login-page.server-dialog.title")}
-            </DialogTitle>
+            <DialogTitle>{t("dialogs.server-url.title")}</DialogTitle>
             <DialogDescription>
               {t("views.login-page.server-tip")}
             </DialogDescription>
@@ -78,28 +85,23 @@ export function ServerDialog({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field title="url" data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="input-group-url">
-                  {t("views.login-page.server-url.label")}
+                <FieldLabel htmlFor="url">
+                  {t("dialogs.server-url.url.label")}
                   <span className="text-destructive">*</span>
                 </FieldLabel>
 
-                <InputGroup>
-                  <InputGroupInput
-                    {...field}
-                    id="url"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="example.com"
-                    required
-                  />
-                  <InputGroupAddon>
-                    <InputGroupText>https://</InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
+                <Input
+                  {...field}
+                  id="url"
+                  aria-invalid={fieldState.invalid}
+                  placeholder="example.com"
+                  required
+                />
 
                 {fieldState.invalid && (
                   <FieldError>
                     {t(
-                      `views.login-page.server-dialog.url.errors.${fieldState.error?.message}`
+                      `dialogs.server-url.url.errors.${fieldState.error?.message}`
                     )}
                   </FieldError>
                 )}
@@ -108,7 +110,7 @@ export function ServerDialog({
           />
 
           <DialogFooter>
-            <DialogClose>
+            <DialogClose asChild>
               <Button type="button" variant="outline">
                 {t("common.cancel")}
               </Button>

@@ -1,36 +1,35 @@
 import { Outlet } from "react-router-dom"
 
-import "./App.css"
-import Layout from "./components/layout"
-import { Spinner } from "./components/ui/spinner"
+import { usePageTitle } from "./hooks/use-page-title"
+
 import { useApplicationServer } from "./api/app-server"
 import { useApplicationDataQuery } from "./api/application-ws"
 
-import { Dialog, DialogOverlay } from "@/components/ui/dialog"
+import Layout from "./components/layout"
+import { ApplicationVersions } from "./components/application-versions"
+import { EmptyServerFailed } from "./components/empty-server-failed"
+import { ApplicationLoading } from "./components/application-loading"
+
+import "./App.css"
 
 function App() {
-  useApplicationServer()
+  usePageTitle("Цитатник")
+  const { applicationServerStatus } = useApplicationServer()
   const { data } = useApplicationDataQuery() // init ws
 
   if (!data || data.connectionState === "connecting") {
-    return (
-      <Dialog open={true}>
-        <DialogOverlay>
-          <div className="flex items-center justify-center h-full">
-            <Spinner className="size-12" />
-          </div>
-        </DialogOverlay>
-      </Dialog>
-    )
+    return <ApplicationLoading />
   }
 
-  // fetch("https://dummyjson.com/todos/random")
-  //   .then((res) => res.json())
-  //   .then((body) => console.log(body))
+  if (applicationServerStatus === "failed") {
+    return <EmptyServerFailed />
+  }
 
   return (
     <Layout>
       <Outlet />
+
+      <ApplicationVersions />
     </Layout>
   )
 }

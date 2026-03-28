@@ -13,7 +13,7 @@ export function getApplicationServerUrlLocalStorage(): string {
   return localStorage.getItem(APP_SERVER_URL_KEY) || ""
 }
 
-interface CounterState {
+type CounterState = {
   url: string
 }
 
@@ -21,8 +21,8 @@ const initialState: CounterState = {
   url: getApplicationServerUrlLocalStorage(),
 }
 
-export const apiSlice = createSlice({
-  name: "api",
+export const applicationSlice = createSlice({
+  name: "application",
   initialState,
   reducers: {
     setApplicationServerUrl: (state, action: PayloadAction<string>) => {
@@ -33,6 +33,7 @@ export const apiSlice = createSlice({
   },
 })
 
-export const { setApplicationServerUrl } = apiSlice.actions
+export const { setApplicationServerUrl } = applicationSlice.actions
 
-export const selectApplicationServerUrl = (state: RootState) => state.api.url
+export const selectApplicationServerUrl = (state: RootState) =>
+  state.application.url

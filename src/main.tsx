@@ -9,7 +9,6 @@ import { router } from "./routes.ts"
 
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/sonner"
-import { Badge } from "./components/ui/badge.tsx"
 
 import { ThemeProvider } from "./components/theme-provider"
 
@@ -24,12 +23,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Toaster />
         <Provider store={store}>
           <RouterProvider router={router} />
-          <Badge
-            variant="secondary"
-            className="fixed right-[10px] bottom-[10px]"
-          >
-            0.0.0
-          </Badge>
         </Provider>
       </TooltipProvider>
     </ThemeProvider>
