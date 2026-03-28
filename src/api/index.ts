@@ -3,7 +3,7 @@ import { createApi } from "@reduxjs/toolkit/query/react"
 import { baseQuery } from "./base-query"
 
 export const api = createApi({
-  baseQuery: baseQuery({ baseUrl: "/api/" }),
+  baseQuery: baseQuery({ baseUrl: "/api/v1/" }),
   tagTypes: [],
   endpoints: () => ({}),
 })

@@ -1,13 +1,17 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { ScanFace, SquarePen, CircleCheck, CircleX } from "lucide-react"
+import { SquarePen, CircleCheck, CircleX } from "lucide-react"
+import {
+  IconBrandGoogleFilled,
+  IconBrandAppleFilled,
+  IconBrandDiscordFilled,
+} from "@tabler/icons-react"
 import { cva } from "class-variance-authority"
 
 import { usePageTitle } from "@/hooks/use-page-title"
 
 import { useApplicationServer } from "@/api/app-server"
-import { useLazyGetServerInfoQuery } from "@/api/system"
 
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -25,6 +29,7 @@ import { Tip } from "@/components/Tip"
 import { Block } from "@/components/Block"
 import { ApplicationVersions } from "@/components/application-versions"
 import { ServerUrlDialog } from "@/components/dialogs/server-url-dialog"
+import { SignInForm } from "@/components/forms/sign-in-form"
 
 const cardBlock = cva("py-6")
 
@@ -51,7 +56,7 @@ export function LoginPage() {
         onOpenChange={setShowServerDialog}
         onSubmit={({ url }) => setApplicationServerUrl(url)}
       />
-      <Card className="w-[65%] py-0 min-w-[700px] max-w-[1000px] overflow-hidden">
+      <Card className="w-[65%] py-0 my-5 min-w-[700px] max-w-[850px] overflow-hidden">
         <div className="flex">
           <Block
             variant="secondary"
@@ -132,24 +137,56 @@ export function LoginPage() {
                   </Tooltip>
                 </div>
               </div>
-
-              <Separator />
             </div>
 
-            <div className="flex gap-3 justify-center">
-              <Button
-                size="icon-sm"
-                disabled={!canLogin}
-                onClick={() => navigate("/home/friends")}
-              >
-                <ScanFace />
-              </Button>
-              <Button size="icon-sm" disabled={!canLogin}>
-                <ScanFace />
-              </Button>
-              <Button size="icon-sm" disabled={!canLogin}>
-                <ScanFace />
-              </Button>
+            <Separator />
+
+            <SignInForm
+              submitError={canLogin ? "" : t("views.login-page.server-tip")}
+              onSubmit={(data) => alert(JSON.stringify(data))}
+            />
+
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <Separator className="flex-1" />
+                <p className="text-sm text-muted-foreground text-center">
+                  {t("common.or")}
+                </p>
+                <Separator className="flex-1" />
+              </div>
+
+              <div className="flex gap-3 justify-center">
+                <Button
+                  size="icon-sm"
+                  // disabled={!canLogin}
+                  disabled={true}
+                  onClick={() => {
+                    window.ipcRenderer.openExternal(applicationServerUrl)
+                  }}
+                >
+                  <IconBrandGoogleFilled />
+                </Button>
+                <Button
+                  size="icon-sm"
+                  // disabled={!canLogin}
+                  disabled={true}
+                  onClick={() => {
+                    navigate("/home/friends")
+                  }}
+                >
+                  <IconBrandAppleFilled />
+                </Button>
+                <Button
+                  size="icon-sm"
+                  // disabled={!canLogin}
+                  disabled={true}
+                  onClick={() => {
+                    navigate("/home/friends")
+                  }}
+                >
+                  <IconBrandDiscordFilled />
+                </Button>
+              </div>
             </div>
           </div>
         </div>

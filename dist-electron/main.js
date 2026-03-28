@@ -1,7 +1,20 @@
-import { app, BrowserWindow, ipcMain, nativeTheme } from "electron";
+import { ipcMain, nativeTheme, shell, app, BrowserWindow } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+const ipcMainEvents$1 = () => {
+  ipcMain.handle("apply-theme", (_event, theme) => {
+    nativeTheme.themeSource = theme;
+  });
+  ipcMain.handle("get-system-theme", () => {
+    return nativeTheme.shouldUseDarkColors ? "dark" : "light";
+  });
+};
+const ipcMainEvents = () => {
+  ipcMain.handle("open-external", (_event, url) => {
+    shell.openExternal(url);
+  });
+};
 createRequire(import.meta.url);
 const __dirname$1 = path.dirname(fileURLToPath(import.meta.url));
 process.env.APP_ROOT = path.join(__dirname$1, "..");
@@ -40,17 +53,14 @@ app.on("window-all-closed", () => {
     win = null;
   }
 });
+app.setAsDefaultProtocolClient("myfirstblog");
 app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 });
-ipcMain.handle("apply-theme", (_event, theme) => {
-  nativeTheme.themeSource = theme;
-});
-ipcMain.handle("get-system-theme", () => {
-  return nativeTheme.shouldUseDarkColors ? "dark" : "light";
-});
+ipcMainEvents$1();
+ipcMainEvents();
 app.whenReady().then(createWindow);
 export {
   MAIN_DIST,

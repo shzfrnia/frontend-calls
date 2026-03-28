@@ -28,5 +28,6 @@ interface Window {
   ipcRenderer: import("electron").IpcRenderer & {
     applyTheme: (theme: Theme) => void
     getSystemTheme: () => Promise<Exclude<Theme, "system">>
+    openExternal: (url: string) => void
   }
 }

@@ -7,6 +7,10 @@ const getSystemTheme = () => {
   return electron.ipcRenderer.invoke("get-system-theme");
 };
 const themeFunctions = { applyTheme, getSystemTheme };
+const openExternal = (url) => {
+  electron.ipcRenderer.invoke("open-external", url);
+};
+const openExternalFunctions = { openExternal };
 const ipcRendererObject = {
   on(...args) {
     const [channel, listener] = args;
@@ -27,6 +31,7 @@ const ipcRendererObject = {
   removeAllListeners(...args) {
     return electron.ipcRenderer.removeAllListeners(...args);
   },
-  ...themeFunctions
+  ...themeFunctions,
+  ...openExternalFunctions
 };
 electron.contextBridge.exposeInMainWorld("ipcRenderer", ipcRendererObject);
