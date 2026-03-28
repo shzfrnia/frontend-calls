@@ -22,6 +22,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
 
 import { LocalizationToggler } from "@/components/localization-toggler"
 import { ThemeToggler } from "@/components/theme-toggler"
@@ -30,6 +31,7 @@ import { Block } from "@/components/Block"
 import { ApplicationVersions } from "@/components/application-versions"
 import { ServerUrlDialog } from "@/components/dialogs/server-url-dialog"
 import { SignInForm } from "@/components/forms/sign-in-form"
+import CatImage from "../../assets/cat.jpg"
 
 const cardBlock = cva("py-6")
 
@@ -65,10 +67,10 @@ export function LoginPage() {
                 "flex flex-col justify-between w-[200px] max-w-[200px] px-4 w-full",
             })}
           >
-            <div>
-              <p className="text-center text-xl font-semibold tracking-tight">
-                Цитатник
-              </p>
+            <div className="flex justify-center">
+              <Avatar className="w-[80%] h-auto">
+                <AvatarImage src={CatImage} alt="Цитатник" />
+              </Avatar>
             </div>
 
             <div className="flex flex-col gap-2 items-start">
