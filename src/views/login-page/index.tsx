@@ -24,8 +24,7 @@ import { ThemeToggler } from "@/components/theme-toggler"
 import { Tip } from "@/components/Tip"
 import { Block } from "@/components/Block"
 import { ApplicationVersions } from "@/components/application-versions"
-
-import { ServerDialog } from "./components/server-dialog"
+import { ServerUrlDialog } from "@/components/dialogs/server-url-dialog"
 
 const cardBlock = cva("py-6")
 
@@ -37,23 +36,16 @@ export function LoginPage() {
   const {
     applicationServerUrl,
     setApplicationServerUrl,
-
     applicationServerStatus,
   } = useApplicationServer()
 
-  const [trigger] = useLazyGetServerInfoQuery()
-
   const [showServerDialog, setShowServerDialog] = useState(false)
-
-  useEffect(() => {
-    trigger()
-  }, [applicationServerUrl, trigger])
 
   const canLogin = applicationServerStatus === "success"
 
   return (
     <div className="flex flex-1 justify-center items-center">
-      <ServerDialog
+      <ServerUrlDialog
         defaultValues={{ url: applicationServerUrl }}
         open={showServerDialog}
         onOpenChange={setShowServerDialog}

@@ -33,7 +33,7 @@ const formSchema = z.object({
 
 type FormData = { url: string }
 
-export function ServerDialog({
+export function ServerUrlDialog({
   defaultValues,
   open,
   onOpenChange,

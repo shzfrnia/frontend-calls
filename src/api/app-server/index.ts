@@ -19,7 +19,7 @@ export function useApplicationServer() {
   const navigate = useNavigate()
   // const location = useLocation()
   const currentUrl = useAppSelector(selectApplicationServerUrl)
-  const { isLoading, isSuccess, data, isUninitialized } =
+  const { isLoading, isSuccess, data, isUninitialized, refetch } =
     useGetServerInfoQuery()
 
   // useEffect(() => {
@@ -29,6 +29,10 @@ export function useApplicationServer() {
   //     navigate("/home")
   //   }
   // }, [location.pathname, navigate, url])
+
+  useEffect(() => {
+    refetch()
+  }, [currentUrl, refetch])
 
   const applicationServerStatus: ServerConnectionStatus =
     isUninitialized || isLoading
@@ -40,9 +44,6 @@ export function useApplicationServer() {
   return {
     setApplicationServerUrl: (url: string) => {
       dispatch(setApplicationServerUrl(url))
-      if (url) {
-        navigate(LOGIN_PAGE_URL)
-      }
     },
     applicationServerUrl: currentUrl,
     applicationServerVersion: data?.version,

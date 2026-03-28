@@ -12,4 +12,4 @@ export const systemApi = createApi({
   }),
 })
 
-export const { useLazyGetServerInfoQuery, useGetServerInfoQuery } = systemApi
+export const { useGetServerInfoQuery } = systemApi
