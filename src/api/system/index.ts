@@ -1,13 +1,9 @@
-import { createApi } from "@reduxjs/toolkit/query/react"
+import { api } from ".."
 
-import { baseQuery } from "../base-query"
-
-export const systemApi = createApi({
-  reducerPath: "systemApi",
-  baseQuery: baseQuery,
+export const systemApi = api.injectEndpoints({
   endpoints: (build) => ({
     getServerInfo: build.query<{ version: string }, void>({
-      query: () => `/api/check`,
+      query: () => `check`,
     }),
   }),
 })

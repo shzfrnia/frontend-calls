@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { IconServerOff } from "@tabler/icons-react"
+import { useTranslation } from "react-i18next"
 
 import { useApplicationServer } from "@/api/app-server"
 
@@ -17,6 +18,7 @@ import {
 import { ServerUrlDialog } from "../dialogs/server-url-dialog"
 
 export function EmptyServerFailed() {
+  const { t } = useTranslation()
   const { applicationServerUrl, setApplicationServerUrl } =
     useApplicationServer()
   const navigate = useNavigate()
@@ -29,15 +31,17 @@ export function EmptyServerFailed() {
         <EmptyMedia variant="icon">
           <IconServerOff className="text-red-700  dark:text-red-300" />
         </EmptyMedia>
-        <EmptyTitle>Используемый сервер недоступен</EmptyTitle>
+        <EmptyTitle>{t("empty.server-failed.title")}</EmptyTitle>
         <EmptyDescription>
           <p>{applicationServerUrl}</p>
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent className="flex-row justify-center gap-2">
-        <Button onClick={() => navigate(0)}>Перезагрузить</Button>
+        <Button onClick={() => navigate(0)}>
+          {t("empty.server-failed.buttons.try-connect")}
+        </Button>
         <Button variant="outline" onClick={() => setShowServerDialog(true)}>
-          Сменить сервер
+          {t("empty.server-failed.buttons.change-server")}
         </Button>
       </EmptyContent>
 

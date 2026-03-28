@@ -74,9 +74,7 @@ export function ServerUrlDialog({
           onSubmit={form.handleSubmit(onFormSubmit)}
         >
           <DialogHeader>
-            <DialogTitle>
-              {t("views.login-page.server-dialog.title")}
-            </DialogTitle>
+            <DialogTitle>{t("dialogs.server-url.title")}</DialogTitle>
             <DialogDescription>
               {t("views.login-page.server-tip")}
             </DialogDescription>
@@ -88,7 +86,7 @@ export function ServerUrlDialog({
             render={({ field, fieldState }) => (
               <Field title="url" data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="url">
-                  {t("views.login-page.server-dialog.url.label")}
+                  {t("dialogs.server-url.url.label")}
                   <span className="text-destructive">*</span>
                 </FieldLabel>
 
@@ -103,7 +101,7 @@ export function ServerUrlDialog({
                 {fieldState.invalid && (
                   <FieldError>
                     {t(
-                      `views.login-page.server-dialog.url.errors.${fieldState.error?.message}`
+                      `dialogs.server-url.url.errors.${fieldState.error?.message}`
                     )}
                   </FieldError>
                 )}

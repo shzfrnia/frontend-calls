@@ -1,15 +1,13 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-
 import { RootState } from "@/store"
 import { getSocket } from "./socket"
+
+import { api } from ".."
 
 import { type Server } from "@/types/server"
 
 type ConnectionState = "connecting" | "online" | "closed" | "error"
 
-export const applicationWs = createApi({
-  reducerPath: "application-ws",
-  baseQuery: fetchBaseQuery({ baseUrl: "/" }),
+export const applicationWs = api.injectEndpoints({
   endpoints: (build) => ({
     applicationData: build.query<
       { servers: Server[]; connectionState: ConnectionState },

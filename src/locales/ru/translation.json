@@ -18,16 +18,7 @@
     "login-page": {
       "title": "Войти",
       "server-tip": "Для работы приложения нужно указать ссылку на self-hosted сервер",
-      "server-url-is-not-supported": "Указанный сервер не поддерживается bли не найден",
-      "server-dialog": {
-        "title": "Войдите на свой сервер",
-        "url": {
-          "label": "Ссылка на сервер",
-          "errors": {
-            "is-not-url": "Введенное значение не является ссылкой"
-          }
-        }
-      }
+      "server-url-is-not-supported": "Указанный сервер не поддерживается bли не найден"
     },
     "home-page": {
       "title": "Домашняя страница",
@@ -47,5 +38,25 @@
   "sidebar": {
     "header": { "house-tooltip": "Личные сообщения" },
     "footer": { "add-server-tooltip": "Добавить сервер" }
+  },
+  "dialogs": {
+    "server-url": {
+      "title": "Войдите на свой сервер",
+      "url": {
+        "label": "Ссылка на сервер",
+        "errors": {
+          "is-not-url": "Введенное значение не является ссылкой"
+        }
+      }
+    }
+  },
+  "empty": {
+    "server-failed": {
+      "title": "Cервер недоступен",
+      "buttons": {
+        "change-server": "Сменить сервер",
+        "try-connect": "Проверить соединение"
+      }
+    }
   }
 }
