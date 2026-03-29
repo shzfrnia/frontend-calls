@@ -2,7 +2,6 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { RouterProvider } from "react-router-dom"
 import { Provider } from "react-redux"
-import "electron-fetch"
 
 import { store } from "./store"
 import { router } from "./routes.ts"
