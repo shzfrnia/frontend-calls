@@ -5,6 +5,7 @@ import { EyeOffIcon, EyeIcon, ArrowLeft } from "lucide-react"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
 import {
   Field,
   FieldError,
@@ -28,11 +29,11 @@ import {
 const signInSchema = z.object({
   login: z
     .string()
-    .min(4, 'forms.errors.min_length|{"count": 4}')
+    .min(6, 'forms.errors.min_length|{"count": 6}')
     .max(30, 'forms.errors.max_length|{"count": 30}'),
   password: z
     .string()
-    .min(5, 'forms.errors.min_length|{"count": 5}')
+    .min(8, 'forms.errors.min_length|{"count": 8}')
     .max(30, 'forms.errors.max_length|{"count": 30}'),
 })
 
@@ -45,9 +46,11 @@ type FormType = z.infer<typeof signInSchema | typeof signUpSchema>
 export function SignInForm({
   submitError,
   onSubmit,
+  loading,
 }: {
   submitError?: string
   onSubmit: (data: FormType) => void
+  loading?: boolean
 }) {
   const { zodT: t } = useZodTranslation()
 
@@ -75,6 +78,7 @@ export function SignInForm({
                 <Input
                   {...field}
                   id="sign-in-form-email"
+                  type="email"
                   aria-invalid={fieldState.invalid}
                   placeholder={t("common.email")}
                   required
@@ -183,8 +187,10 @@ export function SignInForm({
                 <Button
                   type="submit"
                   className="w-full"
-                  disabled={Boolean(submitError)}
+                  disabled={Boolean(submitError) || loading}
                 >
+                  {loading && <Spinner />}
+
                   {t(
                     isCreationMode
                       ? "forms.sign-in.buttons.create-account"

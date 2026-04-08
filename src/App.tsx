@@ -1,23 +1,51 @@
-import { Outlet } from "react-router-dom"
+import { useEffect } from "react"
+import { Outlet, useNavigate, useLocation } from "react-router-dom"
 
 import { usePageTitle } from "./hooks/use-page-title"
+import { useAppSelector } from "./hooks/use-store"
 
 import { useApplicationServer } from "./api/app-server"
 import { useApplicationDataQuery } from "./api/application-ws"
 
+import { selectSettingsDialog } from "./store/slices/settings-slice"
+import { selectToken } from "./store/slices/auth-slice"
+
 import Layout from "./components/layout"
+import { useLazyMeQuery } from "./api/user"
 import { ApplicationVersions } from "./components/application-versions"
 import { EmptyServerFailed } from "./components/empty-server-failed"
 import { ApplicationLoading } from "./components/application-loading"
+import { SettingsDialog } from "./components/dialogs/settings-dialog"
 
 import "./App.css"
 
 function App() {
+  const navigate = useNavigate()
   usePageTitle("Цитатник")
   const { applicationServerStatus } = useApplicationServer()
+  const [me] = useLazyMeQuery()
+  const { opened } = useAppSelector(selectSettingsDialog)
+  const token = useAppSelector(selectToken)
+
   const { data } = useApplicationDataQuery() // init ws
 
-  if (!data || data.connectionState === "connecting") {
+  useEffect(() => {
+    if (applicationServerStatus === "success" && token) {
+      me()
+    }
+  }, [applicationServerStatus, me, token])
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login")
+    }
+  }, [token, navigate])
+
+  // if (!data || data.connectionState === "connecting") {
+  //   return <ApplicationLoading />
+  // }
+
+  if (applicationServerStatus === "checking") {
     return <ApplicationLoading />
   }
 
@@ -30,6 +58,7 @@ function App() {
       <Outlet />
 
       <ApplicationVersions />
+      <SettingsDialog open={opened} />
     </Layout>
   )
 }

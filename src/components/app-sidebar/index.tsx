@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next"
 import { cva } from "class-variance-authority"
 import { House, CirclePlus, Cat, Bird, Panda } from "lucide-react"
 
+import { useAppDispatch } from "@/hooks/use-store"
+
 import { cn } from "@/lib/utils"
 import {
   Sidebar,
@@ -15,12 +17,15 @@ import {
   SidebarGroup,
 } from "@/components/ui/sidebar"
 import { useApplicationData } from "@/hooks/use-application-data"
+import { logout } from "@/store/slices/auth-slice"
 
 const sidebarMenuButtonLg = cva("[&>svg]:size-5 flex justify-center")
 
 export function AppSidebar() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
   const { servers } = useApplicationData()
 
   return (
@@ -28,13 +33,13 @@ export function AppSidebar() {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <NavLink to="/home/friends">
+            <NavLink to="/">
               {({ isActive }) => (
                 <SidebarMenuButton
                   variant={isActive ? "outline" : undefined}
                   className={cn(sidebarMenuButtonLg())}
                   tooltip={t("sidebar.header.house-tooltip")}
-                  onClick={() => navigate("/home/friends")}
+                  onClick={() => navigate("/")}
                 >
                   <House />
                 </SidebarMenuButton>
@@ -67,7 +72,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <NavLink to="login">login</NavLink>
+        <p onClick={() => dispatch(logout())}>login</p>
         <SidebarMenuButton
           className={cn(sidebarMenuButtonLg())}
           tooltip={t("sidebar.footer.add-server-tooltip")}

@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { SquarePen, CircleCheck, CircleX } from "lucide-react"
+import { toast } from "sonner"
 import {
   IconBrandGoogleFilled,
   IconBrandAppleFilled,
@@ -10,8 +11,13 @@ import {
 import { cva } from "class-variance-authority"
 
 import { usePageTitle } from "@/hooks/use-page-title"
+import { useAppSelector } from "@/hooks/use-store"
 
 import { useApplicationServer } from "@/api/app-server"
+import { useLoginMutation } from "@/api/auth"
+import { useLazyMeQuery } from "@/api/user"
+
+import { selectToken } from "@/store/slices/auth-slice"
 
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -40,15 +46,37 @@ export function LoginPage() {
   usePageTitle(t("views.login-page.title"))
   const navigate = useNavigate()
 
+  const [login, { isLoading }] = useLoginMutation()
+  const [me, { isSuccess, isLoading: meIsLoading }] = useLazyMeQuery()
+  const token = useAppSelector(selectToken)
+
   const {
     applicationServerUrl,
     setApplicationServerUrl,
     applicationServerStatus,
   } = useApplicationServer()
 
+  const afterLoginNavigate = useCallback(() => navigate("/"), [navigate])
+
+  useEffect(() => {
+    if (token) {
+      me()
+    }
+  }, [token, me])
+
+  useEffect(() => {
+    if (isSuccess) {
+      afterLoginNavigate()
+    }
+  }, [isSuccess, afterLoginNavigate])
+
   const [showServerDialog, setShowServerDialog] = useState(false)
 
   const canLogin = applicationServerStatus === "success"
+
+  if (meIsLoading || isSuccess) {
+    return null
+  }
 
   return (
     <div className="flex flex-1 justify-center items-center">
@@ -61,7 +89,7 @@ export function LoginPage() {
       <Card className="w-[65%] py-0 my-5 min-w-[700px] max-w-[850px] overflow-hidden">
         <div className="flex">
           <Block
-            variant="secondary"
+            variant="secondary-3"
             className={cardBlock({
               className:
                 "flex flex-col justify-between w-[200px] max-w-[200px] px-4 w-full",
@@ -125,15 +153,13 @@ export function LoginPage() {
 
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <div>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => setShowServerDialog(true)}
-                        >
-                          <SquarePen />
-                        </Button>
-                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setShowServerDialog(true)}
+                      >
+                        <SquarePen />
+                      </Button>
                     </TooltipTrigger>
                     <TooltipContent>{t("common.edit")}</TooltipContent>
                   </Tooltip>
@@ -145,7 +171,23 @@ export function LoginPage() {
 
             <SignInForm
               submitError={canLogin ? "" : t("views.login-page.server-tip")}
-              onSubmit={(data) => alert(JSON.stringify(data))}
+              loading={isLoading}
+              onSubmit={(data) => {
+                const form = new FormData()
+                form.append("username", data.login)
+                form.append("password", data.password)
+
+                login(form)
+                  .unwrap()
+                  .then(afterLoginNavigate)
+                  .catch((err) => {
+                    toast(t("common.something-went-wrong"), {
+                      description: t(
+                        `views.login-page.toast.${err.data.detail}`
+                      ),
+                    })
+                  })
+              }}
             />
 
             <div className="flex flex-col gap-3">

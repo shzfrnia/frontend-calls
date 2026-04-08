@@ -13,11 +13,7 @@ export function getApplicationServerUrlLocalStorage(): string {
   return localStorage.getItem(APP_SERVER_URL_KEY) || ""
 }
 
-type CounterState = {
-  url: string
-}
-
-const initialState: CounterState = {
+const initialState: { url: string } = {
   url: getApplicationServerUrlLocalStorage(),
 }
 

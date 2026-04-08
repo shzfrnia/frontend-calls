@@ -31,7 +31,7 @@ const info = [
   },
 ]
 
-const people = new Array(30).fill("").map((_, index) => {
+const people = new Array(3).fill("").map((_, index) => {
   return { ...info[getRandomInt(info.length)], id: index }
 })
 
@@ -43,18 +43,17 @@ export function HomePage() {
     <DefaultLayout>
       <DefaultLayout.LayoutLeftPanel>
         <DefaultLayout.LayoutHeaderPanel>
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full truncate block">
             {t("views.home-page.find-or-start-call")}
           </Button>
         </DefaultLayout.LayoutHeaderPanel>
         <ScrollArea className="p-2 overflow-auto">
           <div>
-            <NavLink to="friends">
+            <NavLink to="/friends">
               {({ isActive }) => (
                 <Button
                   variant={isActive ? "secondary" : "ghost"}
                   className="justify-start w-full"
-                  onClick={() => navigate(`friends`)}
                 >
                   <UserRound /> {t("common.friends")}
                 </Button>
