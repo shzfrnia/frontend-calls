@@ -39,6 +39,8 @@ import { ServerUrlDialog } from "@/components/dialogs/server-url-dialog"
 import { SignInForm } from "@/components/forms/sign-in-form"
 import CatImage from "../../assets/cat.jpg"
 
+import { PixelLiquidBg } from "@/components/unlumen-ui/pixel-liquid-bg"
+
 const cardBlock = cva("py-6")
 
 export function LoginPage() {
@@ -78,15 +80,17 @@ export function LoginPage() {
     return null
   }
 
+  // < className="w-full h-full" />;
   return (
     <div className="flex flex-1 justify-center items-center">
+      <PixelLiquidBg className="absolute" pixelSize={1} />
       <ServerUrlDialog
         defaultValues={{ url: applicationServerUrl }}
         open={showServerDialog}
         onOpenChange={setShowServerDialog}
         onSubmit={({ url }) => setApplicationServerUrl(url)}
       />
-      <Card className="w-[65%] py-0 my-5 min-w-[700px] max-w-[850px] overflow-hidden">
+      <Card className="w-[65%] py-0 my-5 min-w-[700px] max-w-[850px] overflow-hidden z-1 shadow-xl">
         <div className="flex">
           <Block
             variant="secondary-3"
