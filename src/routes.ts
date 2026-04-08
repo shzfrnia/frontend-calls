@@ -13,7 +13,7 @@ export const router = createHashRouter([
     Component: App,
     children: [
       {
-        path: "home",
+        path: "/",
         Component: HomePage,
         children: [{ path: "friends", Component: Friends }],
       },

@@ -1,6 +1,7 @@
 import { ipcRenderer, contextBridge } from "electron"
 
 import themeFunctions from "./theme"
+import openExternalFunctions from "./open-external"
 
 const ipcRendererObject = {
   on(...args: Parameters<typeof ipcRenderer.on>) {
@@ -26,6 +27,7 @@ const ipcRendererObject = {
   },
 
   ...themeFunctions,
+  ...openExternalFunctions,
 } as const
 
 // --------- Expose some API to the Renderer process ---------

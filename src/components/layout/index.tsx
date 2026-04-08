@@ -7,6 +7,8 @@ import {
 } from "@/components/ui/resizable"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
+
+import { Block } from "../Block"
 import { UserPanel } from "../user-panel"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -31,12 +33,12 @@ function LayoutLeftPanel({ children }: { children: React.ReactNode }) {
   return (
     <>
       <ResizablePanel defaultSize="25%" minSize="190px" maxSize="360px">
-        <div className="flex flex-col h-full justify-between dark:bg-neutral-900 bg-neutral-50">
-          {children}
+        <Block variant="secondary" className="flex flex-col h-full">
+          <div className="flex-1">{children}</div>
           <div className="p-1">
             <UserPanel />
           </div>
-        </div>
+        </Block>
       </ResizablePanel>
 
       <ResizableHandle />

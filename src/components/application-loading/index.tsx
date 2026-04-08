@@ -1,8 +1,6 @@
 import { Spinner } from "@/components/ui/spinner"
 import { Dialog, DialogOverlay } from "@/components/ui/dialog"
 
-import { ApplicationVersions } from "../application-versions"
-
 export function ApplicationLoading() {
   return (
     <Dialog open={true}>

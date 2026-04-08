@@ -1,10 +1,13 @@
-import { app, BrowserWindow, nativeTheme, ipcMain } from "electron"
-import { createRequire } from "node:module"
+import { app, BrowserWindow, nativeTheme } from "electron"
+// import { createRequire } from "node:module"
 import { fileURLToPath } from "node:url"
 import path from "node:path"
 
+import { ipcMainEvents as themeIpcMainEvents } from "./theme"
+import { ipcMainEvents as openExternalIpcMainEvents } from "./open-external"
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const require = createRequire(import.meta.url)
+// const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // The built directory structure
@@ -68,6 +71,8 @@ app.on("window-all-closed", () => {
   }
 })
 
+app.setAsDefaultProtocolClient("myfirstblog")
+
 app.on("activate", () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
@@ -76,12 +81,7 @@ app.on("activate", () => {
   }
 })
 
-ipcMain.handle("apply-theme", (_event, theme) => {
-  nativeTheme.themeSource = theme
-})
-
-ipcMain.handle("get-system-theme", () => {
-  return nativeTheme.shouldUseDarkColors ? "dark" : "light"
-})
+themeIpcMainEvents()
+openExternalIpcMainEvents()
 
 app.whenReady().then(createWindow)

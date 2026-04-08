@@ -28,7 +28,9 @@ export const applicationWs = api.injectEndpoints({
           draft.connectionState = "connecting"
         })
 
-        await new Promise((r) => setTimeout(r, 1000))
+        await new Promise((r) => {
+          setTimeout(r, 1000)
+        })
 
         const socket = getSocket(state.application.url)
 

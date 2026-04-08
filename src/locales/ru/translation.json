@@ -12,13 +12,26 @@
     "edit": "Редактировать",
     "server": "Сервер",
     "cancel": "Отмена",
-    "save": "Сохранить"
+    "save": "Сохранить",
+    "or": "Или",
+    "login": "Имя пользователя",
+    "password": "Пароль",
+    "email": "Электронная почта",
+    "something-went-wrong": "Что-то пошло не так",
+    "settings": "Настройки",
+    "headphones-off": "Откл. звук",
+    "headphones-on": "Вкл. звук",
+    "mic-off": "Заглушить",
+    "mic-on": "Вкл. микрофон"
   },
   "views": {
     "login-page": {
       "title": "Войти",
       "server-tip": "Для работы приложения нужно указать ссылку на self-hosted сервер",
-      "server-url-is-not-supported": "Указанный сервер не поддерживается bли не найден"
+      "server-url-is-not-supported": "Указанный сервер не поддерживается или не найден",
+      "toast": {
+        "Incorrect email or password": "Неверное имя пользователя или пароль"
+      }
     },
     "home-page": {
       "title": "Домашняя страница",
@@ -57,6 +70,22 @@
         "change-server": "Сменить сервер",
         "try-connect": "Проверить соединение"
       }
+    }
+  },
+  "forms": {
+    "sign-in": {
+      "login": {
+        "placeholder": "Имя пользователя или почта"
+      },
+      "buttons": {
+        "login": "Войти",
+        "create-account": "Создать аккаунт"
+      }
+    },
+    "errors": {
+      "invalid-email-address": "Неверный адрес почты",
+      "min_length": "Поле должно содержать не менее {{count}} символов",
+      "max_length": "Поле должно содержать не более {{count}} символов"
     }
   }
 }

@@ -1,13 +1,23 @@
-import { useState, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { ScanFace, SquarePen, CircleCheck, CircleX } from "lucide-react"
+import { SquarePen, CircleCheck, CircleX } from "lucide-react"
+import { toast } from "sonner"
+import {
+  IconBrandGoogleFilled,
+  IconBrandAppleFilled,
+  IconBrandDiscordFilled,
+} from "@tabler/icons-react"
 import { cva } from "class-variance-authority"
 
 import { usePageTitle } from "@/hooks/use-page-title"
+import { useAppSelector } from "@/hooks/use-store"
 
 import { useApplicationServer } from "@/api/app-server"
-import { useLazyGetServerInfoQuery } from "@/api/system"
+import { useLoginMutation } from "@/api/auth"
+import { useLazyMeQuery } from "@/api/user"
+
+import { selectToken } from "@/store/slices/auth-slice"
 
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -18,6 +28,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
 
 import { LocalizationToggler } from "@/components/localization-toggler"
 import { ThemeToggler } from "@/components/theme-toggler"
@@ -25,6 +36,10 @@ import { Tip } from "@/components/Tip"
 import { Block } from "@/components/Block"
 import { ApplicationVersions } from "@/components/application-versions"
 import { ServerUrlDialog } from "@/components/dialogs/server-url-dialog"
+import { SignInForm } from "@/components/forms/sign-in-form"
+import CatImage from "../../assets/cat.jpg"
+
+import { PixelLiquidBg } from "@/components/unlumen-ui/pixel-liquid-bg"
 
 const cardBlock = cva("py-6")
 
@@ -33,37 +48,61 @@ export function LoginPage() {
   usePageTitle(t("views.login-page.title"))
   const navigate = useNavigate()
 
+  const [login, { isLoading }] = useLoginMutation()
+  const [me, { isSuccess, isLoading: meIsLoading }] = useLazyMeQuery()
+  const token = useAppSelector(selectToken)
+
   const {
     applicationServerUrl,
     setApplicationServerUrl,
     applicationServerStatus,
   } = useApplicationServer()
 
+  const afterLoginNavigate = useCallback(() => navigate("/"), [navigate])
+
+  useEffect(() => {
+    if (token) {
+      me()
+    }
+  }, [token, me])
+
+  useEffect(() => {
+    if (isSuccess) {
+      afterLoginNavigate()
+    }
+  }, [isSuccess, afterLoginNavigate])
+
   const [showServerDialog, setShowServerDialog] = useState(false)
 
   const canLogin = applicationServerStatus === "success"
 
+  if (meIsLoading || isSuccess) {
+    return null
+  }
+
+  // < className="w-full h-full" />;
   return (
     <div className="flex flex-1 justify-center items-center">
+      <PixelLiquidBg className="absolute" pixelSize={1} />
       <ServerUrlDialog
         defaultValues={{ url: applicationServerUrl }}
         open={showServerDialog}
         onOpenChange={setShowServerDialog}
         onSubmit={({ url }) => setApplicationServerUrl(url)}
       />
-      <Card className="w-[65%] py-0 min-w-[700px] max-w-[1000px] overflow-hidden">
+      <Card className="w-[65%] py-0 my-5 min-w-[700px] max-w-[850px] overflow-hidden z-1 shadow-xl">
         <div className="flex">
           <Block
-            variant="secondary"
+            variant="secondary-3"
             className={cardBlock({
               className:
                 "flex flex-col justify-between w-[200px] max-w-[200px] px-4 w-full",
             })}
           >
-            <div>
-              <p className="text-center text-xl font-semibold tracking-tight">
-                Цитатник
-              </p>
+            <div className="flex justify-center">
+              <Avatar className="w-[80%] h-auto">
+                <AvatarImage src={CatImage} alt="Цитатник" />
+              </Avatar>
             </div>
 
             <div className="flex flex-col gap-2 items-start">
@@ -118,38 +157,84 @@ export function LoginPage() {
 
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <div>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => setShowServerDialog(true)}
-                        >
-                          <SquarePen />
-                        </Button>
-                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setShowServerDialog(true)}
+                      >
+                        <SquarePen />
+                      </Button>
                     </TooltipTrigger>
                     <TooltipContent>{t("common.edit")}</TooltipContent>
                   </Tooltip>
                 </div>
               </div>
-
-              <Separator />
             </div>
 
-            <div className="flex gap-3 justify-center">
-              <Button
-                size="icon-sm"
-                disabled={!canLogin}
-                onClick={() => navigate("/home/friends")}
-              >
-                <ScanFace />
-              </Button>
-              <Button size="icon-sm" disabled={!canLogin}>
-                <ScanFace />
-              </Button>
-              <Button size="icon-sm" disabled={!canLogin}>
-                <ScanFace />
-              </Button>
+            <Separator />
+
+            <SignInForm
+              submitError={canLogin ? "" : t("views.login-page.server-tip")}
+              loading={isLoading}
+              onSubmit={(data) => {
+                const form = new FormData()
+                form.append("username", data.login)
+                form.append("password", data.password)
+
+                login(form)
+                  .unwrap()
+                  .then(afterLoginNavigate)
+                  .catch((err) => {
+                    toast(t("common.something-went-wrong"), {
+                      description: t(
+                        `views.login-page.toast.${err.data.detail}`
+                      ),
+                    })
+                  })
+              }}
+            />
+
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <Separator className="flex-1" />
+                <p className="text-sm text-muted-foreground text-center">
+                  {t("common.or")}
+                </p>
+                <Separator className="flex-1" />
+              </div>
+
+              <div className="flex gap-3 justify-center">
+                <Button
+                  size="icon-sm"
+                  // disabled={!canLogin}
+                  disabled={true}
+                  onClick={() => {
+                    window.ipcRenderer.openExternal(applicationServerUrl)
+                  }}
+                >
+                  <IconBrandGoogleFilled />
+                </Button>
+                <Button
+                  size="icon-sm"
+                  // disabled={!canLogin}
+                  disabled={true}
+                  onClick={() => {
+                    navigate("/home/friends")
+                  }}
+                >
+                  <IconBrandAppleFilled />
+                </Button>
+                <Button
+                  size="icon-sm"
+                  // disabled={!canLogin}
+                  disabled={true}
+                  onClick={() => {
+                    navigate("/home/friends")
+                  }}
+                >
+                  <IconBrandDiscordFilled />
+                </Button>
+              </div>
             </div>
           </div>
         </div>

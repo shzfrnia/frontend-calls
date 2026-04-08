@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next"
+// import { useTranslation } from "react-i18next"
 import { useNavigate, useParams } from "react-router-dom"
 
 import { usePageTitle } from "@/hooks/use-page-title"
@@ -23,7 +23,7 @@ import { useApplicationData } from "@/hooks/use-application-data"
 
 export function ServerPage() {
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   const { setTitle } = usePageTitle()
 
   const { id } = useParams()

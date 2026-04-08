@@ -1,2 +1,4 @@
 dist-electron
+.vscode
 # src/components/ui
+src/components/unlumen-ui
