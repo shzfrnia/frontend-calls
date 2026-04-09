@@ -10,12 +10,14 @@ import {
 } from "@tabler/icons-react"
 import { cva } from "class-variance-authority"
 
+import { cn } from "@/lib/utils"
+
 import { usePageTitle } from "@/hooks/use-page-title"
 import { useAppSelector } from "@/hooks/use-store"
 
 import { useApplicationServer } from "@/api/app-server"
 import { useLoginMutation } from "@/api/auth"
-import { useLazyMeQuery } from "@/api/user"
+import { useLazyMeQuery, useSignupMutation } from "@/api/user"
 
 import { selectToken } from "@/store/slices/auth-slice"
 
@@ -50,6 +52,7 @@ export function LoginPage() {
 
   const [login, { isLoading }] = useLoginMutation()
   const [me, { isSuccess, isLoading: meIsLoading }] = useLazyMeQuery()
+  const [signup, { isLoading: signupIsLoading }] = useSignupMutation()
   const token = useAppSelector(selectToken)
 
   const {
@@ -59,6 +62,23 @@ export function LoginPage() {
   } = useApplicationServer()
 
   const afterLoginNavigate = useCallback(() => navigate("/"), [navigate])
+  const tryLogin = useCallback(
+    (data: { username: string; password: string }) => {
+      const form = new FormData()
+      form.append("username", data.username)
+      form.append("password", data.password)
+
+      login(form)
+        .unwrap()
+        .then(afterLoginNavigate)
+        .catch((err) => {
+          toast(t("common.something-went-wrong"), {
+            description: t(`views.login-page.toast.${err.data.detail}`),
+          })
+        })
+    },
+    [login, afterLoginNavigate, t]
+  )
 
   useEffect(() => {
     if (token) {
@@ -80,7 +100,6 @@ export function LoginPage() {
     return null
   }
 
-  // < className="w-full h-full" />;
   return (
     <div className="flex flex-1 justify-center items-center">
       <PixelLiquidBg className="absolute" pixelSize={1} />
@@ -94,10 +113,12 @@ export function LoginPage() {
         <div className="flex">
           <Block
             variant="secondary-3"
-            className={cardBlock({
-              className:
-                "flex flex-col justify-between w-[200px] max-w-[200px] px-4 w-full",
-            })}
+            className={cn(
+              cardBlock(),
+              "flex flex-col justify-between",
+              "w-full w-[200px] max-w-[200px]",
+              "px-4"
+            )}
           >
             <div className="flex justify-center">
               <Avatar className="w-[80%] h-auto">
@@ -111,11 +132,7 @@ export function LoginPage() {
             </div>
           </Block>
 
-          <div
-            className={cardBlock({
-              className: "flex flex-col gap-5 px-20 w-full",
-            })}
-          >
+          <div className={cn(cardBlock(), "flex flex-col gap-5 px-20 w-full")}>
             <h1 className="text-4xl font-extrabold tracking-tight text-balance">
               {t("views.login-page.title")}
             </h1>
@@ -175,22 +192,27 @@ export function LoginPage() {
 
             <SignInForm
               submitError={canLogin ? "" : t("views.login-page.server-tip")}
-              loading={isLoading}
+              loading={isLoading || signupIsLoading}
               onSubmit={(data) => {
-                const form = new FormData()
-                form.append("username", data.login)
-                form.append("password", data.password)
-
-                login(form)
-                  .unwrap()
-                  .then(afterLoginNavigate)
-                  .catch((err) => {
-                    toast(t("common.something-went-wrong"), {
-                      description: t(
-                        `views.login-page.toast.${err.data.detail}`
-                      ),
+                if ("email" in data) {
+                  signup(data)
+                    .unwrap()
+                    .then((user) => {
+                      tryLogin({
+                        username: user.login,
+                        password: data.password,
+                      })
                     })
-                  })
+                    .catch((err) => {
+                      toast(t("common.something-went-wrong"), {
+                        description: t(
+                          `views.login-page.toast.${err.data.detail}`
+                        ),
+                      })
+                    })
+                } else {
+                  tryLogin({ username: data.login, password: data.password })
+                }
               }}
             />
 
@@ -206,7 +228,6 @@ export function LoginPage() {
               <div className="flex gap-3 justify-center">
                 <Button
                   size="icon-sm"
-                  // disabled={!canLogin}
                   disabled={true}
                   onClick={() => {
                     window.ipcRenderer.openExternal(applicationServerUrl)
@@ -216,7 +237,6 @@ export function LoginPage() {
                 </Button>
                 <Button
                   size="icon-sm"
-                  // disabled={!canLogin}
                   disabled={true}
                   onClick={() => {
                     navigate("/home/friends")
@@ -226,7 +246,6 @@ export function LoginPage() {
                 </Button>
                 <Button
                   size="icon-sm"
-                  // disabled={!canLogin}
                   disabled={true}
                   onClick={() => {
                     navigate("/home/friends")

@@ -37,9 +37,21 @@ const signInSchema = z.object({
     .max(30, 'forms.errors.max_length|{"count": 30}'),
 })
 
-const signUpSchema = signInSchema.extend({
-  email: z.email({ message: "forms.errors.invalid-email-address" }),
-})
+const signUpSchema = signInSchema
+  .extend({
+    email: z.email({ message: "forms.errors.invalid-email-address" }),
+    confirmPassword: z.string(),
+  })
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message:
+          "forms.sign-in.confirm-password.errors.passwords-did-not-match",
+        path: ["confirmPassword"],
+      })
+    }
+  })
 
 type FormType = z.infer<typeof signInSchema | typeof signUpSchema>
 
@@ -162,6 +174,47 @@ export function SignInForm({
             </Field>
           )}
         />
+
+        {isCreationMode && (
+          <Controller
+            name="confirmPassword"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="sign-in-form-confirm-password">
+                  {t("forms.sign-in.confirm-password.label")}
+                </FieldLabel>
+
+                <InputGroup>
+                  <InputGroupInput
+                    {...field}
+                    id="sign-in-form-confirm-password"
+                    placeholder={t("forms.sign-in.confirm-password.label")}
+                    type={showPassword ? "text" : "password"}
+                    required
+                    aria-invalid={fieldState.invalid}
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                      aria-label="show-password"
+                      title="show-password"
+                      size="icon-xs"
+                      onClick={() => setShowPassword((value) => !value)}
+                    >
+                      {showPassword ? <EyeIcon /> : <EyeOffIcon />}
+                    </InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
+
+                {fieldState.invalid && (
+                  <FieldError>
+                    {t(fieldState.error?.message as string)}
+                  </FieldError>
+                )}
+              </Field>
+            )}
+          />
+        )}
 
         <Field orientation="horizontal">
           <Button
