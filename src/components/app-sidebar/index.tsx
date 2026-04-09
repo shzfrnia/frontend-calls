@@ -6,6 +6,7 @@ import { House, CirclePlus, Cat, Bird, Panda } from "lucide-react"
 import { useAppDispatch } from "@/hooks/use-store"
 
 import { cn } from "@/lib/utils"
+
 import {
   Sidebar,
   SidebarContent,
@@ -15,7 +16,8 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarGroup,
-} from "@/components/ui/sidebar"
+} from "./components/sidebar"
+
 import { useApplicationData } from "@/hooks/use-application-data"
 import { logout } from "@/store/slices/auth-slice"
 

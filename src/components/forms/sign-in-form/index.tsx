@@ -29,7 +29,7 @@ import {
 const signInSchema = z.object({
   login: z
     .string()
-    .min(6, 'forms.errors.min_length|{"count": 6}')
+    .min(5, 'forms.errors.min_length|{"count": 5}')
     .max(30, 'forms.errors.max_length|{"count": 30}'),
   password: z
     .string()

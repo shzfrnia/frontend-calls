@@ -46,22 +46,18 @@ export function UserPanel() {
   const displayName = currentUser.nickname || currentUser.login
 
   return (
-    <Block
-      variant="secondary-2"
-      className="flex gap-2 justify-between p-1 rounded-sm"
-    >
-      <div className="flex gap-2 items-center">
-        <Avatar className="overflow-visible">
-          <AvatarFallback>{displayName.charAt(0)}</AvatarFallback>
-          {status}
-        </Avatar>
-
+    <Block variant="secondary-2" className="flex p-1 rounded-sm">
+      <Avatar className="overflow-visible mr-2">
+        <AvatarFallback>{displayName.charAt(0)}</AvatarFallback>
+        {status}
+      </Avatar>
+      <div className="flex gap-2 items-center overflow-hidden">
         <div className="flex flex-col overflow-hidden">
           <p className="text-xs truncate">{displayName}</p>
         </div>
       </div>
 
-      <ButtonGroup>
+      <ButtonGroup className="ml-auto">
         <Button
           size="icon-sm"
           variant={micIsMuted ? "destructive" : "ghost"}

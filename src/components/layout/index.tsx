@@ -1,4 +1,4 @@
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarProvider } from "../app-sidebar/components/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   ResizableHandle,
@@ -6,6 +6,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import { Separator } from "@/components/ui/separator"
+
 import { cn } from "@/lib/utils"
 
 import { Block } from "../Block"

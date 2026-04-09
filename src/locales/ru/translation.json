@@ -22,7 +22,8 @@
     "headphones-off": "Откл. звук",
     "headphones-on": "Вкл. звук",
     "mic-off": "Заглушить",
-    "mic-on": "Вкл. микрофон"
+    "mic-on": "Вкл. микрофон",
+    "logout": "Выйти"
   },
   "views": {
     "login-page": {
