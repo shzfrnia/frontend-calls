@@ -2,7 +2,7 @@ import { useAppDispatch } from "@/hooks/use-store"
 
 import { closeSettingsDialog } from "@/store/slices/settings-slice"
 
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 
 import { AppSidebar } from "./components/sidebar"
 
