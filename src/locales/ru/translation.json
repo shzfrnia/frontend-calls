@@ -30,7 +30,7 @@
       "server-tip": "Для работы приложения нужно указать ссылку на self-hosted сервер",
       "server-url-is-not-supported": "Указанный сервер не поддерживается или не найден",
       "toast": {
-        "Incorrect email or password": "Неверное имя пользователя или пароль"
+        "Incorrect username or password": "Неверное имя пользователя или пароль"
       }
     },
     "home-page": {
@@ -76,6 +76,10 @@
     "sign-in": {
       "login": {
         "placeholder": "Имя пользователя или почта"
+      },
+      "confirm-password": {
+        "label": "Повторите пароль",
+        "errors": { "passwords-did-not-match": "Пароли должны совпадать" }
       },
       "buttons": {
         "login": "Войти",

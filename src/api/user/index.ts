@@ -7,7 +7,13 @@ export const userApi = api.injectEndpoints({
     me: build.query<User, void>({
       query: () => "users/me",
     }),
+    signup: build.mutation<
+      User,
+      Pick<User, "email" | "login"> & { password: string }
+    >({
+      query: (body) => ({ url: "users/signup", method: "POST", body }),
+    }),
   }),
 })
 
-export const { useLazyMeQuery, useMeQuery } = userApi
+export const { useLazyMeQuery, useSignupMutation } = userApi
