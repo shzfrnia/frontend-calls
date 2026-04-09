@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next"
 import { cva } from "class-variance-authority"
 import { House, CirclePlus, Cat, Bird, Panda } from "lucide-react"
 
-import { useAppDispatch } from "@/hooks/use-store"
-
 import { cn } from "@/lib/utils"
 
 import {
@@ -19,14 +17,12 @@ import {
 } from "./components/sidebar"
 
 import { useApplicationData } from "@/hooks/use-application-data"
-import { logout } from "@/store/slices/auth-slice"
 
 const sidebarMenuButtonLg = cva("[&>svg]:size-5 flex justify-center")
 
 export function AppSidebar() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
 
   const { servers } = useApplicationData()
 
@@ -74,7 +70,6 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <p onClick={() => dispatch(logout())}>login</p>
         <SidebarMenuButton
           className={cn(sidebarMenuButtonLg())}
           tooltip={t("sidebar.footer.add-server-tooltip")}

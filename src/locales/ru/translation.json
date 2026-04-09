@@ -62,6 +62,34 @@
           "is-not-url": "Введенное значение не является ссылкой"
         }
       }
+    },
+    "settings": {
+      "nav": {
+        "profile-settings": {
+          "title": "Настройки учетной записи",
+          "nav": {
+            "profile": {
+              "title": "Моя учетная запись",
+              "nav": {
+                "general": {
+                  "title": "Основные"
+                },
+                "privacy": {
+                  "title": "Приватность"
+                }
+              }
+            }
+          }
+        },
+        "general": {
+          "title": "Общие",
+          "nav": {
+            "application-settings": {
+              "title": "Настройки приложения"
+            }
+          }
+        }
+      }
     }
   },
   "empty": {
