@@ -1,5 +1,5 @@
 import { SidebarProvider } from "../app-sidebar/components/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar, SidebarInset } from "@/components/app-sidebar"
 import {
   ResizableHandle,
   ResizablePanel,
@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <SidebarProvider open={false} defaultOpen={false}>
       <AppSidebar />
 
-      <main className="flex flex-col w-full">{children}</main>
+      <SidebarInset className="flex flex-col w-full">{children}</SidebarInset>
     </SidebarProvider>
   )
 }

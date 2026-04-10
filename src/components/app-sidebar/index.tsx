@@ -14,6 +14,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarGroup,
+  SidebarInset,
 } from "./components/sidebar"
 
 import { useApplicationData } from "@/hooks/use-application-data"
@@ -81,3 +82,5 @@ export function AppSidebar() {
     </Sidebar>
   )
 }
+
+export { SidebarInset }
