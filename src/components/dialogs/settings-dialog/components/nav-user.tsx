@@ -31,9 +31,7 @@ export function NavUser() {
     return null
   }
 
-  const displayName = currentUser.nickname || currentUser.login
-
-  const avatarFallback = displayName.slice(0, 2)
+  const avatarFallback = currentUser.displayName.slice(0, 2)
 
   return (
     <SidebarMenu>
@@ -51,7 +49,9 @@ export function NavUser() {
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{displayName}</span>
+                <span className="truncate font-medium">
+                  {currentUser.displayName}
+                </span>
                 <span className="truncate text-xs">{currentUser.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />

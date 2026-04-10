@@ -81,7 +81,12 @@ function NavMain({
                         ([subKey, subItem]) => (
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton
-                              className="cursor-pointer"
+                              data-disabled={subItem.disabled}
+                              className={
+                                subItem.disabled
+                                  ? "data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed data-[disabled]:hover-not-allowed data-[disabled]:hover:bg-transparent"
+                                  : "cursor-pointer"
+                              }
                               isActive={
                                 canBeActive &&
                                 splittedPath.length === 3 &&
@@ -89,7 +94,7 @@ function NavMain({
                               }
                               asChild
                               onClick={() => {
-                                if (subItem.Component) {
+                                if (subItem.Component && !subItem.disabled) {
                                   onNavClick(`${key}|${subKey}`)
                                 }
                               }}
@@ -119,7 +124,11 @@ type NavItems = {
       title: string
       icon: FC
       Component?: FC
-      items?: Record<string, { title: string; Component?: FC }>
+      disabled?: boolean
+      items?: Record<
+        string,
+        { title: string; Component?: FC; disabled?: boolean }
+      >
     }
   >
 }

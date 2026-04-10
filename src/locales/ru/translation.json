@@ -1,5 +1,4 @@
 {
-  "title": "Заголовок",
   "common": {
     "field-is-required": "Поле не может быть пустым",
     "friends": "Друзья",
@@ -23,7 +22,9 @@
     "headphones-on": "Вкл. звук",
     "mic-off": "Заглушить",
     "mic-on": "Вкл. микрофон",
-    "logout": "Выйти"
+    "logout": "Выйти",
+    "nickname": "Отображаемое имя",
+    "not-set": "Не задано"
   },
   "views": {
     "login-page": {

@@ -5,6 +5,7 @@ import { DialogClose } from "@/components/ui/dialog"
 import { SidebarInset } from "@/components/app-sidebar/components/sidebar"
 import { Button } from "@/components/ui-proxy/button"
 import { Separator } from "@/components/ui/separator"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 export function SettingsDialogContent({
   children,
@@ -27,7 +28,10 @@ export function SettingsDialogContent({
         </div>
         <Separator />
       </div>
-      <div className="flex-1 p-4">{children}</div>
+
+      <ScrollArea className="flex-1 p-4 overflow-auto">
+        <div className="max-w-[700px] mx-auto">{children}</div>
+      </ScrollArea>
     </SidebarInset>
   )
 }

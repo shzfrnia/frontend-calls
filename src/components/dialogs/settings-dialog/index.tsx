@@ -38,6 +38,7 @@ export function SettingsDialog({ open }: { open: boolean }) {
               title: t(
                 "dialogs.settings.nav.profile-settings.nav.profile.nav.privacy.title"
               ),
+              disabled: true,
               Component: SettingsPrivacy,
             },
           },
@@ -107,7 +108,7 @@ export function SettingsDialog({ open }: { open: boolean }) {
               title={
                 <div className="flex gap-2 items-center">
                   <parent.icon className="h-[1.3em]" />
-                  <p>{title}</p>
+                  <h1>{title}</h1>
                 </div>
               }
             >
