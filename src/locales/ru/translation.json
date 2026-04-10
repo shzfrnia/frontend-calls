@@ -1,5 +1,4 @@
 {
-  "title": "Заголовок",
   "common": {
     "field-is-required": "Поле не может быть пустым",
     "friends": "Друзья",
@@ -22,7 +21,10 @@
     "headphones-off": "Откл. звук",
     "headphones-on": "Вкл. звук",
     "mic-off": "Заглушить",
-    "mic-on": "Вкл. микрофон"
+    "mic-on": "Вкл. микрофон",
+    "logout": "Выйти",
+    "nickname": "Отображаемое имя",
+    "not-set": "Не задано"
   },
   "views": {
     "login-page": {
@@ -59,6 +61,42 @@
         "label": "Ссылка на сервер",
         "errors": {
           "is-not-url": "Введенное значение не является ссылкой"
+        }
+      }
+    },
+    "settings": {
+      "nav": {
+        "profile-settings": {
+          "title": "Настройки учетной записи",
+          "nav": {
+            "profile": {
+              "title": "Моя учетная запись",
+              "nav": {
+                "general": {
+                  "title": "Основные"
+                },
+                "privacy": {
+                  "title": "Приватность"
+                }
+              }
+            }
+          }
+        },
+        "general": {
+          "title": "Общие",
+          "nav": {
+            "application-settings": {
+              "title": "Настройки приложения",
+              "choose-language": {
+                "header": "Выберите язык",
+                "description": "Выберите язык, на котором будет интерфейс приложения"
+              },
+              "choose-theme": {
+                "header": "Выберите тему",
+                "description": "Выберите тему, на котором будет интерфейс приложения"
+              }
+            }
+          }
         }
       }
     }

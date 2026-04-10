@@ -1,5 +1,4 @@
 import { Outlet, NavLink } from "react-router-dom"
-import { useNavigate } from "react-router-dom"
 import { UserRound } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
@@ -37,7 +36,6 @@ const people = new Array(3).fill("").map((_, index) => {
 
 export function HomePage() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
 
   return (
     <DefaultLayout>

@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Outlet, useNavigate, useLocation } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 
 import { usePageTitle } from "./hooks/use-page-title"
 import { useAppSelector } from "./hooks/use-store"
@@ -45,7 +45,7 @@ function App() {
   //   return <ApplicationLoading />
   // }
 
-  if (applicationServerStatus === "checking") {
+  if (!data || applicationServerStatus === "checking") {
     return <ApplicationLoading />
   }
 

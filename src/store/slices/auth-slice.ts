@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, createSelector } from "@reduxjs/toolkit"
 
 import { authApi } from "@/api/auth"
 import { userApi } from "@/api/user"
@@ -42,7 +42,13 @@ export const authSlice = createSlice({
 
 export const { logout } = authSlice.actions
 
-export const selectCurrentUser = (state: RootState) => state.auth.user
+const selectCurrentUserRaw = (state: RootState) => state.auth.user
+export const selectCurrentUser = createSelector(
+  [selectCurrentUserRaw],
+  (user) =>
+    user ? { ...user, displayName: user.nickname || user.login } : null
+)
+
 export const selectToken = (state: RootState) => state.auth.token
 
 export default authSlice.reducer
