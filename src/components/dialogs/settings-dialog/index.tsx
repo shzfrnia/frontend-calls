@@ -96,26 +96,24 @@ export function SettingsDialog({ open }: { open: boolean }) {
         showCloseButton={false}
         className="w-[90vw] sm:max-w-[90vw] h-[90vh] flex p-0 overflow-hidden"
       >
-        {open && (
-          <SidebarProvider className="flex flex-1 min-h-full h-full">
-            <SettingsSidebar
-              items={tabs}
-              navPath={navPath}
-              onNavClick={(tabName) => setNavPath(tabName)}
-            />
+        <SidebarProvider className="flex flex-1 min-h-full h-full">
+          <SettingsSidebar
+            items={tabs}
+            navPath={navPath}
+            onNavClick={(tabName) => setNavPath(tabName)}
+          />
 
-            <SettingsDialogContent
-              title={
-                <div className="flex gap-2 items-center">
-                  <parent.icon className="h-[1.3em]" />
-                  <h1>{title}</h1>
-                </div>
-              }
-            >
-              <Component />
-            </SettingsDialogContent>
-          </SidebarProvider>
-        )}
+          <SettingsDialogContent
+            title={
+              <div className="flex gap-2 items-center">
+                <parent.icon className="h-[1.3em]" />
+                <h1>{title}</h1>
+              </div>
+            }
+          >
+            {open && <Component />}
+          </SettingsDialogContent>
+        </SidebarProvider>
       </DialogContent>
     </Dialog>
   )
