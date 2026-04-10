@@ -80,6 +80,7 @@ function NavMain({
                       {Object.entries(item.items)?.map(([subKey, subItem]) => (
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton
+                            className="cursor-pointer"
                             isActive={
                               canBeActive &&
                               splittedPath.length === 3 &&
