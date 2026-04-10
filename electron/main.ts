@@ -6,7 +6,6 @@ import path from "node:path"
 import { ipcMainEvents as themeIpcMainEvents } from "./theme"
 import { ipcMainEvents as openExternalIpcMainEvents } from "./open-external"
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 // const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
