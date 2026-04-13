@@ -62,6 +62,7 @@ export function LoginPage() {
   } = useApplicationServer()
 
   const afterLoginNavigate = useCallback(() => navigate("/"), [navigate])
+
   const tryLogin = useCallback(
     (data: { username: string; password: string }) => {
       const form = new FormData()
@@ -107,7 +108,10 @@ export function LoginPage() {
         defaultValues={{ url: applicationServerUrl }}
         open={showServerDialog}
         onOpenChange={setShowServerDialog}
-        onSubmit={({ url }) => setApplicationServerUrl(url)}
+        onSubmit={({ url }) => {
+          setApplicationServerUrl(url)
+          setShowServerDialog(false)
+        }}
       />
       <Card className="w-[65%] py-0 my-5 min-w-[700px] max-w-[850px] overflow-hidden z-1 shadow-xl">
         <div className="flex">
