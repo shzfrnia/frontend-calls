@@ -63,10 +63,7 @@ export function SignInForm({
   submitError,
   onSubmit,
   loading,
-}: {
-  submitError?: string
-  loading?: boolean
-} & FormProps<FormType>) {
+}: FormProps<FormType>) {
   const { zodT: t } = useZodTranslation()
 
   const [showPassword, setShowPassword] = useState(false)

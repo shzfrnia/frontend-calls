@@ -29,13 +29,13 @@ export function CreateServerDialog({
         onOpenChange(false)
       }
     },
-    [onSubmit, onOpenChange]
+    [onSubmit, onOpenChange, createServer]
   )
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <VisuallyHidden.Root>
-        <DialogTitle>Форма входа</DialogTitle>
+        <DialogTitle></DialogTitle>
       </VisuallyHidden.Root>
 
       <DialogContent className="sm:max-w-sm">
@@ -43,6 +43,7 @@ export function CreateServerDialog({
           onSubmit={submitHandler}
           defaultValues={defaultValues}
           loading={isLoading}
+          submitError={isError ? "isError" : undefined}
         />
       </DialogContent>
     </Dialog>

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { UserCardList, UserCard } from "./components/user-card"
+import { usePageTitle } from "@/hooks/use-page-title"
 
 function getRandomInt(max: number): number {
   return Math.floor(Math.random() * max)
@@ -36,6 +37,7 @@ const people = new Array(3).fill("").map((_, index) => {
 
 export function HomePage() {
   const { t } = useTranslation()
+  usePageTitle(t("views.home-page.title"))
 
   return (
     <DefaultLayout>

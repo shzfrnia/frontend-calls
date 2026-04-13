@@ -116,7 +116,7 @@ function NavMain({
   )
 }
 
-type NavItems = {
+export type NavItems = {
   title: string
   items: Record<
     string,

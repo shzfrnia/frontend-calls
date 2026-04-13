@@ -1,15 +1,21 @@
-import { useEffect, useMemo, useState } from "react"
+import { ComponentType, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { UserRoundPen, Cog } from "lucide-react"
+import { VisuallyHidden } from "radix-ui"
 
 import { useAppDispatch } from "@/hooks/use-store"
 
 import { closeSettingsDialog } from "@/store/slices/settings-slice"
 
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog"
 import { SidebarProvider } from "@/components/ui/sidebar"
 
-import { SettingsSidebar } from "./components/sidebar"
+import { SettingsSidebar, type NavItems } from "./components/sidebar"
 import { SettingsDialogContent } from "./components/content"
 import { SettingsProfile } from "./components/tabs/profile"
 import { SettingsApplication } from "./components/tabs/application"
@@ -20,7 +26,7 @@ const defaultPath = "user-settings|profile|general"
 export function SettingsDialog({ open }: { open: boolean }) {
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
-  const [tabs] = useState({
+  const [tabs] = useState<Record<string, NavItems>>({
     "user-settings": {
       title: t("dialogs.settings.nav.profile-settings.title"),
       items: {
@@ -60,29 +66,40 @@ export function SettingsDialog({ open }: { open: boolean }) {
   })
   const [navPath, setNavPath] = useState<string>(defaultPath)
 
-  const { parent, title, Component } = useMemo(() => {
+  const { Icon, title, Component } = useMemo<{
+    Icon: ComponentType<{ className: string }>
+    title: string
+    Component: ComponentType
+  }>(() => {
     const path = navPath.split("|").reverse()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let current: any = { items: tabs }
-    const currentStack = []
 
-    while (path.length) {
-      const key = path.pop()
-      if (key) {
-        current = current.items[key]
-        currentStack.push(current)
+    const parentKey: keyof typeof tabs = path.pop() as keyof typeof tabs
+    const root = tabs[parentKey]
+
+    const firstKey = path.pop()
+    const firstItem = firstKey ? root.items[firstKey] : null
+    const Icon = firstItem?.icon ?? (() => null)
+
+    if (path.length && firstItem?.items) {
+      const subKey = path.pop() as string
+      const subItem = firstItem ? firstItem.items[subKey] : null
+
+      return {
+        Icon,
+        title: subItem?.title ?? "",
+        Component: subItem?.Component ?? (() => null),
       }
     }
 
     return {
-      title: current.title,
-      Component: current.Component,
-      parent: currentStack[1],
+      Icon,
+      title: firstItem?.title ?? "",
+      Component: firstItem?.Component ?? (() => null),
     }
   }, [navPath, tabs])
 
   useEffect(() => {
-    if (!open) {
+    if (open) {
       setNavPath(defaultPath)
     }
   }, [open])
@@ -92,10 +109,17 @@ export function SettingsDialog({ open }: { open: boolean }) {
       open={open}
       onOpenChange={(value) => !value && dispatch(closeSettingsDialog())}
     >
+      <VisuallyHidden.Root>
+        <DialogTitle></DialogTitle>
+      </VisuallyHidden.Root>
+
       <DialogContent
         showCloseButton={false}
         className="w-[90vw] sm:max-w-[90vw] h-[90vh] flex p-0 overflow-hidden"
       >
+        <VisuallyHidden.Root>
+          <DialogDescription></DialogDescription>
+        </VisuallyHidden.Root>
         <SidebarProvider className="flex flex-1 min-h-full h-full">
           <SettingsSidebar
             items={tabs}
@@ -106,12 +130,12 @@ export function SettingsDialog({ open }: { open: boolean }) {
           <SettingsDialogContent
             title={
               <div className="flex gap-2 items-center">
-                <parent.icon className="h-[1.3em]" />
+                <Icon className="h-[1.3em]" />
                 <h1>{title}</h1>
               </div>
             }
           >
-            {open && <Component />}
+            <Component />
           </SettingsDialogContent>
         </SidebarProvider>
       </DialogContent>
