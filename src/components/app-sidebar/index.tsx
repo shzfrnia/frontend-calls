@@ -1,9 +1,11 @@
 import { NavLink, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { cva } from "class-variance-authority"
-import { House, CirclePlus, Cat, Bird, Panda } from "lucide-react"
+import { House, CirclePlus } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+
+import { Avatar, AvatarFallback } from "../ui/avatar"
 
 import {
   Sidebar,
@@ -16,14 +18,17 @@ import {
   SidebarGroup,
   SidebarInset,
 } from "./components/sidebar"
+import { CreateServerDialog } from "../dialogs/create-server-dialog"
 
 import { useApplicationData } from "@/hooks/use-application-data"
+import { useState } from "react"
 
 const sidebarMenuButtonLg = cva("[&>svg]:size-5 flex justify-center")
 
 export function AppSidebar() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const [createServerDialogOpen, setCreateServerDialogOpen] = useState(false)
 
   const { servers } = useApplicationData()
 
@@ -47,6 +52,7 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent className="!overflow-auto">
         <SidebarGroup>
           {servers.map((server) => {
@@ -56,12 +62,9 @@ export function AppSidebar() {
                   <SidebarMenuButton
                     variant={isActive ? "outline" : undefined}
                     tooltip={server.name}
+                    className="justify-center"
                   >
-                    {
-                      { cat: <Cat />, bird: <Bird />, panda: <Panda /> }[
-                        server.icon
-                      ]
-                    }
+                    {server.name.slice(0, 2)}
                     {isActive}
                   </SidebarMenuButton>
                 )}
@@ -70,15 +73,21 @@ export function AppSidebar() {
           })}
         </SidebarGroup>
       </SidebarContent>
+
       <SidebarFooter>
         <SidebarMenuButton
           className={cn(sidebarMenuButtonLg())}
           tooltip={t("sidebar.footer.add-server-tooltip")}
-          onClick={() => alert("make new server")}
+          onClick={() => setCreateServerDialogOpen(true)}
         >
           <CirclePlus />
         </SidebarMenuButton>
       </SidebarFooter>
+
+      <CreateServerDialog
+        open={createServerDialogOpen}
+        onOpenChange={setCreateServerDialogOpen}
+      />
     </Sidebar>
   )
 }

@@ -1,4 +1,4 @@
-import { uuid4 } from "./server"
+import type { uuid4 } from "."
 
 export type User = {
   email: string

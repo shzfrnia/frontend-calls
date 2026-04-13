@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit"
 
 import { authApi } from "@/api/auth"
-import { userApi } from "@/api/user"
+import { userApi } from "@/api/users"
 
 import type { User } from "@/types/user"
 import type { RootState } from ".."

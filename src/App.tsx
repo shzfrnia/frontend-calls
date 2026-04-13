@@ -11,7 +11,7 @@ import { selectSettingsDialog } from "./store/slices/settings-slice"
 import { selectToken } from "./store/slices/auth-slice"
 
 import Layout from "./components/layout"
-import { useLazyMeQuery } from "./api/user"
+import { useLazyMeQuery } from "./api/users"
 import { ApplicationVersions } from "./components/application-versions"
 import { EmptyServerFailed } from "./components/empty-server-failed"
 import { ApplicationLoading } from "./components/application-loading"

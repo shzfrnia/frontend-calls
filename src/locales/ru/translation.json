@@ -125,6 +125,15 @@
         "create-account": "Создать аккаунт"
       }
     },
+    "create-server": {
+      "name": {
+        "label": "Имя сервера",
+        "placeholder": "Введите имя сервера"
+      },
+      "buttons": {
+        "create": "Создать сервер"
+      }
+    },
     "errors": {
       "invalid-email-address": "Неверный адрес почты",
       "min_length": "Поле должно содержать не менее {{count}} символов",

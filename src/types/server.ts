@@ -1,4 +1,4 @@
-export type uuid4 = string
+import type { uuid4 } from "."
 
 export type Channel = {
   id: uuid4
@@ -8,6 +8,6 @@ export type Channel = {
 export type Server = {
   id: uuid4
   name: string
-  icon: string
-  channels: Channel[]
 }
+
+export type ServerDraft = Omit<Server, "id">

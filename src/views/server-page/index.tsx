@@ -29,15 +29,10 @@ export function ServerPage() {
   const { id } = useParams()
   const { getServer } = useApplicationData()
 
-  if (!id) {
-    navigate("/404")
-    return null
-  }
-
   const server = getServer(id)
 
   if (!server) {
-    navigate("/404")
+    // navigate("/404")
     return null
   }
 

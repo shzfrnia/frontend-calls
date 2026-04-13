@@ -17,7 +17,7 @@ import { useAppSelector } from "@/hooks/use-store"
 
 import { useApplicationServer } from "@/api/app-server"
 import { useLoginMutation } from "@/api/auth"
-import { useLazyMeQuery, useSignupMutation } from "@/api/user"
+import { useLazyMeQuery, useSignupMutation } from "@/api/users"
 
 import { selectToken } from "@/store/slices/auth-slice"
 
