@@ -7,7 +7,7 @@
     "search": "Поиск",
     "back": "Назад",
     "localizations": { "ru": "Русский", "en": "Английский" },
-    "theme": { "light": "Cветлая", "dark": "Темная", "system": "Системная" },
+    "theme": { "light": "Светлая", "dark": "Темная", "system": "Системная" },
     "edit": "Редактировать",
     "server": "Сервер",
     "cancel": "Отмена",
@@ -73,7 +73,8 @@
               "title": "Моя учетная запись",
               "nav": {
                 "general": {
-                  "title": "Основные"
+                  "title": "Основные",
+                  "edit-account-button": "Редактировать профиль"
                 },
                 "privacy": {
                   "title": "Приватность"
@@ -103,7 +104,7 @@
   },
   "empty": {
     "server-failed": {
-      "title": "Cервер недоступен",
+      "title": "Сервер недоступен",
       "buttons": {
         "change-server": "Сменить сервер",
         "try-connect": "Проверить соединение"

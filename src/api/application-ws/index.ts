@@ -22,7 +22,10 @@ export const applicationWs = api.injectEndpoints({
         _arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }
       ) {
-        const state = getState() as RootState
+        const {
+          application: { url },
+          auth: { token },
+        } = getState() as RootState
 
         updateCachedData((draft) => {
           draft.connectionState = "connecting"
@@ -32,7 +35,11 @@ export const applicationWs = api.injectEndpoints({
           setTimeout(r, 1000)
         })
 
-        const socket = getSocket(state.application.url)
+        if (!token) {
+          return
+        }
+
+        const socket = getSocket(url, { token })
 
         socket.onopen = () => {
           updateCachedData((draft) => {
