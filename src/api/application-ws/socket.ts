@@ -10,7 +10,7 @@ export function getSocket(
     socket = new WebSocket(
       `${Object.entries(urlReplace).reduce((prev, [from, to]) => {
         return prev.replace(from, to)
-      }, url)}/ws?token=${options.token}`
+      }, url)}/api/v1/ws?token=${options.token}`
     )
   }
 

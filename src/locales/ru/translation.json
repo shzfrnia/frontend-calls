@@ -27,7 +27,7 @@
     "not-set": "Не задано"
   },
   "views": {
-    "login-page": {
+    "login": {
       "title": "Войти",
       "server-tip": "Для работы приложения нужно указать ссылку на self-hosted сервер",
       "server-url-is-not-supported": "Указанный сервер не поддерживается или не найден",
@@ -35,12 +35,20 @@
         "Incorrect username or password": "Неверное имя пользователя или пароль"
       }
     },
-    "home-page": {
+    "home": {
       "title": "Домашняя страница",
       "find-or-start-call": "Найти или начать беседу"
     },
     "friends": {
       "title": "Друзья"
+    },
+    "server": {
+      "header": {
+        "dropdown": {
+          "server-settings": "Настройки сервера",
+          "leave-server": "Покинуть сервер"
+        }
+      }
     },
     "404": {
       "title": "404",

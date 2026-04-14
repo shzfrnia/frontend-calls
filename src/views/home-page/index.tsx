@@ -37,14 +37,14 @@ const people = new Array(3).fill("").map((_, index) => {
 
 export function HomePage() {
   const { t } = useTranslation()
-  usePageTitle(t("views.home-page.title"))
+  usePageTitle(t("views.home.title"))
 
   return (
     <DefaultLayout>
       <DefaultLayout.LayoutLeftPanel>
         <DefaultLayout.LayoutHeaderPanel>
           <Button variant="outline" className="w-full truncate block">
-            {t("views.home-page.find-or-start-call")}
+            {t("views.home.find-or-start-call")}
           </Button>
         </DefaultLayout.LayoutHeaderPanel>
         <ScrollArea className="p-2 overflow-auto">

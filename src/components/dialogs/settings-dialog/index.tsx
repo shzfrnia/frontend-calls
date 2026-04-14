@@ -120,6 +120,7 @@ export function SettingsDialog({ open }: { open: boolean }) {
         <VisuallyHidden.Root>
           <DialogDescription></DialogDescription>
         </VisuallyHidden.Root>
+
         <SidebarProvider className="flex flex-1 min-h-full h-full">
           <SettingsSidebar
             items={tabs}

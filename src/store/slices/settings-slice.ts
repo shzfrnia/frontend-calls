@@ -4,7 +4,7 @@ import type { RootState } from "../index"
 
 const initialState: { opened: boolean } = {
   opened: false,
-}
+} as const
 
 export const settingsSlice = createSlice({
   name: "settings",

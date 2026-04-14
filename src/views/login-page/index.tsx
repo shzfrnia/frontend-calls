@@ -47,7 +47,7 @@ const cardBlock = cva("py-6")
 
 export function LoginPage() {
   const { t } = useTranslation()
-  usePageTitle(t("views.login-page.title"))
+  usePageTitle(t("views.login.title"))
   const navigate = useNavigate()
 
   const [login, { isLoading }] = useLoginMutation()
@@ -74,7 +74,7 @@ export function LoginPage() {
         .then(afterLoginNavigate)
         .catch((err) => {
           toast(t("common.something-went-wrong"), {
-            description: t(`views.login-page.toast.${err.data.detail}`),
+            description: t(`views.login.toast.${err.data.detail}`),
           })
         })
     },
@@ -138,13 +138,13 @@ export function LoginPage() {
 
           <div className={cn(cardBlock(), "flex flex-col gap-5 px-20 w-full")}>
             <h1 className="text-4xl font-extrabold tracking-tight text-balance">
-              {t("views.login-page.title")}
+              {t("views.login.title")}
             </h1>
 
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
                 <p>{t("common.server")}</p>
-                <Tip>{t("views.login-page.server-tip")}</Tip>
+                <Tip>{t("views.login.server-tip")}</Tip>
               </div>
 
               <div className="flex gap-1 justify-between items-center">
@@ -165,9 +165,7 @@ export function LoginPage() {
                                 <CircleX className="text-red-700" />
                               </TooltipTrigger>
                               <TooltipContent>
-                                {t(
-                                  `views.login-page.server-url-is-not-supported`
-                                )}
+                                {t(`views.login.server-url-is-not-supported`)}
                               </TooltipContent>
                             </Tooltip>
                           ),
@@ -195,7 +193,7 @@ export function LoginPage() {
             <Separator />
 
             <SignInForm
-              submitError={canLogin ? "" : t("views.login-page.server-tip")}
+              submitError={canLogin ? "" : t("views.login.server-tip")}
               loading={isLoading || signupIsLoading}
               onSubmit={(data) => {
                 if ("email" in data) {
@@ -209,9 +207,7 @@ export function LoginPage() {
                     })
                     .catch((err) => {
                       toast(t("common.something-went-wrong"), {
-                        description: t(
-                          `views.login-page.toast.${err.data.detail}`
-                        ),
+                        description: t(`views.login.toast.${err.data.detail}`),
                       })
                     })
                 } else {

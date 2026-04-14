@@ -50,9 +50,7 @@ export function ServerUrlForm({
     >
       <DialogHeader>
         <DialogTitle>{t("dialogs.server-url.title")}</DialogTitle>
-        <DialogDescription>
-          {t("views.login-page.server-tip")}
-        </DialogDescription>
+        <DialogDescription>{t("views.login.server-tip")}</DialogDescription>
       </DialogHeader>
 
       <Controller

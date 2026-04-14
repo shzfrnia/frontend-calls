@@ -14,7 +14,7 @@ const initialState: {
 } = {
   user: null,
   token: localStorage.getItem(TOKEN_LOCAL_STORAGE_KEY),
-}
+} as const
 
 export const authSlice = createSlice({
   name: "auth",

@@ -1,26 +1,29 @@
-import { RootState } from "@/store"
+import { api } from ".."
 import { getSocket } from "./socket"
 
-import { api } from ".."
+import { RootState } from "@/store"
 
-import { type Server } from "@/types/server"
+import { setServers } from "@/store/slices/servers-slice"
 
 type ConnectionState = "connecting" | "online" | "closed" | "error"
 
 export const applicationWs = api.injectEndpoints({
   endpoints: (build) => ({
-    applicationData: build.query<
-      { servers: Server[]; connectionState: ConnectionState },
-      void
-    >({
+    applicationData: build.query<{ connectionState: ConnectionState }, void>({
       queryFn: () => {
         return {
-          data: { servers: [], connectionState: "connecting" },
+          data: { servers: [], connectionState: "connecting", loaded: false },
         }
       },
       async onCacheEntryAdded(
         _arg,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }
+        {
+          updateCachedData,
+          cacheDataLoaded,
+          cacheEntryRemoved,
+          getState,
+          dispatch,
+        }
       ) {
         const {
           application: { url },
@@ -60,10 +63,8 @@ export const applicationWs = api.injectEndpoints({
             const { type, payload } = JSON.parse(data)
 
             switch (type) {
-              case "update-application-data":
-                updateCachedData((draft) => {
-                  draft.servers = payload.servers
-                })
+              case "update-servers":
+                dispatch(setServers(payload.servers))
                 break
 
               default:
