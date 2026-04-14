@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, SquareArrowRightExit, Settings } from "lucide-react"
 
 import { useAppSelector } from "@/hooks/use-store"
 
@@ -39,6 +39,7 @@ export function ServerHeader({
       <DropdownMenuContent align="start">
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={openSettingsDialogClick}>
+            <Settings />
             {t("views.server.header.dropdown.server-settings")}
           </DropdownMenuItem>
           {/* <DropdownMenuItem>
@@ -88,6 +89,7 @@ export function ServerHeader({
 
         <DropdownMenuGroup>
           <DropdownMenuItem variant="destructive">
+            <SquareArrowRightExit />
             {t("views.server.header.dropdown.leave-server")}
           </DropdownMenuItem>
         </DropdownMenuGroup>

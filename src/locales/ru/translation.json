@@ -108,6 +108,13 @@
           }
         }
       }
+    },
+    "server-settings": {
+      "nav": {
+        "server-profile": {
+          "title": "Профиль сервера"
+        }
+      }
     }
   },
   "empty": {

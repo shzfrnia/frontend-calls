@@ -1,5 +1,8 @@
 import { ReactNode, type FC } from "react"
 import { ChevronRight } from "lucide-react"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
 
 import {
   Collapsible,
@@ -20,6 +23,16 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
+
+const parentNavItemVariants = cva("", {
+  variants: {
+    variant: {
+      default: "",
+      destructive:
+        "text-destructive active:text-destructive hover:bg-destructive/10 hover:text-destructive dark:hover:bg-destructive/20 *:[svg]:text-destructive!",
+    },
+  },
+})
 
 function NavMain({
   items,
@@ -50,22 +63,27 @@ function NavMain({
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton
+                    disabled={item.disabled}
+                    className={cn(
+                      parentNavItemVariants({ variant: item?.variant })
+                    )}
                     variant={
                       canBeActive &&
                       splittedPath.length === 2 &&
-                      splittedPath[1] == key
+                      splittedPath[1] === key
                         ? "outline"
                         : undefined
                     }
                     tooltip={item.title}
                     onClick={() => {
-                      if (item.Component) {
-                        onItemClick(`${key}`)
+                      if (item.Component || item.onClick) {
+                        onItemClick(`${key}`, item)
                       }
                     }}
                   >
                     {item.icon && <item.icon />}
-                    <span>{item.title}</span>
+                    <span className="mr-auto">{item.title}</span>
+                    {item.rightIcon && <item.rightIcon />}
 
                     {hasChild && (
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -92,8 +110,11 @@ function NavMain({
                               }
                               asChild
                               onClick={() => {
-                                if (subItem.Component && !subItem.disabled) {
-                                  onItemClick(`${key}|${subKey}`)
+                                if (
+                                  (subItem.Component || subItem.onClick) &&
+                                  !subItem.disabled
+                                ) {
+                                  onItemClick(`${key}|${subKey}`, item)
                                 }
                               }}
                             >
@@ -114,25 +135,31 @@ function NavMain({
   )
 }
 
+type NavParent = {
+  title: string
+  icon?: FC
+  rightIcon?: FC
+  Component?: FC
+  disabled?: boolean
+  onClick?: (path: string) => void
+  items?: Record<string, NavChild>
+  variant?: VariantProps<typeof parentNavItemVariants>["variant"]
+}
+
+type NavChild = {
+  title: string
+  Component?: FC
+  disabled?: boolean
+  onClick?: (path: string) => void
+}
+
 type NavItems = {
   title: string
-  items: Record<
-    string,
-    {
-      title: string
-      icon: FC
-      Component?: FC
-      disabled?: boolean
-      items?: Record<
-        string,
-        { title: string; Component?: FC; disabled?: boolean }
-      >
-    }
-  >
+  items: Record<string, NavParent>
 }
 
 type NavProps = {
-  onItemClick: (path: string) => void
+  onItemClick: (path: string, item: NavParent | NavChild) => void
   items: Items
   path: string
 }
@@ -158,7 +185,7 @@ export function DialogSidebar({
               canBeActive={splittedPath[0] === key}
               items={navGroupInfo}
               splittedPath={splittedPath}
-              onItemClick={(path) => onItemClick(`${key}|${path}`)}
+              onItemClick={(path, item) => onItemClick(`${key}|${path}`, item)}
             />
           )
         })}

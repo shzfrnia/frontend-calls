@@ -105,7 +105,13 @@ export function SidebarDialog({
           <DialogSidebar
             items={items}
             path={navPath}
-            onItemClick={(path) => setNavPath(path)}
+            onItemClick={(path, item) => {
+              if (item.onClick) {
+                item.onClick(path)
+              } else {
+                setNavPath(path)
+              }
+            }}
           />
 
           <DialogSidebarContent

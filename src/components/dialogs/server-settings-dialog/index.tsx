@@ -1,15 +1,16 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { Trash2 } from "lucide-react"
+
+import { useAppSelector } from "@/hooks/use-store"
+
+import { selectServer } from "@/store/slices/views-slices/server-slice"
 
 import { SidebarDialog, type Items } from "../templates/sidebar-dialog"
+import { DeleteServerAlert } from "./components/delete-server-alert"
+import { ServerProfile } from "./components/tabs/server-profile"
 
-import { UserRoundPen, Cog } from "lucide-react"
-
-import { SettingsProfile } from "../settings-dialog/components/tabs/profile"
-import { SettingsPrivacy } from "../settings-dialog/components/tabs/privacy"
-import { SettingsApplication } from "../settings-dialog/components/tabs/application"
-
-const defaultPath = "user-settings|profile|general"
+const defaultPath = "server-settings|server-profile"
 
 export function ServerSettingsDialog({
   open,
@@ -20,28 +21,17 @@ export function ServerSettingsDialog({
 }) {
   const { t } = useTranslation()
 
+  const server = useAppSelector(selectServer)
+
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false)
+
   const [items] = useState<Items>({
-    "user-settings": {
-      title: t("dialogs.settings.nav.profile-settings.title"),
+    "server-settings": {
+      title: server?.name ?? "",
       items: {
-        profile: {
-          title: t("dialogs.settings.nav.profile-settings.nav.profile.title"),
-          icon: UserRoundPen,
-          items: {
-            general: {
-              title: t(
-                "dialogs.settings.nav.profile-settings.nav.profile.nav.general.title"
-              ),
-              Component: SettingsProfile,
-            },
-            privacy: {
-              title: t(
-                "dialogs.settings.nav.profile-settings.nav.profile.nav.privacy.title"
-              ),
-              disabled: true,
-              Component: SettingsPrivacy,
-            },
-          },
+        "server-profile": {
+          title: t("dialogs.server-settings.nav.server-profile.title"),
+          Component: ServerProfile,
         },
       },
     },
@@ -52,20 +42,28 @@ export function ServerSettingsDialog({
           title: t(
             "dialogs.settings.nav.general.nav.application-settings.title"
           ),
-          icon: Cog,
-          Component: SettingsApplication,
+          rightIcon: Trash2,
+          onClick: () => setShowDeleteAlert(true),
+          variant: "destructive",
         },
       },
     },
   })
 
   return (
-    <SidebarDialog
-      open={open}
-      onOpenChange={onOpenChange}
-      items={items}
-      defaultPath={defaultPath}
-      size="full"
-    />
+    <>
+      <SidebarDialog
+        open={open}
+        onOpenChange={onOpenChange}
+        items={items}
+        defaultPath={defaultPath}
+        size="full"
+      />
+
+      <DeleteServerAlert
+        open={showDeleteAlert}
+        onOpenChange={setShowDeleteAlert}
+      />
+    </>
   )
 }
