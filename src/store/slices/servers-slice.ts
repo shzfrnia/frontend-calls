@@ -27,9 +27,7 @@ export const serversSlice = createSlice({
 
 export const { setServers } = serversSlice.actions
 
-export const selectServersLoading = (state: RootState) => ({
-  loaded: state.servers.loaded,
-})
+export const selectServersLoaded = (state: RootState) => state.servers.loaded
 
 export const {
   selectAll: selectServers,

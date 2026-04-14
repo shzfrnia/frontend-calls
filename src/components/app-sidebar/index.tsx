@@ -11,7 +11,7 @@ import { useAppSelector } from "@/hooks/use-store"
 
 import {
   selectServers,
-  selectServersLoading,
+  selectServersLoaded,
 } from "@/store/slices/servers-slice"
 
 import { ScrollArea } from "../ui/scroll-area"
@@ -37,7 +37,7 @@ export function AppSidebar() {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
-  const { loaded } = useAppSelector(selectServersLoading)
+  const loaded = useAppSelector(selectServersLoaded)
   const servers = useAppSelector(selectServers)
 
   const [createServerDialogOpen, setCreateServerDialogOpen] = useState(false)

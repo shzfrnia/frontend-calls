@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
 
 import {
   selectServerById,
-  selectServersLoading,
+  selectServersLoaded,
 } from "@/store/slices/servers-slice"
 
 import { setServer } from "@/store/slices/views-slices/server-slice"
@@ -25,7 +25,7 @@ export function ServerPage() {
 
   const { id } = useParams()
 
-  const { loaded: serversIsLoaded } = useAppSelector(selectServersLoading)
+  const serversIsLoaded = useAppSelector(selectServersLoaded)
   const server = useAppSelector((state) =>
     selectServerById(state, id as string)
   )

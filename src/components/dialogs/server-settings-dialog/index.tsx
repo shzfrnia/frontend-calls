@@ -1,15 +1,15 @@
-import { VisuallyHidden } from "radix-ui"
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
 
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog"
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarDialog, type Items } from "../templates/sidebar-dialog"
 
-import { SettingsSidebar } from "./components/sidebar"
-import { SettingsDialogContent } from "./components/content"
+import { UserRoundPen, Cog } from "lucide-react"
+
+import { SettingsProfile } from "../settings-dialog/components/tabs/profile"
+import { SettingsPrivacy } from "../settings-dialog/components/tabs/privacy"
+import { SettingsApplication } from "../settings-dialog/components/tabs/application"
+
+const defaultPath = "user-settings|profile|general"
 
 export function ServerSettingsDialog({
   open,
@@ -18,36 +18,54 @@ export function ServerSettingsDialog({
   open: boolean
   onOpenChange: (value: boolean) => void
 }) {
+  const { t } = useTranslation()
+
+  const [items] = useState<Items>({
+    "user-settings": {
+      title: t("dialogs.settings.nav.profile-settings.title"),
+      items: {
+        profile: {
+          title: t("dialogs.settings.nav.profile-settings.nav.profile.title"),
+          icon: UserRoundPen,
+          items: {
+            general: {
+              title: t(
+                "dialogs.settings.nav.profile-settings.nav.profile.nav.general.title"
+              ),
+              Component: SettingsProfile,
+            },
+            privacy: {
+              title: t(
+                "dialogs.settings.nav.profile-settings.nav.profile.nav.privacy.title"
+              ),
+              disabled: true,
+              Component: SettingsPrivacy,
+            },
+          },
+        },
+      },
+    },
+    general: {
+      title: t("dialogs.settings.nav.general.title"),
+      items: {
+        profile: {
+          title: t(
+            "dialogs.settings.nav.general.nav.application-settings.title"
+          ),
+          icon: Cog,
+          Component: SettingsApplication,
+        },
+      },
+    },
+  })
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <VisuallyHidden.Root>
-        <DialogTitle></DialogTitle>
-      </VisuallyHidden.Root>
-
-      <DialogContent className="w-[100vw] sm:max-w-[100vw] h-[100vh] flex p-0 overflow-hidden">
-        <VisuallyHidden.Root>
-          <DialogDescription></DialogDescription>
-        </VisuallyHidden.Root>
-
-        {/* <SidebarProvider className="flex flex-1 min-h-full h-full">
-          <SettingsSidebar
-            items={tabs}
-            navPath={navPath}
-            onNavClick={(tabName) => setNavPath(tabName)}
-          />
-
-          <SettingsDialogContent
-            title={
-              <div className="flex gap-2 items-center">
-                <Icon className="h-[1.3em]" />
-                <h1>{title}</h1>
-              </div>
-            }
-          >
-            <Component />
-          </SettingsDialogContent>
-        </SidebarProvider> */}
-      </DialogContent>
-    </Dialog>
+    <SidebarDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      items={items}
+      defaultPath={defaultPath}
+      size="full"
+    />
   )
 }
