@@ -55,7 +55,6 @@ export function LeaveServerDialog() {
 
           <AlertDialogDescription>
             <Trans
-              t={t}
               i18nKey="dialogs.leave-server.description"
               values={{ serverName: server?.name }}
               components={{ bold: <strong /> }}

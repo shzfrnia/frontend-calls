@@ -49,10 +49,10 @@ export function ServerSettingsDialog({
           },
         },
       },
-      general: {
+      "remove-section": {
         items: {
           profile: {
-            title: t("remove server"),
+            title: t("dialogs.server-settings.nav.remove-section.title"),
             rightIcon: Trash2,
             onClick: () => setShowDeleteAlert(true),
             variant: "destructive",
