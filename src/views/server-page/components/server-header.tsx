@@ -1,7 +1,9 @@
 import { useTranslation } from "react-i18next"
 import { ChevronDown, SquareArrowRightExit, Settings } from "lucide-react"
 
-import { useAppSelector } from "@/hooks/use-store"
+import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
+
+import { openLeaveServerDialog } from "@/store/slices/servers-slice"
 
 import { selectServer } from "../store"
 
@@ -22,6 +24,7 @@ export function ServerHeader({
   openSettingsDialogClick: () => void
 }) {
   const { t } = useTranslation()
+  const dispatch = useAppDispatch()
   const server = useAppSelector(selectServer)
 
   if (!server) {
@@ -88,7 +91,10 @@ export function ServerHeader({
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem variant="destructive">
+          <DropdownMenuItem
+            variant="destructive"
+            onClick={() => dispatch(openLeaveServerDialog(server.id))}
+          >
             <SquareArrowRightExit />
             {t("views.server.header.dropdown.leave-server")}
           </DropdownMenuItem>

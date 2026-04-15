@@ -16,6 +16,7 @@ import { ApplicationVersions } from "./components/application-versions"
 import { EmptyServerFailed } from "./components/empty-server-failed"
 import { ApplicationLoading } from "./components/application-loading"
 import { SettingsDialog } from "./components/dialogs/settings-dialog"
+import { LeaveServerDialog } from "./components/dialogs/leave-server-dialog"
 
 import "./App.css"
 
@@ -57,8 +58,10 @@ function App() {
     <Layout>
       <Outlet />
 
-      <ApplicationVersions />
       <SettingsDialog open={opened} />
+      <LeaveServerDialog />
+
+      <ApplicationVersions />
     </Layout>
   )
 }
