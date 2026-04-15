@@ -1,8 +1,9 @@
 import {
-  type ComponentType,
   useEffect,
   useMemo,
   useState,
+  type ReactNode,
+  type ComponentType,
   type ComponentProps,
 } from "react"
 import { VisuallyHidden } from "radix-ui"
@@ -39,6 +40,7 @@ export function SidebarDialog({
   items,
   onOpenChange,
   size,
+  footer,
   ...props
 }: ComponentProps<typeof Dialog> &
   VariantProps<typeof sidebarDialogVariants> & {
@@ -46,6 +48,7 @@ export function SidebarDialog({
     onOpenChange: (value: boolean) => void
     defaultPath: string
     items: Items
+    footer?: ReactNode
   }) {
   const [navPath, setNavPath] = useState<string>(defaultPath)
 
@@ -103,6 +106,7 @@ export function SidebarDialog({
 
         <SidebarProvider className="flex flex-1 min-h-full h-full">
           <DialogSidebar
+            footer={footer}
             items={items}
             path={navPath}
             onItemClick={(path, item) => {

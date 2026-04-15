@@ -9,6 +9,7 @@ import { closeSettingsDialog } from "@/store/slices/settings-slice"
 import { SettingsProfile } from "./components/tabs/profile"
 import { SettingsApplication } from "./components/tabs/application"
 import { SettingsPrivacy } from "./components/tabs/privacy"
+import { NavUser } from "./components/nav-user"
 
 import { SidebarDialog, type Items } from "../templates/sidebar-dialog"
 
@@ -62,6 +63,7 @@ export function SettingsDialog({ open }: { open: boolean }) {
       onOpenChange={(value) => !value && dispatch(closeSettingsDialog())}
       defaultPath={defaultPath}
       items={items}
+      footer={<NavUser />}
     />
   )
 }
