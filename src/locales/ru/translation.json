@@ -113,6 +113,13 @@
       "nav": {
         "server-profile": {
           "title": "Профиль сервера"
+        },
+        "users": {
+          "title": "Люди",
+          "nav": {
+            "users": { "title": "Участники" },
+            "roles": { "title": "Роли" }
+          }
         }
       }
     }

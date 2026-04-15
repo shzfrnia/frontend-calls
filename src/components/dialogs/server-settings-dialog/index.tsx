@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Trash2 } from "lucide-react"
 
 import { useAppSelector } from "@/hooks/use-store"
 
-import { selectServer } from "@/store/slices/views-slices/server-slice"
+import { selectServer } from "@/views/server-page/store"
 
 import { SidebarDialog, type Items } from "../templates/sidebar-dialog"
 import { DeleteServerAlert } from "./components/delete-server-alert"
@@ -25,30 +25,43 @@ export function ServerSettingsDialog({
 
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
 
-  const [items] = useState<Items>({
-    "server-settings": {
-      title: server?.name ?? "",
-      items: {
-        "server-profile": {
-          title: t("dialogs.server-settings.nav.server-profile.title"),
-          Component: ServerProfile,
+  const items = useMemo<Items>(
+    () => ({
+      "server-settings": {
+        title: server?.name,
+        items: {
+          "server-profile": {
+            title: t("dialogs.server-settings.nav.server-profile.title"),
+            Component: ServerProfile,
+          },
         },
       },
-    },
-    general: {
-      title: t("dialogs.settings.nav.general.title"),
-      items: {
-        profile: {
-          title: t(
-            "dialogs.settings.nav.general.nav.application-settings.title"
-          ),
-          rightIcon: Trash2,
-          onClick: () => setShowDeleteAlert(true),
-          variant: "destructive",
+      users: {
+        title: t("dialogs.server-settings.nav.users.title"),
+        items: {
+          users: {
+            title: t("dialogs.server-settings.nav.users.nav.users.title"),
+            Component: ServerProfile,
+          },
+          roles: {
+            title: t("dialogs.server-settings.nav.users.nav.roles.title"),
+            Component: ServerProfile,
+          },
         },
       },
-    },
-  })
+      general: {
+        items: {
+          profile: {
+            title: t("remove server"),
+            rightIcon: Trash2,
+            onClick: () => setShowDeleteAlert(true),
+            variant: "destructive",
+          },
+        },
+      },
+    }),
+    [server, t]
+  )
 
   return (
     <>

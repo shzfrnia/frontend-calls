@@ -3,7 +3,7 @@ import { ChevronDown, SquareArrowRightExit, Settings } from "lucide-react"
 
 import { useAppSelector } from "@/hooks/use-store"
 
-import { selectServer } from "@/store/slices/views-slices/server-slice"
+import { selectServer } from "../store"
 
 import { Button } from "@/components/ui/button"
 import {

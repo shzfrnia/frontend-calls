@@ -5,7 +5,7 @@ import { authSlice } from "./slices/auth-slice"
 import { settingsSlice } from "./slices/settings-slice"
 import { serversSlice } from "./slices/servers-slice"
 
-import { serverViewSlice } from "./slices/views-slices/server-slice"
+import { serverViewSlice } from "@/views/server-page/store"
 
 import { api } from "@/api"
 

@@ -9,7 +9,7 @@ import {
   selectServersLoaded,
 } from "@/store/slices/servers-slice"
 
-import { setServer } from "@/store/slices/views-slices/server-slice"
+import { setServer } from "./store"
 
 import { usePageTitle } from "@/hooks/use-page-title"
 import { DefaultLayout } from "@/components/layout"
@@ -49,6 +49,7 @@ export function ServerPage() {
         open={settingsDialogOpen}
         onOpenChange={setSettingsDialogOpen}
       />
+
       <DefaultLayout.LayoutLeftPanel>
         <DefaultLayout.LayoutHeaderPanel>
           <ServerHeader

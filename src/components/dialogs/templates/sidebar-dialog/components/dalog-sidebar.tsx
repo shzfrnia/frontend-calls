@@ -1,4 +1,4 @@
-import { ReactNode, type FC } from "react"
+import { Fragment, type ReactNode, type FC } from "react"
 import { ChevronRight } from "lucide-react"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -16,6 +16,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupLabel,
+  SidebarSeparator,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -46,7 +47,7 @@ function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>{items.title}</SidebarGroupLabel>
+      {items.title && <SidebarGroupLabel>{items.title}</SidebarGroupLabel>}
       <SidebarMenu>
         {Object.entries(items.items).map(([key, item]) => {
           const hasChild = Boolean(item.items)
@@ -154,7 +155,8 @@ type NavChild = {
 }
 
 type NavItems = {
-  title: string
+  title?: string
+  separated?: boolean
   items: Record<string, NavParent>
 }
 
@@ -180,13 +182,18 @@ export function DialogSidebar({
       <SidebarContent>
         {Object.entries(items).map(([key, navGroupInfo]) => {
           return (
-            <NavMain
-              key={key}
-              canBeActive={splittedPath[0] === key}
-              items={navGroupInfo}
-              splittedPath={splittedPath}
-              onItemClick={(path, item) => onItemClick(`${key}|${path}`, item)}
-            />
+            <Fragment key={key}>
+              {navGroupInfo.separated && <SidebarSeparator />}
+
+              <NavMain
+                canBeActive={splittedPath[0] === key}
+                items={navGroupInfo}
+                splittedPath={splittedPath}
+                onItemClick={(path, item) =>
+                  onItemClick(`${key}|${path}`, item)
+                }
+              />
+            </Fragment>
           )
         })}
       </SidebarContent>

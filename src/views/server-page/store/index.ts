@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
-import type { RootState } from "../../index"
+import type { RootState } from "@/store"
 
 import type { Server } from "@/types/server"
 
