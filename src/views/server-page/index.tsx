@@ -1,6 +1,5 @@
-// import { useTranslation } from "react-i18next"
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, Outlet } from "react-router-dom"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
 
@@ -16,18 +15,17 @@ import { DefaultLayout } from "@/components/layout"
 
 import { ServerHeader } from "./components/server-header"
 import { ServerSettingsDialog } from "@/components/dialogs/server-settings-dialog"
+import { ServerLeftPanel } from "./components/server-left-panel"
 
 export function ServerPage() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  // const { t } = useTranslation()
   const { setTitle } = usePageTitle()
-
-  const { id } = useParams()
+  const { serverID } = useParams()
 
   const serversIsLoaded = useAppSelector(selectServersLoaded)
   const server = useAppSelector((state) =>
-    selectServerById(state, id as string)
+    selectServerById(state, serverID as string)
   )
 
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false)
@@ -56,11 +54,12 @@ export function ServerPage() {
             openSettingsDialogClick={() => setSettingsDialogOpen(true)}
           />
         </DefaultLayout.LayoutHeaderPanel>
+
+        <ServerLeftPanel />
       </DefaultLayout.LayoutLeftPanel>
+
       <DefaultLayout.LayoutContent>
-        <DefaultLayout.LayoutHeaderPanel>
-          {`${serversIsLoaded}`}
-        </DefaultLayout.LayoutHeaderPanel>
+        <Outlet />
       </DefaultLayout.LayoutContent>
     </DefaultLayout>
   )

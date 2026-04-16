@@ -47,6 +47,7 @@ export function HomePage() {
             {t("views.home.find-or-start-call")}
           </Button>
         </DefaultLayout.LayoutHeaderPanel>
+
         <ScrollArea className="p-2 overflow-auto">
           <div>
             <NavLink to="/friends">

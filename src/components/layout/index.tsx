@@ -68,7 +68,7 @@ function LayoutHeaderPanel({
     <div
       className={cn("h-[54px] max-h-[54px] flex flex-col shrink-0", className)}
     >
-      <div className="flex flex-1 align-center p-2">{children}</div>
+      <div className="flex flex-1 align-center px-4 py-2">{children}</div>
       {separator && <Separator />}
     </div>
   )

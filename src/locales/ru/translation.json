@@ -24,7 +24,9 @@
     "mic-on": "Вкл. микрофон",
     "logout": "Выйти",
     "nickname": "Отображаемое имя",
-    "not-set": "Не задано"
+    "not-set": "Не задано",
+    "members": "Участники",
+    "invite": "Пригласить"
   },
   "views": {
     "login": {
@@ -36,19 +38,26 @@
       }
     },
     "home": {
+      "views": {
+        "friends": {
+          "title": "Друзья"
+        }
+      },
       "title": "Домашняя страница",
       "find-or-start-call": "Найти или начать беседу"
     },
-    "friends": {
-      "title": "Друзья"
-    },
     "server": {
+      "views": {
+        "users": "Участники"
+      },
       "header": {
         "dropdown": {
           "server-settings": "Настройки сервера",
           "leave-server": "Покинуть сервер"
         }
-      }
+      },
+      "voice-channels": "Голосовые каналы",
+      "create-channel": "Создать канал"
     },
     "404": {
       "title": "404",
