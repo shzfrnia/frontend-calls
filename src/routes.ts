@@ -18,7 +18,7 @@ export const router = createHashRouter([
       {
         path: "/",
         Component: HomePage,
-        children: [{ path: "friends", Component: Friends }],
+        children: [{ path: "/", Component: Friends }],
       },
       {
         path: "server/:serverID",

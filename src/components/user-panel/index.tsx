@@ -2,7 +2,14 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Settings, Headphones, HeadphoneOff, Mic, MicOff } from "lucide-react"
 
+import { cn } from "@/lib/utils"
+
+import { useAppSelector, useAppDispatch } from "@/hooks/use-store"
 import { useApplicationData } from "@/hooks/use-application-data"
+
+import { selectChannel } from "@/store/slices/channel-slice"
+import { selectCurrentUser } from "@/store/slices/auth-slice"
+import { openSettingsDialog } from "@/store/slices/settings-slice"
 
 import { Avatar, AvatarBadge, AvatarFallback } from "../ui/avatar"
 import { ButtonGroup } from "../ui/button-group"
@@ -10,17 +17,14 @@ import { Button } from "../ui-proxy/button"
 import { Spinner } from "../ui/spinner"
 
 import { Block } from "../Block"
-
-import { useAppSelector, useAppDispatch } from "@/hooks/use-store"
-
-import { selectCurrentUser } from "@/store/slices/auth-slice"
-import { openSettingsDialog } from "@/store/slices/settings-slice"
+import { CallPanel } from "./call-panel"
 
 export function UserPanel() {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
   const { connectionState } = useApplicationData()
+  const channel = useAppSelector(selectChannel)
   const currentUser = useAppSelector(selectCurrentUser)
 
   const [micIsMuted, setMicIsMuted] = useState(false)
@@ -46,47 +50,56 @@ export function UserPanel() {
   const displayName = currentUser.nickname || currentUser.login
 
   return (
-    <Block variant="secondary-2" className="flex p-1 rounded-sm">
-      <Avatar className="overflow-visible mr-2">
-        <AvatarFallback>{displayName.charAt(0)}</AvatarFallback>
-        {status}
-      </Avatar>
-      <div className="flex gap-2 items-center overflow-hidden">
-        <div className="flex flex-col overflow-hidden">
-          <p className="text-xs truncate">{displayName}</p>
+    <div>
+      {channel && <CallPanel />}
+
+      <Block
+        variant="secondary-2"
+        className={cn("flex p-1", channel ? "rounded-b-sm" : "rounded-sm")}
+      >
+        <Avatar className="overflow-visible mr-2">
+          <AvatarFallback>{displayName.charAt(0)}</AvatarFallback>
+          {status}
+        </Avatar>
+        <div className="flex gap-2 items-center overflow-hidden">
+          <div className="flex flex-col overflow-hidden">
+            <p className="text-xs truncate">{displayName}</p>
+          </div>
         </div>
-      </div>
 
-      <ButtonGroup className="ml-auto">
-        <Button
-          size="icon-sm"
-          variant={micIsMuted ? "destructive" : "ghost"}
-          tooltip={t(micIsMuted ? "common.mic-on" : "common.mic-off")}
-          onClick={() => setMicIsMuted((v) => !v)}
-        >
-          {micIsMuted ? <MicOff /> : <Mic />}
-        </Button>
+        <ButtonGroup className="ml-auto">
+          <Button
+            size="icon-sm"
+            variant={micIsMuted ? "destructive" : "ghost"}
+            tooltip={t(micIsMuted ? "common.mic-on" : "common.mic-off")}
+            onClick={() => setMicIsMuted((v) => !v)}
+          >
+            {micIsMuted ? <MicOff /> : <Mic />}
+          </Button>
 
-        <Button
-          size="icon-sm"
-          variant={headphonesIsMuted ? "destructive" : "ghost"}
-          tooltip={t(
-            headphonesIsMuted ? "common.headphones-on" : "common.headphones-off"
-          )}
-          onClick={() => setHeadphonesIsMuted((v) => !v)}
-        >
-          {headphonesIsMuted ? <HeadphoneOff /> : <Headphones />}
-        </Button>
+          <Button
+            size="icon-sm"
+            variant={headphonesIsMuted ? "destructive" : "ghost"}
+            tooltip={t(
+              headphonesIsMuted
+                ? "common.headphones-on"
+                : "common.headphones-off"
+            )}
+            onClick={() => setHeadphonesIsMuted((v) => !v)}
+          >
+            {headphonesIsMuted ? <HeadphoneOff /> : <Headphones />}
+          </Button>
 
-        <Button
-          size="icon-sm"
-          variant="ghost"
-          tooltip={t(`common.settings`)}
-          onClick={() => dispatch(openSettingsDialog())}
-        >
-          <Settings />
-        </Button>
-      </ButtonGroup>
-    </Block>
+          <Button
+            size="icon-sm"
+            variant="ghost"
+            tooltip={t(`common.settings`)}
+            onClick={() => dispatch(openSettingsDialog())}
+          >
+            <Settings />
+          </Button>
+        </ButtonGroup>
+      </Block>
+    </div>
   )
 }

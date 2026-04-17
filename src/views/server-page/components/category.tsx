@@ -14,7 +14,7 @@ export function Category({
   const { t } = useTranslation()
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-1">
       <div className="flex justify-between items-center">
         <p className="text-sm text-muted-foreground">{name}</p>
 

@@ -20,7 +20,7 @@ import type { ServerDraft } from "@/types/server"
 const createServerSchema = z.object({
   name: z
     .string()
-    .min(1, 'forms.errors.min_length|{"count": 5}')
+    .min(1, 'forms.errors.min_length|{"count": 1}')
     .max(30, 'forms.errors.max_length|{"count": 30}'),
 })
 

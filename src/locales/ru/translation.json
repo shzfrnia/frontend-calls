@@ -26,7 +26,9 @@
     "nickname": "Отображаемое имя",
     "not-set": "Не задано",
     "members": "Участники",
-    "invite": "Пригласить"
+    "invite": "Пригласить",
+    "join": "Присоединится",
+    "disconnect": "Отключиться"
   },
   "views": {
     "login": {
@@ -48,7 +50,10 @@
     },
     "server": {
       "views": {
-        "users": "Участники"
+        "users": "Участники",
+        "voice-channel": {
+          "nobody": "Сейчас в голосовом чате никого нет"
+        }
       },
       "header": {
         "dropdown": {

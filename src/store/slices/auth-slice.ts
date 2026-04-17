@@ -1,5 +1,7 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit"
 
+import { getUserDisplayName } from "@/utils/user"
+
 import { authApi } from "@/api/auth"
 import { userApi } from "@/api/users"
 
@@ -45,8 +47,7 @@ export const { logout } = authSlice.actions
 const selectCurrentUserRaw = (state: RootState) => state.auth.user
 export const selectCurrentUser = createSelector(
   [selectCurrentUserRaw],
-  (user) =>
-    user ? { ...user, displayName: user.nickname || user.login } : null
+  (user) => (user ? { ...user, displayName: getUserDisplayName(user) } : null)
 )
 
 export const selectToken = (state: RootState) => state.auth.token

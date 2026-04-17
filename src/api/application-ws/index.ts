@@ -10,9 +10,10 @@ type ConnectionState = "connecting" | "online" | "closed" | "error"
 export const applicationWs = api.injectEndpoints({
   endpoints: (build) => ({
     applicationData: build.query<{ connectionState: ConnectionState }, void>({
+      keepUnusedDataFor: Number.MAX_SAFE_INTEGER,
       queryFn: () => {
         return {
-          data: { servers: [], connectionState: "connecting", loaded: false },
+          data: { connectionState: "connecting" },
         }
       },
       async onCacheEntryAdded(
@@ -34,11 +35,10 @@ export const applicationWs = api.injectEndpoints({
           draft.connectionState = "connecting"
         })
 
-        await new Promise((r) => {
-          setTimeout(r, 1000)
-        })
-
         if (!token) {
+          updateCachedData((draft) => {
+            draft.connectionState = "error"
+          })
           return
         }
 
@@ -57,7 +57,6 @@ export const applicationWs = api.injectEndpoints({
         }
 
         try {
-          // wait for the initial query to resolve before proceeding
           await cacheDataLoaded
           socket.onmessage = ({ data }) => {
             const { type, payload } = JSON.parse(data)
@@ -75,12 +74,24 @@ export const applicationWs = api.injectEndpoints({
           // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
           // in which case `cacheDataLoaded` will throw
         }
-        // cacheEntryRemoved will resolve when the cache subscription is no longer active
+
         await cacheEntryRemoved
-        // perform cleanup steps once the `cacheEntryRemoved` promise resolves
-        // socket.close()
+        socket.close()
       },
     }),
+
+    // sendMessage: build.mutation<void, any>({
+    //   queryFn: (payload) => {
+    //     const socket = getSocket() // Получаем тот же экземпляр
+    //     if (socket && socket.readyState === WebSocket.OPEN) {
+    //       socket.send(JSON.stringify(payload))
+    //       return { data: undefined }
+    //     }
+    //     return {
+    //       error: { status: "CUSTOM_ERROR", error: "Socket not connected" },
+    //     }
+    //   },
+    // }),
   }),
 })
 

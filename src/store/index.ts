@@ -4,6 +4,7 @@ import { applicationSlice } from "./slices/application-slice"
 import { authSlice } from "./slices/auth-slice"
 import { settingsSlice } from "./slices/settings-slice"
 import { serversSlice } from "./slices/servers-slice"
+import { channelSlice } from "./slices/channel-slice"
 
 import { serverViewSlice } from "@/views/server-page/store"
 
@@ -15,6 +16,7 @@ export const rootReducer = combineSlices(
   authSlice,
   settingsSlice,
   serversSlice,
+  channelSlice,
 
   serverViewSlice
 )

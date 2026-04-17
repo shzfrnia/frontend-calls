@@ -50,7 +50,7 @@ export function HomePage() {
 
         <ScrollArea className="p-2 overflow-auto">
           <div>
-            <NavLink to="/friends">
+            <NavLink to="/">
               {({ isActive }) => (
                 <Button
                   variant={isActive ? "secondary" : "ghost"}

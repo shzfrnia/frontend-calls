@@ -19,6 +19,7 @@ import { SettingsDialog } from "./components/dialogs/settings-dialog"
 import { LeaveServerDialog } from "./components/dialogs/leave-server-dialog"
 
 import "./App.css"
+import { ChangeCallDialog } from "./components/dialogs/change-call-dialog"
 
 function App() {
   const navigate = useNavigate()
@@ -60,6 +61,7 @@ function App() {
 
       <SettingsDialog open={opened} />
       <LeaveServerDialog />
+      <ChangeCallDialog />
 
       <ApplicationVersions />
     </Layout>

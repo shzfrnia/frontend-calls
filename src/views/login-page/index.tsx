@@ -31,6 +31,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
+import { PixelLiquidBg } from "@/components/unlumen-ui/pixel-liquid-bg"
 
 import { LocalizationToggler } from "@/components/localization-toggler"
 import { ThemeToggler } from "@/components/theme-toggler"
@@ -40,8 +41,6 @@ import { ApplicationVersions } from "@/components/application-versions"
 import { ServerUrlDialog } from "@/components/dialogs/server-url-dialog"
 import { SignInForm } from "@/components/forms/sign-in-form"
 import CatImage from "../../assets/cat.jpg"
-
-import { PixelLiquidBg } from "@/components/unlumen-ui/pixel-liquid-bg"
 
 const cardBlock = cva("py-6")
 

@@ -1,3 +1,5 @@
+import { cva, type VariantProps } from "class-variance-authority"
+
 import { SidebarProvider } from "../app-sidebar/components/sidebar"
 import { AppSidebar, SidebarInset } from "@/components/app-sidebar"
 import {
@@ -5,7 +7,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { Separator } from "@/components/ui/separator"
 
 import { cn } from "@/lib/utils"
 
@@ -55,21 +56,30 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   )
 }
 
+const layoutHeaderPanel = cva("h-[54px] max-h-[54px] flex flex-col shrink-0", {
+  variants: {
+    variant: {
+      default: "border-b",
+      ghost: "absolute z-1",
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+})
+
 function LayoutHeaderPanel({
   children,
   className,
-  separator = true,
-}: {
+  variant,
+}: VariantProps<typeof layoutHeaderPanel> & {
   children: React.ReactNode
   className?: string
   separator?: boolean
 }) {
   return (
-    <div
-      className={cn("h-[54px] max-h-[54px] flex flex-col shrink-0", className)}
-    >
+    <div className={cn(layoutHeaderPanel({ variant }), className)}>
       <div className="flex flex-1 align-center px-4 py-2">{children}</div>
-      {separator && <Separator />}
     </div>
   )
 }
