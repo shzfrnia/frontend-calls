@@ -65,7 +65,16 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
               />
 
               <div className="grid">
-                <p className="truncate text-muted-foreground">{name}</p>
+                <p
+                  className={cn(
+                    "truncate",
+                    isCurrentCall
+                      ? undefined
+                      : "group-[:not(:hover)]:text-muted-foreground"
+                  )}
+                >
+                  {name}
+                </p>
               </div>
 
               <div className="flex ml-auto items-center shrink-0">
