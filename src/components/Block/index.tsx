@@ -9,7 +9,7 @@ const blockVariants = cva("", {
       default: "",
       secondary: "dark:bg-neutral-900 bg-neutral-50",
       "secondary-2": "dark:bg-neutral-700 bg-neutral-200",
-      "secondary-3": "dark:bg-neutral-800 bg-neutral-50",
+      "secondary-3": "dark:bg-neutral-800 bg-neutral-100",
     },
     defaultVariants: {
       variant: "default",
