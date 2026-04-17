@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { type ComponentProps } from "react"
 
 import { Button as UIButton } from "../ui/button"
@@ -11,13 +12,20 @@ export function Button({
 }: ComponentProps<typeof UIButton> & {
   tooltip?: { content: string } | string
 }) {
-  const tooltipContent =
-    typeof tooltip === "string" ? tooltip : tooltip?.content
+  const { content } =
+    typeof tooltip === "string" ? { content: tooltip } : { ...tooltip }
+
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <Tooltip open={tooltip ? undefined : false}>
-      <TooltipContent>{tooltipContent}</TooltipContent>
-      <TooltipTrigger asChild>
+    <Tooltip open={content ? isOpen : false} onOpenChange={setIsOpen}>
+      <TooltipContent>{content}</TooltipContent>
+      <TooltipTrigger
+        asChild
+        onFocus={(e) => e.preventDefault()}
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
+      >
         <UIButton {...props}>{children}</UIButton>
       </TooltipTrigger>
     </Tooltip>

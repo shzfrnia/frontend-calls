@@ -7,9 +7,9 @@ import { setServers } from "@/store/slices/servers-slice"
 
 type ConnectionState = "connecting" | "online" | "closed" | "error"
 
-export const applicationWs = api.injectEndpoints({
+export const wsApi = api.injectEndpoints({
   endpoints: (build) => ({
-    applicationData: build.query<{ connectionState: ConnectionState }, void>({
+    initWs: build.query<{ connectionState: ConnectionState }, void>({
       keepUnusedDataFor: Number.MAX_SAFE_INTEGER,
       queryFn: () => {
         return {
@@ -82,7 +82,7 @@ export const applicationWs = api.injectEndpoints({
 
     // sendMessage: build.mutation<void, any>({
     //   queryFn: (payload) => {
-    //     const socket = getSocket() // Получаем тот же экземпляр
+    //     const socket = getSocket()
     //     if (socket && socket.readyState === WebSocket.OPEN) {
     //       socket.send(JSON.stringify(payload))
     //       return { data: undefined }
@@ -95,4 +95,4 @@ export const applicationWs = api.injectEndpoints({
   }),
 })
 
-export const { useApplicationDataQuery } = applicationWs
+export const { useInitWsQuery } = wsApi

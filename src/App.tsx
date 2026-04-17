@@ -5,7 +5,7 @@ import { usePageTitle } from "./hooks/use-page-title"
 import { useAppSelector } from "./hooks/use-store"
 
 import { useApplicationServer } from "./api/app-server"
-import { useApplicationDataQuery } from "./api/application-ws"
+import { useInitWsQuery } from "./api/ws"
 
 import { selectSettingsDialog } from "./store/slices/settings-slice"
 import { selectToken } from "./store/slices/auth-slice"
@@ -22,14 +22,16 @@ import "./App.css"
 import { ChangeCallDialog } from "./components/dialogs/change-call-dialog"
 
 function App() {
-  const navigate = useNavigate()
   usePageTitle("Цитатник")
+
+  const navigate = useNavigate()
+
+  const { data } = useInitWsQuery()
   const { applicationServerStatus } = useApplicationServer()
   const [me] = useLazyMeQuery()
+
   const { opened } = useAppSelector(selectSettingsDialog)
   const token = useAppSelector(selectToken)
-
-  const { data } = useApplicationDataQuery() // init ws
 
   useEffect(() => {
     if (applicationServerStatus === "success" && token) {

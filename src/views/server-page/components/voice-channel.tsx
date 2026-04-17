@@ -85,7 +85,13 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
                   0 / {limit}
                 </Badge>
 
-                <div className="opacity-0 absolute pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:static">
+                <div
+                  className="opacity-0 absolute pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:static"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                  }}
+                >
                   <Button
                     size="icon-xs"
                     variant="ghost"
@@ -93,6 +99,7 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
                   >
                     <UserRoundPlus />
                   </Button>
+
                   <Button
                     size="icon-xs"
                     variant="ghost"

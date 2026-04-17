@@ -5,7 +5,7 @@ import { Settings, Headphones, HeadphoneOff, Mic, MicOff } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 import { useAppSelector, useAppDispatch } from "@/hooks/use-store"
-import { useApplicationData } from "@/hooks/use-application-data"
+import { useInitWsQuery } from "@/api/ws"
 
 import { selectChannel } from "@/store/slices/channel-slice"
 import { selectCurrentUser } from "@/store/slices/auth-slice"
@@ -23,7 +23,8 @@ export function UserPanel() {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
-  const { connectionState } = useApplicationData()
+  const { data: { connectionState } = { connectionState: "closed" } } =
+    useInitWsQuery()
   const channel = useAppSelector(selectChannel)
   const currentUser = useAppSelector(selectCurrentUser)
 
@@ -42,8 +43,7 @@ export function UserPanel() {
       </AvatarBadge>
     ),
     online: <AvatarBadge className="bg-green-600 dark:bg-green-800" />,
-    // closed: <AvatarBadge className="bg-yellow-400 dark:bg-yellow-500" />,
-    closed: <AvatarBadge className="bg-red-600 dark:bg-red-800" />,
+    closed: <AvatarBadge className="bg-yellow-400 dark:bg-yellow-500" />,
     error: <AvatarBadge className="bg-red-600 dark:bg-red-800" />,
   }[connectionState]
 
