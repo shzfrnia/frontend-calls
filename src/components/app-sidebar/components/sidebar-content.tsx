@@ -1,7 +1,11 @@
 import { useState, type ComponentProps, type ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { NavLink } from "react-router-dom"
-import { PencilIcon, ShareIcon, SquareArrowRightExit } from "lucide-react"
+import {
+  // PencilIcon,
+  // ShareIcon,
+  SquareArrowRightExit,
+} from "lucide-react"
 
 import { randInt } from "@/utils/number"
 
@@ -19,7 +23,7 @@ import {
   ContextMenuContent,
   ContextMenuGroup,
   ContextMenuItem,
-  ContextMenuSeparator,
+  // ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
 

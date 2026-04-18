@@ -4,7 +4,11 @@ import { Volume2 } from "lucide-react"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
 
-import { selectChannel, initCall, endCall } from "@/store/slices/channel-slice"
+import {
+  selectChannel,
+  // initCall,
+  endCall,
+} from "@/store/slices/channel-slice"
 
 import { PixelLiquidBg } from "@/components/unlumen-ui/pixel-liquid-bg"
 

@@ -1,5 +1,6 @@
+// import { useNavigate } from "react-router-dom"
 import { useCallback } from "react"
-import { useTranslation } from "react-i18next"
+// import { useTranslation } from "react-i18next"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
 
@@ -19,12 +20,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useNavigate } from "react-router-dom"
 
 export function ChangeCallDialog() {
   const dispatch = useAppDispatch()
-  const navigte = useNavigate()
-  const { t } = useTranslation()
+  // const navigte = useNavigate()
+  // const { t } = useTranslation()
   const nextChannel = useAppSelector(selectNextChannel)
 
   // const channelIsOpened = useMatch("/server/:serverID/channel/:channelID")

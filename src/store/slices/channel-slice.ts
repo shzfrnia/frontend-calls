@@ -20,7 +20,10 @@ export const channelSlice = createSlice({
         force?: boolean
       }>
     ) => {
-      const { channel, force } = action.payload
+      const {
+        channel,
+        // force
+      } = action.payload
       state.channel = channel
 
       // if (force) {
