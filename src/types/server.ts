@@ -3,6 +3,7 @@ import type { uuid4 } from "."
 export type Server = {
   id: uuid4
   name: string
+  channels: Array<Category | Channel>
 }
 
 export type ServerDraft = Omit<Server, "id">

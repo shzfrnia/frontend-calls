@@ -1,6 +1,10 @@
+import { Fragment } from "react"
 import { NavLink } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Users } from "lucide-react"
+
+import { useAppSelector } from "@/hooks/use-store"
+import { selectServer } from "../store"
 
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -11,6 +15,13 @@ import { VoiceChannel } from "./voice-channel"
 
 export function ServerLeftPanel() {
   const { t } = useTranslation()
+  const server = useAppSelector(selectServer)
+
+  if (!server) {
+    return null
+  }
+
+  const { channels } = server
 
   return (
     <ScrollArea className="p-2 overflow-auto">
@@ -30,33 +41,21 @@ export function ServerLeftPanel() {
       </div>
 
       <div className="flex flex-col gap-4 py-2 pl-2 pr-1">
-        <Category name={`${t("views.server.voice-channels")} 1`}>
-          <VoiceChannel
-            channel={{ id: "1", name: "name 1", settings: { limit: 1 } }}
-          />
-        </Category>
-        <Category name={`${t("views.server.voice-channels")} 2`}>
-          <VoiceChannel
-            channel={{ id: "2", name: "name 2", settings: { limit: 1 } }}
-          />
-          <VoiceChannel
-            channel={{ id: "3", name: "name 3", settings: { limit: 2 } }}
-          />
-          <VoiceChannel
-            channel={{ id: "4", name: "name 4", settings: { limit: 3 } }}
-          />
-          <VoiceChannel
-            channel={{ id: "5", name: "name 5", settings: { limit: 4 } }}
-          />
-          <VoiceChannel
-            channel={{ id: "6", name: "name 6", settings: { limit: 5 } }}
-          />
-        </Category>
-        <Category name={`${t("views.server.voice-channels")} 3`}>
-          <VoiceChannel
-            channel={{ id: "7", name: "name 7", settings: { limit: 7 } }}
-          />
-        </Category>
+        {channels.map((ch) => {
+          return (
+            <Fragment key={ch.id}>
+              {"channels" in ch ? (
+                <Category name={`${t("views.server.voice-channels")} 1`}>
+                  {ch.channels.map((voiceChannel) => {
+                    return <VoiceChannel channel={voiceChannel} />
+                  })}
+                </Category>
+              ) : (
+                <VoiceChannel channel={ch} />
+              )}
+            </Fragment>
+          )
+        })}
       </div>
     </ScrollArea>
   )

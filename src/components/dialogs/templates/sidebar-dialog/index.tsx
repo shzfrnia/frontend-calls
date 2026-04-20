@@ -26,7 +26,7 @@ const sidebarDialogVariants = cva("flex p-0 overflow-hidden", {
   variants: {
     size: {
       default: "w-[90vw] sm:max-w-[90vw] h-[90vh]",
-      full: "w-[100vw] sm:max-w-[100vw] h-[100vh]",
+      full: "w-[100vw] sm:max-w-[100vw] h-[100vh] rounded-none",
     },
   },
   defaultVariants: {
