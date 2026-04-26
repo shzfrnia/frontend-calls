@@ -30,7 +30,7 @@ export function CallPanel() {
       </div>
 
       <div className="overflow-hidden">
-        <NavLink to="/test">
+        <NavLink to={`/server/${channel.server_id}/channel/${channel.id}`}>
           <p className="truncate text-[.7rem] not-hover:text-muted-foreground hover:underline">
             Лобби / {channel.name}
           </p>

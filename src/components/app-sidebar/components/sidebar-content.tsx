@@ -5,6 +5,7 @@ import {
   // PencilIcon,
   // ShareIcon,
   SquareArrowRightExit,
+  Volume2,
 } from "lucide-react"
 
 import { randInt } from "@/utils/number"
@@ -39,6 +40,38 @@ import {
 
 import { Server } from "@/types/server"
 
+import { cn } from "@/lib/utils"
+import { selectChannel } from "@/store/slices/channel-slice"
+
+function SidebarMenuButtonBadge({
+  currentCall,
+  hasCall,
+}: {
+  currentCall: boolean
+  hasCall: boolean
+}) {
+  if (![hasCall, currentCall].some(Boolean)) {
+    return null
+  }
+
+  return (
+    <span
+      className={cn(
+        "w-[18px] aspect-square",
+        "absolute right-[-1px] bottom-[-1px]",
+        "rounded-full",
+        "p-[4px]",
+        "[&>svg]:w-full [&>svg]:h-full [&>svg]:fill-current text-neutral-50",
+        "shadow-[inset_0_0_0_2px_var(--sidebar)]",
+        "bg-neutral-600",
+        currentCall ? "bg-green-600 dark:bg-green-800" : undefined
+      )}
+    >
+      {[currentCall, hasCall].some(Boolean) && <Volume2 />}
+    </span>
+  )
+}
+
 function SidebarMenuButton({
   server,
   isActive,
@@ -47,15 +80,21 @@ function SidebarMenuButton({
   isActive: boolean
   server: Server
 }) {
+  const channel = useAppSelector(selectChannel)
+
   return (
     <SidebarMenuButtonComponent
       {...props}
       variant={isActive ? "outline" : undefined}
       tooltip={server.name}
-      className="justify-center"
+      className="justify-center relative"
     >
       {server.name.slice(0, 2)}
       {isActive}
+      <SidebarMenuButtonBadge
+        hasCall={false}
+        currentCall={Boolean(channel && channel.server_id === server.id)}
+      />
     </SidebarMenuButtonComponent>
   )
 }

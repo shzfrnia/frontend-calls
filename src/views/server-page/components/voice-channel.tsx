@@ -78,12 +78,14 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
               </div>
 
               <div className="flex ml-auto items-center shrink-0">
-                <Badge
-                  variant="outline"
-                  className="text-[.6rem] group-hover:pointer-events-none group-hover:opacity-0 group-hover:absolute"
-                >
-                  0 / {limit}
-                </Badge>
+                {limit !== 0 && (
+                  <Badge
+                    variant="outline"
+                    className="text-[.6rem] group-hover:pointer-events-none group-hover:opacity-0 group-hover:absolute"
+                  >
+                    0 / {limit}
+                  </Badge>
+                )}
 
                 <div
                   className="opacity-0 absolute pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:static"
