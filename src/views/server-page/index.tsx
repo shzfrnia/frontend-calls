@@ -55,7 +55,9 @@ export function ServerPage() {
           />
         </DefaultLayout.LayoutHeaderPanel>
 
-        <ServerLeftPanel />
+        <DefaultLayout.LayoutLeftPanelContent>
+          <ServerLeftPanel />
+        </DefaultLayout.LayoutLeftPanelContent>
       </DefaultLayout.LayoutLeftPanel>
 
       <DefaultLayout.LayoutContent>

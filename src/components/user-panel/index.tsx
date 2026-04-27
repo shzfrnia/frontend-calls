@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useTranslation } from "react-i18next"
-import { Settings, Headphones, HeadphoneOff, Mic, MicOff } from "lucide-react"
+import { Headphones, HeadphoneOff, Mic, MicOff } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -11,6 +11,7 @@ import { selectChannel } from "@/store/slices/channel-slice"
 import { selectCurrentUser } from "@/store/slices/auth-slice"
 import { openSettingsDialog } from "@/store/slices/settings-slice"
 
+import { SettingsIcon, type SettingsIconHandle } from "../ui/settings"
 import { Avatar, AvatarBadge, AvatarFallback } from "../ui/avatar"
 import { ButtonGroup } from "../ui/button-group"
 import { Button } from "../ui-proxy/button"
@@ -28,6 +29,7 @@ export function UserPanel() {
   const channel = useAppSelector(selectChannel)
   const currentUser = useAppSelector(selectCurrentUser)
 
+  const settingsRef = useRef<SettingsIconHandle>(null)
   const [micIsMuted, setMicIsMuted] = useState(false)
   const [headphonesIsMuted, setHeadphonesIsMuted] = useState(false)
 
@@ -95,8 +97,10 @@ export function UserPanel() {
             variant="ghost"
             tooltip={t(`common.settings`)}
             onClick={() => dispatch(openSettingsDialog())}
+            onMouseMove={settingsRef.current?.startAnimation}
+            onMouseLeave={settingsRef.current?.stopAnimation}
           >
-            <Settings />
+            <SettingsIcon ref={settingsRef} />
           </Button>
         </ButtonGroup>
       </Block>

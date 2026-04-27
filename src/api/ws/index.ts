@@ -4,6 +4,16 @@ import { getSocket } from "./socket"
 import { RootState } from "@/store"
 
 import { setServers } from "@/store/slices/servers-slice"
+import { setConnecting } from "@/store/slices/channel-slice"
+
+import {
+  parseWebSocketMessage,
+  createWebSocketMessage,
+  messageType,
+} from "./websocket-message"
+
+import type { User } from "@/types/user"
+import type { Channel } from "@/types/server"
 
 type ConnectionState = "connecting" | "online" | "closed" | "error"
 
@@ -59,10 +69,10 @@ export const wsApi = api.injectEndpoints({
         try {
           await cacheDataLoaded
           socket.onmessage = ({ data }) => {
-            const { type, payload } = JSON.parse(data)
+            const { type, payload } = parseWebSocketMessage(data)
 
             switch (type) {
-              case "update-servers":
+              case messageType.updateServers:
                 dispatch(setServers(payload.servers))
                 break
 
@@ -80,19 +90,51 @@ export const wsApi = api.injectEndpoints({
       },
     }),
 
-    // sendMessage: build.mutation<void, any>({
-    //   queryFn: (payload) => {
-    //     const socket = getSocket()
-    //     if (socket && socket.readyState === WebSocket.OPEN) {
-    //       socket.send(JSON.stringify(payload))
-    //       return { data: undefined }
-    //     }
-    //     return {
-    //       error: { status: "CUSTOM_ERROR", error: "Socket not connected" },
-    //     }
-    //   },
-    // }),
+    userJoinToChannel: build.mutation<void, { channel: Channel; user: User }>({
+      queryFn: (payload, { dispatch }) => {
+        const socket = getSocket()
+
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(
+            createWebSocketMessage({
+              type: messageType.userJoinChannel,
+              payload,
+            })
+          )
+          dispatch(setConnecting(true))
+          return { data: undefined }
+        }
+
+        return {
+          error: { status: "CUSTOM_ERROR", error: "Socket not connected" },
+        }
+      },
+    }),
+    userLeftChannel: build.mutation<void, { channel: Channel; user: User }>({
+      queryFn: (payload, { dispatch }) => {
+        const socket = getSocket()
+
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(
+            createWebSocketMessage({
+              type: messageType.userLeftChannel,
+              payload,
+            })
+          )
+          dispatch(setConnecting(false))
+          return { data: undefined }
+        }
+
+        return {
+          error: { status: "CUSTOM_ERROR", error: "Socket not connected" },
+        }
+      },
+    }),
   }),
 })
 
-export const { useInitWsQuery } = wsApi
+export const {
+  useInitWsQuery,
+  useUserJoinToChannelMutation,
+  useUserLeftChannelMutation,
+} = wsApi

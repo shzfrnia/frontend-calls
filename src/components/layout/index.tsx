@@ -7,18 +7,21 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
-
-import { cn } from "@/lib/utils"
+import { ScrollArea } from "../ui/scroll-area"
 
 import { Block } from "../Block"
 import { UserPanel } from "../user-panel"
+
+import { cn } from "@/lib/utils"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider open={false} defaultOpen={false}>
       <AppSidebar />
 
-      <SidebarInset className="flex flex-col w-full">{children}</SidebarInset>
+      <SidebarInset className="flex flex-col w-full overflow-hidden">
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   )
 }
@@ -36,7 +39,8 @@ function LayoutLeftPanel({ children }: { children: React.ReactNode }) {
     <>
       <ResizablePanel defaultSize="25%" minSize="190px" maxSize="360px">
         <Block variant="secondary" className="flex flex-col h-full">
-          <div className="flex-1">{children}</div>
+          <div className="flex flex-col flex-1 overflow-hidden">{children}</div>
+
           <div className="p-1">
             <UserPanel />
           </div>
@@ -46,6 +50,10 @@ function LayoutLeftPanel({ children }: { children: React.ReactNode }) {
       <ResizableHandle />
     </>
   )
+}
+
+function LayoutLeftPanelContent({ children }: { children: React.ReactNode }) {
+  return <ScrollArea className="min-h-0">{children}</ScrollArea>
 }
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
@@ -71,7 +79,7 @@ const layoutHeaderPanel = cva("h-[54px] max-h-[54px] flex flex-col shrink-0", {
 function LayoutHeaderPanel({
   children,
   className,
-  variant,
+  variant = "default",
 }: VariantProps<typeof layoutHeaderPanel> & {
   children: React.ReactNode
   className?: string
@@ -87,5 +95,6 @@ function LayoutHeaderPanel({
 DefaultLayout.LayoutLeftPanel = LayoutLeftPanel
 DefaultLayout.LayoutContent = LayoutContent
 DefaultLayout.LayoutHeaderPanel = LayoutHeaderPanel
+DefaultLayout.LayoutLeftPanelContent = LayoutLeftPanelContent
 
 export { DefaultLayout }

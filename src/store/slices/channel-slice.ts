@@ -4,9 +4,14 @@ import type { RootState } from "../index"
 
 import type { Channel } from "@/types/server"
 
-const initialState: { channel: Channel | null; nextChannel: Channel | null } = {
+const initialState: {
+  channel: Channel | null
+  nextChannel: Channel | null
+  connecting: boolean
+} = {
   channel: null,
   nextChannel: null,
+  connecting: false,
 } as const
 
 export const channelSlice = createSlice({
@@ -51,10 +56,15 @@ export const channelSlice = createSlice({
     resetNextCall: (state) => {
       state.nextChannel = null
     },
+    setConnecting: (state, action: PayloadAction<boolean>) => {
+      state.connecting = action.payload
+    },
   },
 })
 
-export const { initCall, endCall, resetNextCall } = channelSlice.actions
+export const { initCall, endCall, resetNextCall, setConnecting } =
+  channelSlice.actions
 
 export const selectChannel = (state: RootState) => state.channel.channel
 export const selectNextChannel = (state: RootState) => state.channel.nextChannel
+export const selectConnecting = (state: RootState) => state.channel.connecting

@@ -1,22 +1,45 @@
+import { useEffect } from "react"
 import { NavLink } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { AudioLines, PhoneOff } from "lucide-react"
+import { PhoneOff, RadioIcon } from "lucide-react"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
 
-import { endCall, selectChannel } from "@/store/slices/channel-slice"
+import {
+  useUserJoinToChannelMutation,
+  useUserLeftChannelMutation,
+} from "@/api/ws"
+
+import {
+  endCall,
+  selectChannel,
+  selectConnecting,
+} from "@/store/slices/channel-slice"
 
 import { ButtonGroup } from "../ui/button-group"
 import { Button } from "../ui-proxy/button"
 
 import { Block } from "../Block"
+import { selectCurrentUser } from "@/store/slices/auth-slice"
+
+import { cn } from "@/lib/utils"
 
 export function CallPanel() {
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
+  const [join] = useUserJoinToChannelMutation()
+  const [left] = useUserLeftChannelMutation()
   const channel = useAppSelector(selectChannel)
+  const connecting = useAppSelector(selectConnecting)
+  const currentUser = useAppSelector(selectCurrentUser)
 
-  if (!channel) {
+  useEffect(() => {
+    if (channel && currentUser) {
+      join({ channel, user: currentUser })
+    }
+  }, [join, channel, currentUser])
+
+  if (!channel || !currentUser) {
     return null
   }
 
@@ -25,8 +48,15 @@ export function CallPanel() {
       variant="secondary-3"
       className="flex items-center gap-2 rounded-t-sm px-1 py-2"
     >
-      <div className="flex items-center justify-center w-[32px]">
-        <AudioLines className="h-[1rem]" />
+      <div className="flex shrink-0 items-center justify-center w-[32px]">
+        <RadioIcon
+          className={cn(
+            "h-[1rem]",
+            connecting
+              ? "text-yellow-400 dark:text-yellow-500 animate-pulse"
+              : "text-green-600 dark:text-green-800"
+          )}
+        />
       </div>
 
       <div className="overflow-hidden">
@@ -42,7 +72,10 @@ export function CallPanel() {
           size="icon-sm"
           variant="ghost"
           tooltip={t("common.disconnect")}
-          onClick={() => dispatch(endCall())}
+          onClick={() => {
+            left({ user: currentUser, channel })
+            dispatch(endCall())
+          }}
         >
           <PhoneOff />
         </Button>

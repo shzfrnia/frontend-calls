@@ -7,7 +7,6 @@ import { useAppSelector } from "@/hooks/use-store"
 import { selectServer } from "../store"
 
 import { Separator } from "@/components/ui/separator"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui-proxy/button"
 
 import { Category } from "./category"
@@ -24,7 +23,7 @@ export function ServerLeftPanel() {
   const { channels } = server
 
   return (
-    <ScrollArea className="p-2 overflow-auto">
+    <div className="p-2 overflow-hidden">
       <div>
         <NavLink to="users">
           {({ isActive }) => (
@@ -40,14 +39,19 @@ export function ServerLeftPanel() {
         <Separator className="mt-2" />
       </div>
 
-      <div className="flex flex-col gap-4 py-2 pl-2 pr-1">
+      <div className="flex flex-col gap-4 py-2">
         {channels.map((ch) => {
           return (
             <Fragment key={ch.id}>
               {"channels" in ch ? (
                 <Category name={`${t("views.server.voice-channels")} 1`}>
                   {ch.channels.map((voiceChannel) => {
-                    return <VoiceChannel channel={voiceChannel} />
+                    return (
+                      <VoiceChannel
+                        key={voiceChannel.id}
+                        channel={voiceChannel}
+                      />
+                    )
                   })}
                 </Category>
               ) : (
@@ -57,6 +61,6 @@ export function ServerLeftPanel() {
           )
         })}
       </div>
-    </ScrollArea>
+    </div>
   )
 }

@@ -107,7 +107,7 @@ export function SidebarContent() {
 
   return (
     <SidebarContentComponent>
-      <ScrollArea className="overflow-auto">
+      <ScrollArea className="min-h-0">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
