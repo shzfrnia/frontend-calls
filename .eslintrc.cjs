@@ -9,6 +9,9 @@ module.exports = {
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
   plugins: ["react-refresh"],
+  parserOptions: {
+    warnOnUnsupportedTypeScriptVersion: false,   // ← вот эта строка решает проблему
+  },
   rules: {
     "react-refresh/only-export-components": [
       "off",
