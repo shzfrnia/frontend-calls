@@ -42,6 +42,7 @@ import { SignInForm } from "@/components/forms/sign-in-form"
 import CatImage from "../../assets/cat.jpg"
 
 import { PixelLiquidBg } from "@/components/unlumen-ui/pixel-liquid-bg"
+import SmartText from "@/components/tooltip"
 
 const cardBlock = cva("py-6")
 
@@ -187,7 +188,14 @@ export function LoginPage() {
                 </div>
               </div>
             </div>
-
+            <div className="max-w-[200px]">
+              <SmartText
+                tooltipContentClassName=""
+              >
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, nihil magnam quos repudiandae, quisquam numquam odio hic officia quo deserunt mollitia in, illo minima cumque quas. Voluptatum deserunt sint vitae!
+              </SmartText>
+            </div>
+            
             <Separator />
 
             <SignInForm
