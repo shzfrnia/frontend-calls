@@ -1,11 +1,9 @@
 import type { User } from "@/types/user"
 
-import { getUserDisplayName } from "@/utils/user"
-
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 export function VoiceChannelUser({ user }: { user: User }) {
-  const name = getUserDisplayName(user)
+  const name = user.display_name
 
   return (
     <div className="flex gap-2 items-center">

@@ -1,20 +1,12 @@
-import { useEffect } from "react"
 import { NavLink } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { PhoneOff, RadioIcon } from "lucide-react"
 
-import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
+import { useAppSelector } from "@/hooks/use-store"
 
-import {
-  useUserJoinToChannelMutation,
-  useUserLeftChannelMutation,
-} from "@/api/ws"
+import { useUserLeftChannelMutation } from "@/api/ws"
 
-import {
-  endCall,
-  selectChannel,
-  selectConnecting,
-} from "@/store/slices/channel-slice"
+import { selectChannel, selectConnecting } from "@/store/slices/channel-slice"
 
 import { ButtonGroup } from "../ui/button-group"
 import { Button } from "../ui-proxy/button"
@@ -25,19 +17,11 @@ import { selectCurrentUser } from "@/store/slices/auth-slice"
 import { cn } from "@/lib/utils"
 
 export function CallPanel() {
-  const dispatch = useAppDispatch()
   const { t } = useTranslation()
-  const [join] = useUserJoinToChannelMutation()
   const [left] = useUserLeftChannelMutation()
   const channel = useAppSelector(selectChannel)
   const connecting = useAppSelector(selectConnecting)
   const currentUser = useAppSelector(selectCurrentUser)
-
-  useEffect(() => {
-    if (channel && currentUser) {
-      join({ channel, user: currentUser })
-    }
-  }, [join, channel, currentUser])
 
   if (!channel || !currentUser) {
     return null
@@ -72,10 +56,7 @@ export function CallPanel() {
           size="icon-sm"
           variant="ghost"
           tooltip={t("common.disconnect")}
-          onClick={() => {
-            left({ user: currentUser, channel })
-            dispatch(endCall())
-          }}
+          onClick={() => left({ user: currentUser, channel })}
         >
           <PhoneOff />
         </Button>

@@ -4,7 +4,7 @@ import { getSocket } from "./socket"
 import { RootState } from "@/store"
 
 import { setServers } from "@/store/slices/servers-slice"
-import { setConnecting } from "@/store/slices/channel-slice"
+import { setConnecting, endCall, initCall } from "@/store/slices/channel-slice"
 
 import {
   parseWebSocketMessage,
@@ -12,7 +12,6 @@ import {
   messageType,
 } from "./websocket-message"
 
-import type { User } from "@/types/user"
 import type { Channel } from "@/types/server"
 
 type ConnectionState = "connecting" | "online" | "closed" | "error"
@@ -69,11 +68,26 @@ export const wsApi = api.injectEndpoints({
         try {
           await cacheDataLoaded
           socket.onmessage = ({ data }) => {
+            const {
+              auth: { user: currentUser },
+            } = getState() as RootState
+
             const { type, payload } = parseWebSocketMessage(data)
 
             switch (type) {
               case messageType.updateServers:
                 dispatch(setServers(payload.servers))
+                break
+
+              case messageType.userJoinChannel: {
+                if (currentUser && currentUser.id === payload.user.id) {
+                  dispatch(setConnecting(false))
+                }
+                break
+              }
+
+              case messageType.userLeftChannel:
+                console.warn("user leave channel")
                 break
 
               default:
@@ -90,18 +104,22 @@ export const wsApi = api.injectEndpoints({
       },
     }),
 
-    userJoinToChannel: build.mutation<void, { channel: Channel; user: User }>({
-      queryFn: (payload, { dispatch }) => {
+    userJoinToChannel: build.mutation<void, { channel: Channel }>({
+      queryFn: (payload, { dispatch, getState }) => {
         const socket = getSocket()
+        const {
+          auth: { user },
+        } = getState() as RootState
 
-        if (socket.readyState === WebSocket.OPEN) {
+        if (user && socket.readyState === WebSocket.OPEN) {
           socket.send(
             createWebSocketMessage({
               type: messageType.userJoinChannel,
-              payload,
+              payload: { ...payload, user },
             })
           )
           dispatch(setConnecting(true))
+          dispatch(initCall({ channel: payload.channel }))
           return { data: undefined }
         }
 
@@ -110,18 +128,22 @@ export const wsApi = api.injectEndpoints({
         }
       },
     }),
-    userLeftChannel: build.mutation<void, { channel: Channel; user: User }>({
-      queryFn: (payload, { dispatch }) => {
+    userLeftChannel: build.mutation<void, { channel: Channel }>({
+      queryFn: (payload, { dispatch, getState }) => {
         const socket = getSocket()
+        const {
+          auth: { user },
+        } = getState() as RootState
 
-        if (socket.readyState === WebSocket.OPEN) {
+        if (user && socket.readyState === WebSocket.OPEN) {
           socket.send(
             createWebSocketMessage({
               type: messageType.userLeftChannel,
-              payload,
+              payload: { ...payload, user },
             })
           )
           dispatch(setConnecting(false))
+          dispatch(endCall())
           return { data: undefined }
         }
 

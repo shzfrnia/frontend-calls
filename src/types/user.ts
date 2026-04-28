@@ -8,4 +8,5 @@ export type User = {
   is_superuser: boolean
   id: uuid4
   created_at: string
+  display_name: string
 }

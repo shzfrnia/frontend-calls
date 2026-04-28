@@ -2,23 +2,26 @@ import { NavLink, useMatch } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Volume2, Settings, UserRoundPlus } from "lucide-react"
 
-import { cn } from "@/lib/utils"
+import { useAppSelector } from "@/hooks/use-store"
 
-import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
+import { useUserJoinToChannelMutation } from "@/api/ws"
 
-import { initCall, selectChannel } from "@/store/slices/channel-slice"
+import { selectChannel } from "@/store/slices/channel-slice"
+import { selectCurrentUser } from "@/store/slices/auth-slice"
 
 import { Badge } from "@/components/ui/badge"
+import { ButtonGroup } from "@/components/ui/button-group"
 import { Button } from "@/components/ui-proxy/button"
 
 import { VoiceChannelUser } from "./voice-channel-user"
 
-import type { VoiceChannel } from "@/types/channel"
-import { selectCurrentUser } from "@/store/slices/auth-slice"
+import type { VoiceChannel } from "@/types/server"
+
+import { cn } from "@/lib/utils"
 
 export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
   const { t } = useTranslation()
-  const dispatch = useAppDispatch()
+  const [join] = useUserJoinToChannelMutation()
   const currentChannel = useAppSelector(selectChannel)
   const currentUser = useAppSelector(selectCurrentUser)
   const channelIsOpened = useMatch("/server/:serverID/channel/:channelID")
@@ -26,6 +29,10 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
   const { id, name, settings } = channel
   const { limit } = settings
   const isCurrentCall = currentChannel?.id === id
+
+  if (!currentUser) {
+    return null
+  }
 
   return (
     <div className="flex flex-col gap-1">
@@ -36,7 +43,7 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
             e.preventDefault()
           }
 
-          dispatch(initCall({ channel }))
+          join({ channel })
         }}
       >
         {({ isActive }) => {
@@ -87,7 +94,7 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
                   </Badge>
                 )}
 
-                <div
+                <ButtonGroup
                   className="opacity-0 absolute pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:static"
                   onClick={(e) => {
                     e.preventDefault()
@@ -109,7 +116,7 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
                   >
                     <Settings />
                   </Button>
-                </div>
+                </ButtonGroup>
               </div>
             </div>
           )

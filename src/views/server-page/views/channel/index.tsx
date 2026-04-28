@@ -3,13 +3,15 @@ import { useParams } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Volume2 } from "lucide-react"
 
-import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
+import { useAppSelector } from "@/hooks/use-store"
 
 import {
-  selectChannel,
-  // initCall,
-  endCall,
-} from "@/store/slices/channel-slice"
+  useUserJoinToChannelMutation,
+  useUserLeftChannelMutation,
+} from "@/api/ws"
+
+import { selectChannel } from "@/store/slices/channel-slice"
+import { selectCurrentUser } from "@/store/slices/auth-slice"
 import { selectServer } from "../../store"
 
 import { PixelLiquidBg } from "@/components/unlumen-ui/pixel-liquid-bg"
@@ -20,10 +22,12 @@ import { Button } from "@/components/ui/button"
 import type { Channel } from "@/types/server"
 
 export function Channel() {
-  const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const { channelID } = useParams()
+  const [join] = useUserJoinToChannelMutation()
+  const [left] = useUserLeftChannelMutation()
   const currentChannel = useAppSelector(selectChannel)
+  const currentUser = useAppSelector(selectCurrentUser)
   const server = useAppSelector(selectServer)
 
   const channel = useMemo(() => {
@@ -46,7 +50,7 @@ export function Channel() {
     }
   }, [server, channelID])
 
-  if (!channelID || !channel) {
+  if (!channelID || !channel || !currentUser) {
     return null
   }
 
@@ -74,9 +78,7 @@ export function Channel() {
             </p>
 
             <div className="flex justify-center">
-              <Button
-              // onClick={() => dispatch(initCall({ channel }))}
-              >
+              <Button onClick={() => join({ channel })}>
                 {t("common.join")}
               </Button>
             </div>
@@ -87,7 +89,7 @@ export function Channel() {
       {currentChannel && (
         <div className="absolute w-full h-full flex items-center justify-center">
           <div className="flex flex-col gap-4 justify-center">
-            <Button onClick={() => dispatch(endCall())}>
+            <Button onClick={() => left({ channel })}>
               {t("common.disconnect")}
             </Button>
           </div>
