@@ -10,23 +10,16 @@ export function Button({
   tooltip,
   ...props
 }: ComponentProps<typeof UIButton> & {
-  tooltip?: { content: string } | string
+  tooltip?: { content: string; onOpenChange: (value: boolean) => void } | string
 }) {
-  const { content } =
+  const { content, onOpenChange } =
     typeof tooltip === "string" ? { content: tooltip } : { ...tooltip }
 
-  const [isOpen, setIsOpen] = useState(false)
-
   return (
-    <Tooltip open={content ? isOpen : false} onOpenChange={setIsOpen}>
+    <Tooltip onOpenChange={onOpenChange}>
       <TooltipContent>{content}</TooltipContent>
 
-      <TooltipTrigger
-        asChild
-        onFocus={(e) => e.preventDefault()}
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
-      >
+      <TooltipTrigger asChild>
         <UIButton {...props}>{children}</UIButton>
       </TooltipTrigger>
     </Tooltip>

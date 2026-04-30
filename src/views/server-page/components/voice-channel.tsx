@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { NavLink, useMatch } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Volume2, Settings, UserRoundPlus } from "lucide-react"
@@ -29,6 +30,7 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
   const server = useAppSelector((state) =>
     selectServerById(state, channel.server_id)
   )
+  const [tooltipIsOpened, setTooltipIsOpened] = useState(false)
 
   const { id, name, settings } = channel
   const { limit } = settings
@@ -97,8 +99,8 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
                   <Badge
                     variant="outline"
                     className={cn(
-                      "text-[.6rem] group-hover:pointer-events-none group-hover:opacity-0 group-hover:absolute",
-                      isCurrentCall ? "hidden" : "opacity-0 absolute"
+                      "text-[.6rem] group-hover:hidden",
+                      isCurrentCall || tooltipIsOpened ? "hidden" : undefined
                     )}
                   >
                     0 / {limit}
@@ -107,8 +109,8 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
 
                 <ButtonGroup
                   className={cn(
-                    "pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:static",
-                    isCurrentCall ? undefined : "opacity-0 absolute"
+                    isCurrentCall || tooltipIsOpened ? undefined : "hidden",
+                    "group-hover:flex"
                   )}
                   onClick={(e) => {
                     e.preventDefault()
@@ -118,7 +120,10 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
                   <Button
                     size="icon-xs"
                     variant="ghost"
-                    tooltip={t("common.invite")}
+                    tooltip={{
+                      content: t("common.invite"),
+                      onOpenChange: setTooltipIsOpened,
+                    }}
                   >
                     <UserRoundPlus />
                   </Button>
@@ -126,7 +131,10 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
                   <Button
                     size="icon-xs"
                     variant="ghost"
-                    tooltip={t("common.settings")}
+                    tooltip={{
+                      content: t("common.settings"),
+                      onOpenChange: setTooltipIsOpened,
+                    }}
                   >
                     <Settings />
                   </Button>
