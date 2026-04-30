@@ -20,6 +20,7 @@ export function Button({
   return (
     <Tooltip open={content ? isOpen : false} onOpenChange={setIsOpen}>
       <TooltipContent>{content}</TooltipContent>
+
       <TooltipTrigger
         asChild
         onFocus={(e) => e.preventDefault()}

@@ -4,7 +4,7 @@ import { PhoneOff, RadioIcon } from "lucide-react"
 
 import { useAppSelector } from "@/hooks/use-store"
 
-import { useUserLeftChannelMutation } from "@/api/ws"
+import { useLeftChannelMutation } from "@/api/ws"
 
 import { selectChannel, selectConnecting } from "@/store/slices/channel-slice"
 
@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils"
 
 export function CallPanel() {
   const { t } = useTranslation()
-  const [left] = useUserLeftChannelMutation()
+  const [left] = useLeftChannelMutation()
   const channel = useAppSelector(selectChannel)
   const connecting = useAppSelector(selectConnecting)
   const currentUser = useAppSelector(selectCurrentUser)

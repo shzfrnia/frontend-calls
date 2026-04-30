@@ -17,6 +17,7 @@ import {
   selectServers,
   selectServersLoaded,
 } from "@/store/slices/servers-slice"
+import { selectChannel } from "@/store/slices/channel-slice"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {
@@ -38,10 +39,9 @@ import {
   SidebarMenuSkeleton,
 } from "./sidebar"
 
-import { Server } from "@/types/server"
+import { WSServer } from "@/types/server"
 
 import { cn } from "@/lib/utils"
-import { selectChannel } from "@/store/slices/channel-slice"
 
 function SidebarMenuButtonBadge({
   currentCall,
@@ -78,7 +78,7 @@ function SidebarMenuButton({
   ...props
 }: ComponentProps<typeof SidebarMenuButtonComponent> & {
   isActive: boolean
-  server: Server
+  server: WSServer
 }) {
   const channel = useAppSelector(selectChannel)
 
@@ -92,7 +92,7 @@ function SidebarMenuButton({
       {server.name.slice(0, 2)}
       {isActive}
       <SidebarMenuButtonBadge
-        hasCall={false}
+        hasCall={Boolean(Object.keys(server.users).length)}
         currentCall={Boolean(channel && channel.server_id === server.id)}
       />
     </SidebarMenuButtonComponent>
@@ -146,7 +146,7 @@ export function ServerContextMenu({
   server,
 }: {
   children: ReactNode
-  server: Server
+  server: WSServer
 }) {
   const dispatch = useAppDispatch()
   const { t } = useTranslation()

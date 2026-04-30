@@ -1,5 +1,5 @@
-import type { User } from "@/types/user"
-import type { Server, Channel } from "@/types/server"
+import type { ChannelUser } from "@/types/user"
+import type { WSServer, Channel } from "@/types/server"
 
 export const messageType = {
   userJoinChannel: "user-join-channel",
@@ -10,11 +10,11 @@ export const messageType = {
 type MessageType =
   | {
       type: typeof messageType.userJoinChannel
-      payload: { channel: Channel; user: User }
+      payload: { channel: Channel; user: ChannelUser }
     }
   | {
       type: typeof messageType.userLeftChannel
-      payload: { channel: Channel; user: User }
+      payload: { channel: Channel; user: ChannelUser }
     }
 
 export const createWebSocketMessage = <T extends MessageType["type"]>(
@@ -26,7 +26,7 @@ export const createWebSocketMessage = <T extends MessageType["type"]>(
 type ReceiveMessageType =
   | {
       type: typeof messageType.updateServers
-      payload: { servers: Server[] }
+      payload: { servers: WSServer[] }
     }
   | Extract<
       MessageType,

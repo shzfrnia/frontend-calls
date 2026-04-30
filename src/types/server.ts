@@ -1,9 +1,14 @@
 import type { uuid4 } from "."
+import type { ChannelUser } from "./user"
 
 export type Server = {
   id: uuid4
   name: string
-  channels: Array<Category | Channel>
+}
+
+export type WSServer = Server & {
+  users: Record<uuid4, ChannelUser>
+  channels: Array<Category | VoiceChannel>
 }
 
 export type ServerDraft = Omit<Server, "id">
@@ -25,5 +30,11 @@ export type Category = {
   order: number
   name: string
   server_id: uuid4
-  channels: Channel[]
+  channels: VoiceChannel[]
+}
+
+export const isCategory = (
+  channel: WSServer["channels"][number]
+): channel is Category => {
+  return "channels" in channel
 }

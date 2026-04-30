@@ -4,10 +4,11 @@ import { Volume2, Settings, UserRoundPlus } from "lucide-react"
 
 import { useAppSelector } from "@/hooks/use-store"
 
-import { useUserJoinToChannelMutation } from "@/api/ws"
+import { useJoinToChannelMutation } from "@/api/ws"
 
 import { selectChannel } from "@/store/slices/channel-slice"
 import { selectCurrentUser } from "@/store/slices/auth-slice"
+import { selectServerById } from "@/store/slices/servers-slice"
 
 import { Badge } from "@/components/ui/badge"
 import { ButtonGroup } from "@/components/ui/button-group"
@@ -21,18 +22,25 @@ import { cn } from "@/lib/utils"
 
 export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
   const { t } = useTranslation()
-  const [join] = useUserJoinToChannelMutation()
+  const [join] = useJoinToChannelMutation()
   const currentChannel = useAppSelector(selectChannel)
   const currentUser = useAppSelector(selectCurrentUser)
   const channelIsOpened = useMatch("/server/:serverID/channel/:channelID")
+  const server = useAppSelector((state) =>
+    selectServerById(state, channel.server_id)
+  )
 
   const { id, name, settings } = channel
   const { limit } = settings
   const isCurrentCall = currentChannel?.id === id
 
-  if (!currentUser) {
+  if (!currentUser || !server) {
     return null
   }
+
+  const users = Object.values(server.users).filter(
+    (user) => user.channel.id === channel.id
+  )
 
   return (
     <div className="flex flex-col gap-1">
@@ -88,14 +96,20 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
                 {limit !== 0 && (
                   <Badge
                     variant="outline"
-                    className="text-[.6rem] group-hover:pointer-events-none group-hover:opacity-0 group-hover:absolute"
+                    className={cn(
+                      "text-[.6rem] group-hover:pointer-events-none group-hover:opacity-0 group-hover:absolute",
+                      isCurrentCall ? "hidden" : "opacity-0 absolute"
+                    )}
                   >
                     0 / {limit}
                   </Badge>
                 )}
 
                 <ButtonGroup
-                  className="opacity-0 absolute pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:static"
+                  className={cn(
+                    "pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:static",
+                    isCurrentCall ? undefined : "opacity-0 absolute"
+                  )}
                   onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
@@ -123,9 +137,11 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
         }}
       </NavLink>
 
-      {isCurrentCall && (
-        <div className="ml-[36px]">
-          <VoiceChannelUser user={currentUser} />
+      {Boolean(users.length) && (
+        <div className="ml-[36px] flex flex-col gap-1">
+          {users.map((user) => (
+            <VoiceChannelUser key={user.id} user={user} />
+          ))}
         </div>
       )}
     </div>

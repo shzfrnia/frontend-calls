@@ -5,10 +5,7 @@ import { Volume2 } from "lucide-react"
 
 import { useAppSelector } from "@/hooks/use-store"
 
-import {
-  useUserJoinToChannelMutation,
-  useUserLeftChannelMutation,
-} from "@/api/ws"
+import { useJoinToChannelMutation, useLeftChannelMutation } from "@/api/ws"
 
 import { selectChannel } from "@/store/slices/channel-slice"
 import { selectCurrentUser } from "@/store/slices/auth-slice"
@@ -24,8 +21,8 @@ import type { Channel } from "@/types/server"
 export function Channel() {
   const { t } = useTranslation()
   const { channelID } = useParams()
-  const [join] = useUserJoinToChannelMutation()
-  const [left] = useUserLeftChannelMutation()
+  const [join] = useJoinToChannelMutation()
+  const [left] = useLeftChannelMutation()
   const currentChannel = useAppSelector(selectChannel)
   const currentUser = useAppSelector(selectCurrentUser)
   const server = useAppSelector(selectServer)

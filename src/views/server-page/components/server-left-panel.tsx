@@ -12,6 +12,8 @@ import { Button } from "@/components/ui-proxy/button"
 import { Category } from "./category"
 import { VoiceChannel } from "./voice-channel"
 
+import { isCategory } from "@/types/server"
+
 export function ServerLeftPanel() {
   const { t } = useTranslation()
   const server = useAppSelector(selectServer)
@@ -43,7 +45,7 @@ export function ServerLeftPanel() {
         {channels.map((ch) => {
           return (
             <Fragment key={ch.id}>
-              {"channels" in ch ? (
+              {isCategory(ch) ? (
                 <Category name={`${t("views.server.voice-channels")} 1`}>
                   {ch.channels.map((voiceChannel) => {
                     return (

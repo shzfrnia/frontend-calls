@@ -7,10 +7,11 @@ import {
 
 import type { RootState } from "../index"
 
-import type { Server } from "@/types/server"
+import type { WSServer } from "@/types/server"
 import { uuid4 } from "@/types"
+import { ChannelUser } from "@/types/user"
 
-const serversAdapter = createEntityAdapter<Server>()
+const serversAdapter = createEntityAdapter<WSServer>()
 
 const initialState = serversAdapter.getInitialState<{
   loaded: boolean
@@ -24,7 +25,7 @@ export const serversSlice = createSlice({
   name: "servers",
   initialState,
   reducers: {
-    setServers: (state, action: PayloadAction<Server[]>) => {
+    setServers: (state, action: PayloadAction<WSServer[]>) => {
       serversAdapter.setAll(state, action.payload)
       state.loaded = true
     },
@@ -33,6 +34,30 @@ export const serversSlice = createSlice({
     },
     closeLeaveServerDialog: (state) => {
       state.leaveServerDialog = null
+    },
+    userJoined: (state, action: PayloadAction<ChannelUser>) => {
+      const channelUser = action.payload
+      const serverId = channelUser.channel.server_id
+      const server = state.entities[serverId]
+      const users = { ...server.users }
+      users[channelUser.id] = channelUser
+
+      serversAdapter.updateOne(state, {
+        id: serverId,
+        changes: { users },
+      })
+    },
+    userLeft: (state, action: PayloadAction<ChannelUser>) => {
+      const channelUser = action.payload
+      const serverId = channelUser.channel.server_id
+      const server = state.entities[serverId]
+      const users = { ...server.users }
+      delete users[channelUser.id]
+
+      serversAdapter.updateOne(state, {
+        id: serverId,
+        changes: { users },
+      })
     },
   },
 })
@@ -53,5 +78,10 @@ export const selectLeaveServer = createSelector(
   (serverID, servers) => (serverID ? servers[serverID] : null)
 )
 
-export const { setServers, openLeaveServerDialog, closeLeaveServerDialog } =
-  serversSlice.actions
+export const {
+  setServers,
+  openLeaveServerDialog,
+  closeLeaveServerDialog,
+  userJoined,
+  userLeft,
+} = serversSlice.actions

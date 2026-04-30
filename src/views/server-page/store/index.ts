@@ -2,9 +2,9 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
 import type { RootState } from "@/store"
 
-import type { Server } from "@/types/server"
+import type { WSServer } from "@/types/server"
 
-const initialState: { server: Server | null } = {
+const initialState: { server: WSServer | null } = {
   server: null,
 } as const
 
@@ -12,7 +12,7 @@ export const serverViewSlice = createSlice({
   name: "serverView",
   initialState,
   reducers: {
-    setServer: (state, action: PayloadAction<Server>) => {
+    setServer: (state, action: PayloadAction<WSServer>) => {
       state.server = action.payload
     },
   },

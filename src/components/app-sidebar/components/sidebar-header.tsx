@@ -9,6 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarSeparator,
 } from "./sidebar"
 import { sidebarMenuButtonLg } from "./sidebar-menu-button"
 
@@ -31,6 +32,8 @@ export function SidebarHeader() {
             )}
           </NavLink>
         </SidebarMenuItem>
+
+        <SidebarSeparator className="mx-auto mt-[10px]" />
       </SidebarMenu>
     </SidebarHeaderComponent>
   )

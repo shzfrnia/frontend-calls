@@ -1,15 +1,21 @@
-import { useState, useRef } from "react"
+import { useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { Headphones, HeadphoneOff, Mic, MicOff } from "lucide-react"
 
-import { cn } from "@/lib/utils"
-
 import { useAppSelector, useAppDispatch } from "@/hooks/use-store"
-import { useInitWsQuery } from "@/api/ws"
+import {
+  useInitWsQuery,
+  useMuteHeadMutation,
+  useMuteMicMutation,
+} from "@/api/ws"
 
 import { selectChannel } from "@/store/slices/channel-slice"
 import { selectCurrentUser } from "@/store/slices/auth-slice"
-import { openSettingsDialog } from "@/store/slices/settings-slice"
+import {
+  openSettingsDialog,
+  selectHeadphonesIsMuted,
+  selectMicIsMuted,
+} from "@/store/slices/settings-slice"
 
 import { SettingsIcon, type SettingsIconHandle } from "../ui/settings"
 import { Avatar, AvatarBadge, AvatarFallback } from "../ui/avatar"
@@ -19,6 +25,8 @@ import { Spinner } from "../ui/spinner"
 
 import { Block } from "../Block"
 import { CallPanel } from "./call-panel"
+
+import { cn } from "@/lib/utils"
 
 export function UserPanel() {
   const { t } = useTranslation()
@@ -30,8 +38,10 @@ export function UserPanel() {
   const currentUser = useAppSelector(selectCurrentUser)
 
   const settingsRef = useRef<SettingsIconHandle>(null)
-  const [micIsMuted, setMicIsMuted] = useState(false)
-  const [headphonesIsMuted, setHeadphonesIsMuted] = useState(false)
+  const micIsMuted = useAppSelector(selectMicIsMuted)
+  const headphonesIsMuted = useAppSelector(selectHeadphonesIsMuted)
+  const [muteMic] = useMuteMicMutation()
+  const [muteHead] = useMuteHeadMutation()
 
   if (!currentUser) {
     // TODO skelet
@@ -74,7 +84,7 @@ export function UserPanel() {
             size="icon-sm"
             variant={micIsMuted ? "destructive" : "ghost"}
             tooltip={t(micIsMuted ? "common.mic-on" : "common.mic-off")}
-            onClick={() => setMicIsMuted((v) => !v)}
+            onClick={() => muteMic(!micIsMuted)}
           >
             {micIsMuted ? <MicOff /> : <Mic />}
           </Button>
@@ -87,7 +97,7 @@ export function UserPanel() {
                 ? "common.headphones-on"
                 : "common.headphones-off"
             )}
-            onClick={() => setHeadphonesIsMuted((v) => !v)}
+            onClick={() => muteHead(!headphonesIsMuted)}
           >
             {headphonesIsMuted ? <HeadphoneOff /> : <Headphones />}
           </Button>

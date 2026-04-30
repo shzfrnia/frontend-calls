@@ -1,5 +1,7 @@
 import type { uuid4 } from "."
 
+import type { Channel } from "./server"
+
 export type User = {
   email: string
   login: string
@@ -9,4 +11,10 @@ export type User = {
   id: uuid4
   created_at: string
   display_name: string
+  channel: Channel
+}
+
+export type ChannelUser = User & {
+  mic_mute: boolean
+  head_mute: boolean
 }
