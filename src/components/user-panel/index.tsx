@@ -3,11 +3,7 @@ import { useTranslation } from "react-i18next"
 import { Headphones, HeadphoneOff, Mic, MicOff } from "lucide-react"
 
 import { useAppSelector, useAppDispatch } from "@/hooks/use-store"
-import {
-  useInitWsQuery,
-  useMuteHeadMutation,
-  useMuteMicMutation,
-} from "@/api/ws"
+import { useInitWsQuery, useMuteMutation } from "@/api/ws"
 
 import { selectChannel } from "@/store/slices/channel-slice"
 import { selectCurrentUser } from "@/store/slices/auth-slice"
@@ -40,8 +36,7 @@ export function UserPanel() {
   const settingsRef = useRef<SettingsIconHandle>(null)
   const micIsMuted = useAppSelector(selectMicIsMuted)
   const headphonesIsMuted = useAppSelector(selectHeadphonesIsMuted)
-  const [muteMic] = useMuteMicMutation()
-  const [muteHead] = useMuteHeadMutation()
+  const [mute] = useMuteMutation()
 
   if (!currentUser) {
     // TODO skelet
@@ -60,6 +55,7 @@ export function UserPanel() {
   }[connectionState]
 
   const displayName = currentUser.nickname || currentUser.login
+  const micMuted = micIsMuted || headphonesIsMuted
 
   return (
     <div>
@@ -82,11 +78,16 @@ export function UserPanel() {
         <ButtonGroup className="ml-auto">
           <Button
             size="icon-sm"
-            variant={micIsMuted ? "destructive" : "ghost"}
+            variant={micMuted ? "destructive" : "ghost"}
             tooltip={t(micIsMuted ? "common.mic-on" : "common.mic-off")}
-            onClick={() => muteMic(!micIsMuted)}
+            onClick={() =>
+              mute({
+                mic: !micMuted,
+                head: micMuted ? false : undefined,
+              })
+            }
           >
-            {micIsMuted ? <MicOff /> : <Mic />}
+            {micMuted ? <MicOff /> : <Mic />}
           </Button>
 
           <Button
@@ -97,7 +98,7 @@ export function UserPanel() {
                 ? "common.headphones-on"
                 : "common.headphones-off"
             )}
-            onClick={() => muteHead(!headphonesIsMuted)}
+            onClick={() => mute({ head: !headphonesIsMuted })}
           >
             {headphonesIsMuted ? <HeadphoneOff /> : <Headphones />}
           </Button>

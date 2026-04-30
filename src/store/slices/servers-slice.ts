@@ -59,6 +59,18 @@ export const serversSlice = createSlice({
         changes: { users },
       })
     },
+    updateChannelUser: (state, action: PayloadAction<ChannelUser>) => {
+      const channelUser = action.payload
+      const serverId = channelUser.channel.server_id
+      const server = state.entities[serverId]
+      const users = { ...server.users }
+      users[channelUser.id] = channelUser
+
+      serversAdapter.updateOne(state, {
+        id: serverId,
+        changes: { users },
+      })
+    },
   },
 })
 
@@ -83,5 +95,6 @@ export const {
   openLeaveServerDialog,
   closeLeaveServerDialog,
   userJoined,
+  updateChannelUser,
   userLeft,
 } = serversSlice.actions

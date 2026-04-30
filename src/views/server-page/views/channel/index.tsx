@@ -86,9 +86,7 @@ export function Channel() {
       {currentChannel && (
         <div className="absolute w-full h-full flex items-center justify-center">
           <div className="flex flex-col gap-4 justify-center">
-            <Button onClick={() => left({ channel })}>
-              {t("common.disconnect")}
-            </Button>
+            <Button onClick={() => left()}>{t("common.disconnect")}</Button>
           </div>
         </div>
       )}

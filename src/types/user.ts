@@ -11,10 +11,10 @@ export type User = {
   id: uuid4
   created_at: string
   display_name: string
-  channel: Channel
 }
 
 export type ChannelUser = User & {
   mic_mute: boolean
   head_mute: boolean
+  channel: Channel
 }

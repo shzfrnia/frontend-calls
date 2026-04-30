@@ -18,11 +18,12 @@ export function VoiceChannelUser({ user }: { user: ChannelUser }) {
       <p className="flex-1 text-muted-foreground text-[0.8rem]">{name}</p>
 
       <ButtonGroup>
-        {user.mic_mute && (
+        {(user.mic_mute || user.head_mute) && (
           <Button disabled size="icon-xs" variant="ghost">
             <MicOff />
           </Button>
         )}
+
         {user.head_mute && (
           <Button disabled size="icon-xs" variant="ghost">
             <HeadphoneOff />

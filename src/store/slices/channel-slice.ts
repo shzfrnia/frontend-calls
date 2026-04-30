@@ -30,6 +30,7 @@ export const channelSlice = createSlice({
         // force
       } = action.payload
       state.channel = channel
+      state.connecting = true
 
       // if (force) {
       //   if (force) {
@@ -51,6 +52,7 @@ export const channelSlice = createSlice({
       // }
     },
     endCall: (state) => {
+      state.connecting = false
       state.channel = null
     },
     resetNextCall: (state) => {

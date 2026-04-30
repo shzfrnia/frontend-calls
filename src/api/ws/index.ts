@@ -3,8 +3,14 @@ import { getSocket } from "./socket"
 
 import { RootState } from "@/store"
 
-import { setServers, userJoined, userLeft } from "@/store/slices/servers-slice"
+import {
+  setServers,
+  userJoined,
+  userLeft,
+  updateChannelUser,
+} from "@/store/slices/servers-slice"
 import { setConnecting, endCall, initCall } from "@/store/slices/channel-slice"
+import { setHeadphonesIsMute, setMicMute } from "@/store/slices/settings-slice"
 
 import {
   parseWebSocketMessage,
@@ -13,7 +19,6 @@ import {
 } from "./websocket-message"
 
 import type { Channel } from "@/types/server"
-import { setHeadphonesIsMute, setMicMute } from "@/store/slices/settings-slice"
 
 type ConnectionState = "connecting" | "online" | "closed" | "error"
 
@@ -96,6 +101,14 @@ export const wsApi = api.injectEndpoints({
                   userLeft({ ...payload.user, channel: payload.channel })
                 )
                 break
+              case messageType.updateChannelUser:
+                dispatch(
+                  updateChannelUser({
+                    ...payload.user,
+                    channel: payload.channel,
+                  })
+                )
+                break
 
               default:
                 break
@@ -129,16 +142,11 @@ export const wsApi = api.injectEndpoints({
             createWebSocketMessage({
               type: messageType.userJoinChannel,
               payload: {
-                ...payload,
-                user: {
-                  ...user,
-                  head_mute: headphonesIsMuted,
-                  mic_mute: micIsMuted,
-                },
+                channel: payload.channel.id,
+                mute: { head: headphonesIsMuted, mic: micIsMuted },
               },
             })
           )
-          dispatch(setConnecting(true))
           dispatch(initCall({ channel: payload.channel }))
           return { data: undefined }
         }
@@ -149,29 +157,18 @@ export const wsApi = api.injectEndpoints({
       },
     }),
 
-    leftChannel: build.mutation<void, { channel: Channel }>({
-      queryFn: (payload, { dispatch, getState }) => {
+    leftChannel: build.mutation<void, void>({
+      queryFn: (_payload, { dispatch, getState }) => {
         const socket = getSocket()
         const {
           auth: { user },
-          settings: { micIsMuted, headphonesIsMuted },
+          channel: { channel },
         } = getState() as RootState
 
-        if (user && socket.readyState === WebSocket.OPEN) {
+        if (user && channel && socket.readyState === WebSocket.OPEN) {
           socket.send(
-            createWebSocketMessage({
-              type: messageType.userLeftChannel,
-              payload: {
-                ...payload,
-                user: {
-                  ...user,
-                  head_mute: headphonesIsMuted,
-                  mic_mute: micIsMuted,
-                },
-              },
-            })
+            createWebSocketMessage({ type: messageType.userLeftChannel })
           )
-          dispatch(setConnecting(false))
           dispatch(endCall())
           return { data: undefined }
         }
@@ -182,47 +179,33 @@ export const wsApi = api.injectEndpoints({
       },
     }),
 
-    muteMic: build.mutation<void, boolean>({
-      queryFn: (payload, { dispatch }) => {
+    mute: build.mutation<
+      void,
+      { mic?: boolean; head: boolean } | { mic: boolean; head?: boolean }
+    >({
+      queryFn: (payload, { dispatch, getState }) => {
         const socket = getSocket()
+        const {
+          auth: { user },
+          settings: { headphonesIsMuted, micIsMuted },
+          channel: { channel },
+        } = getState() as RootState
 
-        dispatch(setMicMute(payload))
+        const { head = headphonesIsMuted, mic = micIsMuted } = payload
 
-        // if (user && socket.readyState === WebSocket.OPEN) {
-        //   socket.send(
-        //     createWebSocketMessage({
-        //       type: messageType.userLeftChannel,
-        //       payload: { ...payload, user },
-        //     })
-        //   )
-        //   dispatch(setConnecting(false))
-        //   dispatch(endCall())
-        //   return { data: undefined }
-        // }
+        dispatch(setMicMute(mic))
+        dispatch(setHeadphonesIsMute(head))
 
-        return {
-          error: { status: "CUSTOM_ERROR", error: "Socket not connected" },
+        if (user && channel && socket.readyState === WebSocket.OPEN) {
+          socket.send(
+            createWebSocketMessage({
+              type: messageType.userUpdateMute,
+              payload: { head, mic },
+            })
+          )
+
+          return { data: undefined }
         }
-      },
-    }),
-
-    muteHead: build.mutation<void, boolean>({
-      queryFn: (payload, { dispatch }) => {
-        const socket = getSocket()
-
-        dispatch(setHeadphonesIsMute(payload))
-
-        // if (user && socket.readyState === WebSocket.OPEN) {
-        //   socket.send(
-        //     createWebSocketMessage({
-        //       type: messageType.userLeftChannel,
-        //       payload: { ...payload, user },
-        //     })
-        //   )
-        //   dispatch(setConnecting(false))
-        //   dispatch(endCall())
-        //   return { data: undefined }
-        // }
 
         return {
           error: { status: "CUSTOM_ERROR", error: "Socket not connected" },
@@ -236,6 +219,5 @@ export const {
   useInitWsQuery,
   useJoinToChannelMutation,
   useLeftChannelMutation,
-  useMuteMicMutation,
-  useMuteHeadMutation,
+  useMuteMutation,
 } = wsApi
