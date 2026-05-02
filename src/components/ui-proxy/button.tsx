@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { type ComponentProps } from "react"
 
 import { Button as UIButton } from "../ui/button"
@@ -10,13 +9,22 @@ export function Button({
   tooltip,
   ...props
 }: ComponentProps<typeof UIButton> & {
-  tooltip?: { content: string; onOpenChange: (value: boolean) => void } | string
+  tooltip?:
+    | {
+        content: string
+        onOpenChange: ComponentProps<typeof Tooltip>["onOpenChange"]
+      }
+    | string
 }) {
   const { content, onOpenChange } =
     typeof tooltip === "string" ? { content: tooltip } : { ...tooltip }
 
   return (
-    <Tooltip onOpenChange={onOpenChange}>
+    <Tooltip
+      delayDuration={200}
+      open={content ? undefined : false}
+      onOpenChange={onOpenChange}
+    >
       <TooltipContent>{content}</TooltipContent>
 
       <TooltipTrigger asChild>

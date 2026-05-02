@@ -99,7 +99,7 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
                   <Badge
                     variant="outline"
                     className={cn(
-                      "text-[.6rem] group-hover:hidden",
+                      "text-[.6rem] absolute group-hover:hidden",
                       isCurrentCall || tooltipIsOpened ? "hidden" : undefined
                     )}
                   >
@@ -109,8 +109,8 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
 
                 <ButtonGroup
                   className={cn(
-                    isCurrentCall || tooltipIsOpened ? undefined : "hidden",
-                    "group-hover:flex"
+                    isCurrentCall || tooltipIsOpened ? undefined : "opacity-0",
+                    "group-hover:opacity-100"
                   )}
                   onClick={(e) => {
                     e.preventDefault()

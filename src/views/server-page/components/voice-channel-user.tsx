@@ -15,7 +15,9 @@ export function VoiceChannelUser({ user }: { user: ChannelUser }) {
         <AvatarFallback>{name.slice(0, 2)}</AvatarFallback>
       </Avatar>
 
-      <p className="flex-1 text-muted-foreground text-[0.8rem]">{name}</p>
+      <div className="flex-1 grid">
+        <p className="text-muted-foreground text-[0.8rem] truncate">{name}</p>
+      </div>
 
       <ButtonGroup>
         {(user.mic_mute || user.head_mute) && (
