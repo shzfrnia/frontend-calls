@@ -33,9 +33,10 @@ export function ServerHeader({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost">
-          {server.name} <ChevronDown />
+      <DropdownMenuTrigger asChild className="group">
+        <Button variant="ghost" className="overflow-hidden shrink-1">
+          <span className="truncate">{server.name}</span>
+          <ChevronDown className="transition-transform duration-200 group-data-[state=open]:rotate-x-180" />
         </Button>
       </DropdownMenuTrigger>
 

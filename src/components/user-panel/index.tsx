@@ -108,8 +108,8 @@ export function UserPanel() {
             variant="ghost"
             tooltip={t(`common.settings`)}
             onClick={() => dispatch(openSettingsDialog())}
-            onMouseMove={settingsRef.current?.startAnimation}
-            onMouseLeave={settingsRef.current?.stopAnimation}
+            onMouseMove={() => settingsRef.current?.startAnimation()}
+            onMouseLeave={() => settingsRef.current?.stopAnimation()}
           >
             <SettingsIcon ref={settingsRef} />
           </Button>
