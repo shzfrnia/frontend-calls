@@ -31,7 +31,7 @@ export function NavUser() {
     return null
   }
 
-  const avatarFallback = currentUser.displayName.slice(0, 2)
+  const avatarFallback = currentUser.display_name.slice(0, 2)
 
   return (
     <SidebarMenu>

@@ -1,7 +1,7 @@
-import { createSlice, createSelector } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 
 import { authApi } from "@/api/auth"
-import { userApi } from "@/api/user"
+import { userApi } from "@/api/users"
 
 import type { User } from "@/types/user"
 import type { RootState } from ".."
@@ -14,7 +14,7 @@ const initialState: {
 } = {
   user: null,
   token: localStorage.getItem(TOKEN_LOCAL_STORAGE_KEY),
-}
+} as const
 
 export const authSlice = createSlice({
   name: "auth",
@@ -42,12 +42,7 @@ export const authSlice = createSlice({
 
 export const { logout } = authSlice.actions
 
-const selectCurrentUserRaw = (state: RootState) => state.auth.user
-export const selectCurrentUser = createSelector(
-  [selectCurrentUserRaw],
-  (user) =>
-    user ? { ...user, displayName: user.nickname || user.login } : null
-)
+export const selectCurrentUser = (state: RootState) => state.auth.user
 
 export const selectToken = (state: RootState) => state.auth.token
 

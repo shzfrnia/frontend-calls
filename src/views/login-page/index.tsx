@@ -17,7 +17,7 @@ import { useAppSelector } from "@/hooks/use-store"
 
 import { useApplicationServer } from "@/api/app-server"
 import { useLoginMutation } from "@/api/auth"
-import { useLazyMeQuery, useSignupMutation } from "@/api/user"
+import { useLazyMeQuery, useSignupMutation } from "@/api/users"
 
 import { selectToken } from "@/store/slices/auth-slice"
 
@@ -31,6 +31,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
+import { PixelLiquidBg } from "@/components/unlumen-ui/pixel-liquid-bg"
 
 import { LocalizationToggler } from "@/components/localization-toggler"
 import { ThemeToggler } from "@/components/theme-toggler"
@@ -41,13 +42,11 @@ import { ServerUrlDialog } from "@/components/dialogs/server-url-dialog"
 import { SignInForm } from "@/components/forms/sign-in-form"
 import CatImage from "../../assets/cat.jpg"
 
-import { PixelLiquidBg } from "@/components/unlumen-ui/pixel-liquid-bg"
-
 const cardBlock = cva("py-6")
 
 export function LoginPage() {
   const { t } = useTranslation()
-  usePageTitle(t("views.login-page.title"))
+  usePageTitle(t("views.login.title"))
   const navigate = useNavigate()
 
   const [login, { isLoading }] = useLoginMutation()
@@ -62,6 +61,7 @@ export function LoginPage() {
   } = useApplicationServer()
 
   const afterLoginNavigate = useCallback(() => navigate("/"), [navigate])
+
   const tryLogin = useCallback(
     (data: { username: string; password: string }) => {
       const form = new FormData()
@@ -73,7 +73,7 @@ export function LoginPage() {
         .then(afterLoginNavigate)
         .catch((err) => {
           toast(t("common.something-went-wrong"), {
-            description: t(`views.login-page.toast.${err.data.detail}`),
+            description: t(`views.login.toast.${err.data.detail}`),
           })
         })
     },
@@ -107,7 +107,10 @@ export function LoginPage() {
         defaultValues={{ url: applicationServerUrl }}
         open={showServerDialog}
         onOpenChange={setShowServerDialog}
-        onSubmit={({ url }) => setApplicationServerUrl(url)}
+        onSubmit={({ url }) => {
+          setApplicationServerUrl(url)
+          setShowServerDialog(false)
+        }}
       />
       <Card className="w-[65%] py-0 my-5 min-w-[700px] max-w-[850px] overflow-hidden z-1 shadow-xl">
         <div className="flex">
@@ -134,13 +137,13 @@ export function LoginPage() {
 
           <div className={cn(cardBlock(), "flex flex-col gap-5 px-20 w-full")}>
             <h1 className="text-4xl font-extrabold tracking-tight text-balance">
-              {t("views.login-page.title")}
+              {t("views.login.title")}
             </h1>
 
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
                 <p>{t("common.server")}</p>
-                <Tip>{t("views.login-page.server-tip")}</Tip>
+                <Tip>{t("views.login.server-tip")}</Tip>
               </div>
 
               <div className="flex gap-1 justify-between items-center">
@@ -161,9 +164,7 @@ export function LoginPage() {
                                 <CircleX className="text-red-700" />
                               </TooltipTrigger>
                               <TooltipContent>
-                                {t(
-                                  `views.login-page.server-url-is-not-supported`
-                                )}
+                                {t(`views.login.server-url-is-not-supported`)}
                               </TooltipContent>
                             </Tooltip>
                           ),
@@ -191,7 +192,7 @@ export function LoginPage() {
             <Separator />
 
             <SignInForm
-              submitError={canLogin ? "" : t("views.login-page.server-tip")}
+              submitError={canLogin ? "" : t("views.login.server-tip")}
               loading={isLoading || signupIsLoading}
               onSubmit={(data) => {
                 if ("email" in data) {
@@ -205,9 +206,7 @@ export function LoginPage() {
                     })
                     .catch((err) => {
                       toast(t("common.something-went-wrong"), {
-                        description: t(
-                          `views.login-page.toast.${err.data.detail}`
-                        ),
+                        description: t(`views.login.toast.${err.data.detail}`),
                       })
                     })
                 } else {
