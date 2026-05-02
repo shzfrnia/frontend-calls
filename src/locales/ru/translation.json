@@ -26,9 +26,11 @@
     "nickname": "Отображаемое имя",
     "not-set": "Не задано",
     "members": "Участники",
-    "invite": "Пригласить",
+    "invite-to-server": "Пригласить на сервер",
     "join": "Присоединится",
-    "disconnect": "Отключиться"
+    "disconnect": "Отключиться",
+    "copy": "Скопировать",
+    "copied": "Скопировано"
   },
   "views": {
     "login": {
@@ -76,7 +78,7 @@
     "header": { "house-tooltip": "Личные сообщения" },
     "footer": { "add-server-tooltip": "Добавить сервер" }
   },
-  "dialogs": {
+  "dialog": {
     "server-url": {
       "title": "Войдите на свой сервер",
       "url": {
@@ -149,6 +151,10 @@
     "leave-server": {
       "title": "Покинуть",
       "description": "Вы уверены что хотите покинуть <bold>{{serverName}}</bold>? Вы не сможете вернутся на сервер, пока вас не пригласят."
+    },
+    "invite-to-server": {
+      "title": "Пригласить на сервер {{serverName}}",
+      "description": "Код для приглашения"
     }
   },
   "empty": {

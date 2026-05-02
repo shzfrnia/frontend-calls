@@ -20,21 +20,21 @@ export function SettingsDialog({ open }: { open: boolean }) {
   const { t } = useTranslation()
   const [items] = useState<Items>({
     "user-settings": {
-      title: t("dialogs.settings.nav.profile-settings.title"),
+      title: t("dialog.settings.nav.profile-settings.title"),
       items: {
         profile: {
-          title: t("dialogs.settings.nav.profile-settings.nav.profile.title"),
+          title: t("dialog.settings.nav.profile-settings.nav.profile.title"),
           icon: UserRoundPen,
           items: {
             general: {
               title: t(
-                "dialogs.settings.nav.profile-settings.nav.profile.nav.general.title"
+                "dialog.settings.nav.profile-settings.nav.profile.nav.general.title"
               ),
               Component: SettingsProfile,
             },
             privacy: {
               title: t(
-                "dialogs.settings.nav.profile-settings.nav.profile.nav.privacy.title"
+                "dialog.settings.nav.profile-settings.nav.profile.nav.privacy.title"
               ),
               disabled: true,
               Component: SettingsPrivacy,
@@ -44,11 +44,11 @@ export function SettingsDialog({ open }: { open: boolean }) {
       },
     },
     general: {
-      title: t("dialogs.settings.nav.general.title"),
+      title: t("dialog.settings.nav.general.title"),
       items: {
         profile: {
           title: t(
-            "dialogs.settings.nav.general.nav.application-settings.title"
+            "dialog.settings.nav.general.nav.application-settings.title"
           ),
           icon: Cog,
           Component: SettingsApplication,

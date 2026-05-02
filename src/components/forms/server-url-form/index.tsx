@@ -49,7 +49,7 @@ export function ServerUrlForm({
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <DialogHeader>
-        <DialogTitle>{t("dialogs.server-url.title")}</DialogTitle>
+        <DialogTitle>{t("dialog.server-url.title")}</DialogTitle>
         <DialogDescription>{t("views.login.server-tip")}</DialogDescription>
       </DialogHeader>
 
@@ -59,7 +59,7 @@ export function ServerUrlForm({
         render={({ field, fieldState }) => (
           <Field title="url" data-invalid={fieldState.invalid}>
             <FieldLabel htmlFor="url">
-              {t("dialogs.server-url.url.label")}
+              {t("dialog.server-url.url.label")}
               <span className="text-destructive">*</span>
             </FieldLabel>
 
@@ -73,9 +73,7 @@ export function ServerUrlForm({
 
             {fieldState.invalid && (
               <FieldError>
-                {t(
-                  `dialogs.server-url.url.errors.${fieldState.error?.message}`
-                )}
+                {t(`dialog.server-url.url.errors.${fieldState.error?.message}`)}
               </FieldError>
             )}
           </Field>

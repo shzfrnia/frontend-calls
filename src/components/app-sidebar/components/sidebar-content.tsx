@@ -1,12 +1,7 @@
 import { useState, type ComponentProps, type ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { NavLink } from "react-router-dom"
-import {
-  // PencilIcon,
-  // ShareIcon,
-  SquareArrowRightExit,
-  Volume2,
-} from "lucide-react"
+import { UserRoundPlus, SquareArrowRightExit, Volume2 } from "lucide-react"
 
 import { randInt } from "@/utils/number"
 
@@ -16,6 +11,7 @@ import {
   openLeaveServerDialog,
   selectServers,
   selectServersLoaded,
+  openInviteServerDialog,
 } from "@/store/slices/servers-slice"
 import { selectChannel } from "@/store/slices/channel-slice"
 
@@ -25,7 +21,7 @@ import {
   ContextMenuContent,
   ContextMenuGroup,
   ContextMenuItem,
-  // ContextMenuSeparator,
+  ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
 
@@ -156,18 +152,16 @@ export function ServerContextMenu({
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
 
       <ContextMenuContent>
-        {/* <ContextMenuGroup>
-          <ContextMenuItem>
-            <PencilIcon />
-            Edit
-          </ContextMenuItem>
-          <ContextMenuItem>
-            <ShareIcon />
-            Share
+        <ContextMenuGroup>
+          <ContextMenuItem
+            onClick={() => dispatch(openInviteServerDialog(server))}
+          >
+            <UserRoundPlus />
+            {t("common.invite-to-server")}
           </ContextMenuItem>
         </ContextMenuGroup>
 
-        <ContextMenuSeparator /> */}
+        <ContextMenuSeparator />
 
         <ContextMenuGroup>
           <ContextMenuItem

@@ -7,7 +7,7 @@ import {
 
 import type { RootState } from "../index"
 
-import type { WSServer } from "@/types/server"
+import type { WSServer, Server } from "@/types/server"
 import { uuid4 } from "@/types"
 import { ChannelUser } from "@/types/user"
 
@@ -16,9 +16,11 @@ const serversAdapter = createEntityAdapter<WSServer>()
 const initialState = serversAdapter.getInitialState<{
   loaded: boolean
   leaveServerDialog: null | uuid4
+  inviteServerDialog: null | Server
 }>({
   loaded: false,
   leaveServerDialog: null,
+  inviteServerDialog: null,
 })
 
 export const serversSlice = createSlice({
@@ -71,6 +73,12 @@ export const serversSlice = createSlice({
         changes: { users },
       })
     },
+    openInviteServerDialog: (state, action: PayloadAction<Server>) => {
+      state.inviteServerDialog = action.payload
+    },
+    closeInviteServerDialog: (state) => {
+      state.inviteServerDialog = null
+    },
   },
 })
 
@@ -82,6 +90,8 @@ export const {
 } = serversAdapter.getSelectors<RootState>((state) => state.servers)
 
 export const selectServersLoaded = (state: RootState) => state.servers.loaded
+export const selectInviteServerDialog = (state: RootState) =>
+  state.servers.inviteServerDialog
 
 const selectLeaveServerDialog = (state: RootState) =>
   state.servers.leaveServerDialog
@@ -97,4 +107,6 @@ export const {
   userJoined,
   updateChannelUser,
   userLeft,
+  openInviteServerDialog,
+  closeInviteServerDialog,
 } = serversSlice.actions

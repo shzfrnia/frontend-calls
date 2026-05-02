@@ -93,7 +93,7 @@ export function UserCard() {
       <CardFooter>
         <Button className="w-full">
           {t(
-            "dialogs.settings.nav.profile-settings.nav.profile.nav.general.edit-account-button"
+            "dialog.settings.nav.profile-settings.nav.profile.nav.general.edit-account-button"
           )}
         </Button>
       </CardFooter>

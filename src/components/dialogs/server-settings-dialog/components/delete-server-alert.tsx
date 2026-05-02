@@ -45,14 +45,14 @@ export function DeleteServerAlert(props: {
             <Trash2Icon />
           </AlertDialogMedia>
           <AlertDialogTitle>
-            {t("dialogs.server-settings.nav.remove-section.title")} '
+            {t("dialog.server-settings.nav.remove-section.title")} '
             {server.name}'
           </AlertDialogTitle>
           <AlertDialogDescription>
             <div className="flex flex-col gap-6">
               <p>
                 <Trans
-                  i18nKey="dialogs.server-settings.nav.remove-section.description"
+                  i18nKey="dialog.server-settings.nav.remove-section.description"
                   values={{ serverName: server?.name }}
                   components={{ bold: <strong /> }}
                 />
@@ -62,12 +62,12 @@ export function DeleteServerAlert(props: {
                 <Field>
                   <FieldLabel>
                     {t(
-                      "dialogs.server-settings.nav.remove-section.server-name.label"
+                      "dialog.server-settings.nav.remove-section.server-name.label"
                     )}
                   </FieldLabel>
                   <Input
                     placeholder={t(
-                      "dialogs.server-settings.nav.remove-section.server-name.placeholder"
+                      "dialog.server-settings.nav.remove-section.server-name.placeholder"
                     )}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -90,7 +90,7 @@ export function DeleteServerAlert(props: {
               deleteServer(server.id)
             }}
           >
-            {t("dialogs.server-settings.nav.remove-section.title")}
+            {t("dialog.server-settings.nav.remove-section.title")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

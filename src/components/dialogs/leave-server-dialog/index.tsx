@@ -50,12 +50,12 @@ export function LeaveServerDialog() {
           </AlertDialogMedia>
 
           <AlertDialogTitle>
-            {t("dialogs.leave-server.title")} '{server?.name}'?
+            {t("dialog.leave-server.title")} '{server?.name}'?
           </AlertDialogTitle>
 
           <AlertDialogDescription>
             <Trans
-              i18nKey="dialogs.leave-server.description"
+              i18nKey="dialog.leave-server.description"
               values={{ serverName: server?.name }}
               components={{ bold: <strong /> }}
             />

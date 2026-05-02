@@ -31,20 +31,20 @@ export function ServerSettingsDialog({
         title: server?.name,
         items: {
           "server-profile": {
-            title: t("dialogs.server-settings.nav.server-profile.title"),
+            title: t("dialog.server-settings.nav.server-profile.title"),
             Component: ServerProfile,
           },
         },
       },
       users: {
-        title: t("dialogs.server-settings.nav.users.title"),
+        title: t("dialog.server-settings.nav.users.title"),
         items: {
           users: {
-            title: t("dialogs.server-settings.nav.users.nav.users.title"),
+            title: t("dialog.server-settings.nav.users.nav.users.title"),
             Component: ServerProfile,
           },
           roles: {
-            title: t("dialogs.server-settings.nav.users.nav.roles.title"),
+            title: t("dialog.server-settings.nav.users.nav.roles.title"),
             Component: ServerProfile,
           },
         },
@@ -52,7 +52,7 @@ export function ServerSettingsDialog({
       "remove-section": {
         items: {
           profile: {
-            title: t("dialogs.server-settings.nav.remove-section.title"),
+            title: t("dialog.server-settings.nav.remove-section.title"),
             rightIcon: Trash2,
             onClick: () => setShowDeleteAlert(true),
             variant: "destructive",

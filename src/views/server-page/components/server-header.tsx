@@ -1,13 +1,21 @@
 import { useTranslation } from "react-i18next"
-import { ChevronDown, SquareArrowRightExit, Settings } from "lucide-react"
+import {
+  ChevronDown,
+  SquareArrowRightExit,
+  Settings,
+  UserRoundPlus,
+} from "lucide-react"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
 
-import { openLeaveServerDialog } from "@/store/slices/servers-slice"
+import {
+  openLeaveServerDialog,
+  openInviteServerDialog,
+} from "@/store/slices/servers-slice"
 
 import { selectServer } from "../store"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui-proxy/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useCallback } from "react"
 
 export function ServerHeader({
   openSettingsDialogClick,
@@ -27,30 +36,39 @@ export function ServerHeader({
   const dispatch = useAppDispatch()
   const server = useAppSelector(selectServer)
 
+  const openInviteDialog = useCallback(() => {
+    if (server) {
+      dispatch(openInviteServerDialog(server))
+    }
+  }, [server, dispatch])
+
   if (!server) {
     return <Skeleton className="w-full h-full" />
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild className="group">
-        <Button variant="ghost" className="overflow-hidden shrink-1">
-          <span className="truncate">{server.name}</span>
-          <ChevronDown className="transition-transform duration-200 group-data-[state=open]:rotate-x-180" />
-        </Button>
-      </DropdownMenuTrigger>
+    <div className="w-full flex flex-1 items-center justify-between gap-2">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild className="group">
+          <Button variant="ghost" className="overflow-hidden shrink-1">
+            <span className="truncate">{server.name}</span>
+            <ChevronDown className="transition-transform duration-200 group-data-[state=open]:rotate-x-180" />
+          </Button>
+        </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="start">
-        <DropdownMenuGroup>
-          <DropdownMenuItem onClick={openSettingsDialogClick}>
-            <Settings />
-            {t("views.server.header.dropdown.server-settings")}
-          </DropdownMenuItem>
-          {/* <DropdownMenuItem>
-            Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
+        <DropdownMenuContent align="start">
+          <DropdownMenuGroup>
+            <DropdownMenuItem onClick={openInviteDialog}>
+              <UserRoundPlus />
+              {t("common.invite-to-server")}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem onClick={openSettingsDialogClick}>
+              <Settings />
+              {t("views.server.header.dropdown.server-settings")}
+            </DropdownMenuItem>
+
+            {/* <DropdownMenuItem>
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
@@ -58,9 +76,9 @@ export function ServerHeader({
             Settings
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem> */}
-        </DropdownMenuGroup>
+          </DropdownMenuGroup>
 
-        {/* <DropdownMenuSeparator />
+          {/* <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
           <DropdownMenuItem>Team</DropdownMenuItem>
@@ -89,18 +107,28 @@ export function ServerHeader({
           <DropdownMenuItem disabled>API</DropdownMenuItem>
         </DropdownMenuGroup> */}
 
-        <DropdownMenuSeparator />
+          <DropdownMenuSeparator />
 
-        <DropdownMenuGroup>
-          <DropdownMenuItem
-            variant="destructive"
-            onClick={() => dispatch(openLeaveServerDialog(server.id))}
-          >
-            <SquareArrowRightExit />
-            {t("views.server.header.dropdown.leave-server")}
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              variant="destructive"
+              onClick={() => dispatch(openLeaveServerDialog(server.id))}
+            >
+              <SquareArrowRightExit />
+              {t("views.server.header.dropdown.leave-server")}
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <Button
+        size="icon-sm"
+        variant="ghost"
+        tooltip={t("common.invite-to-server")}
+        onClick={openInviteDialog}
+      >
+        <UserRoundPlus />
+      </Button>
+    </div>
   )
 }
