@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { Trash, Copy } from "lucide-react"
+import { Trash } from "lucide-react"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
 
@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/table"
 
 import { CopyButton } from "@/components/copy-button"
+
+import { formatDate } from "@/utils/date"
 
 import { User } from "@/types/user"
 
@@ -89,12 +91,13 @@ export function Invites() {
                   "dialog.server-settings.nav.users.nav.invites.table.header.used"
                 )}
               </TableHead>
+              <TableHead>{t("common.created")}</TableHead>
               <TableHead />
             </TableRow>
           </TableHeader>
 
           <TableBody>
-            {(data?.data || []).map(({ id, user, code, used }) => (
+            {(data?.data || []).map(({ id, user, code, used, created_at }) => (
               <TableRow key={id}>
                 <TableCell>
                   <UserCard user={user} />
@@ -108,6 +111,8 @@ export function Invites() {
                 </TableCell>
 
                 <TableCell>{used}</TableCell>
+
+                <TableCell>{formatDate(created_at)}</TableCell>
 
                 <TableCell className="text-right">
                   <Button
