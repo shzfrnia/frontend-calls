@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { Copy, Check } from "lucide-react"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
-import { useTimeout } from "@/hooks/use-timeout"
 
 import { useGetInviteCodeMutation } from "@/api/servers"
 
@@ -12,7 +10,6 @@ import {
   closeInviteServerDialog,
 } from "@/store/slices/servers-slice"
 
-import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -23,25 +20,13 @@ import {
 } from "@/components/ui/dialog"
 import { Spinner } from "@/components/ui/spinner"
 
-import { copyToClipboard } from "@/utils/copy"
+import { CopyButton } from "@/components/copy-button"
 
 export function InviteToServer() {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const inviteServer = useAppSelector(selectInviteServerDialog)
-  const [copied, setCopied] = useState(false)
   const [getInviteCode, { isLoading, data }] = useGetInviteCodeMutation()
-
-  useTimeout(
-    () => {
-      if (data) {
-        copyToClipboard(data.code)
-        setCopied(false)
-      }
-    },
-    1500,
-    copied
-  )
 
   useEffect(() => {
     if (inviteServer) {
@@ -77,17 +62,7 @@ export function InviteToServer() {
         </div>
 
         <DialogFooter className="flex !justify-center">
-          <Button disabled={isLoading} onClick={() => setCopied(true)}>
-            {copied ? (
-              <>
-                {t("common.copied")} <Check />
-              </>
-            ) : (
-              <>
-                {t("common.copy")} <Copy />
-              </>
-            )}
-          </Button>
+          <CopyButton size="lg" content={data?.code} />
         </DialogFooter>
       </DialogContent>
     </Dialog>

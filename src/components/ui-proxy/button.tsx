@@ -10,10 +10,9 @@ export function Button({
   ...props
 }: ComponentProps<typeof UIButton> & {
   tooltip?:
-    | {
+    | ({
         content: string
-        onOpenChange: ComponentProps<typeof Tooltip>["onOpenChange"]
-      }
+      } & Pick<ComponentProps<typeof Tooltip>, "onOpenChange">)
     | string
 }) {
   const { content, onOpenChange } =

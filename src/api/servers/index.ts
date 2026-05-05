@@ -13,6 +13,25 @@ export const serversApi = api.injectEndpoints({
     }),
     getInviteCode: build.mutation<Invite, uuid4>({
       query: (id) => ({ url: `servers/${id}/invite`, method: "POST" }),
+      invalidatesTags: ["invites"],
+    }),
+    getInvites: build.query<{ data: Invite[]; count: number }, uuid4>({
+      query: (id) => ({ url: `servers/${id}/invites` }),
+      providesTags: ["invites"],
+    }),
+    deleteInvite: build.mutation<void, { server: uuid4; invite: uuid4 }>({
+      query: ({ server, invite }) => ({
+        url: `servers/${server}/invite/${invite}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["invites"],
+    }),
+    cleanInvites: build.mutation<void, uuid4>({
+      query: (id) => ({
+        url: `servers/${id}/invites`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["invites"],
     }),
   }),
 })
@@ -21,4 +40,7 @@ export const {
   useCreateServerMutation,
   useDeleteServerMutation,
   useGetInviteCodeMutation,
+  useLazyGetInvitesQuery,
+  useDeleteInviteMutation,
+  useCleanInvitesMutation,
 } = serversApi

@@ -1,5 +1,5 @@
 import type { uuid4 } from "."
-import type { ChannelUser } from "./user"
+import type { ChannelUser, User } from "./user"
 
 export type Server = {
   id: uuid4
@@ -43,4 +43,5 @@ export type Invite = {
   code: string
   id: uuid4
   used: number
+  user: User
 }
