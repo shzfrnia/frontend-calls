@@ -89,7 +89,7 @@ export function Invites() {
                   "dialog.server-settings.nav.users.nav.invites.table.header.used"
                 )}
               </TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
 
