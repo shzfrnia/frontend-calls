@@ -154,7 +154,7 @@
     },
     "invite-to-server": {
       "title": "Пригласить на сервер {{serverName}}",
-      "description": "Код для приглашения"
+      "description": "Ваш код для приглашения"
     }
   },
   "empty": {

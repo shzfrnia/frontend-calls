@@ -3,6 +3,9 @@ import { useTranslation } from "react-i18next"
 import { Copy, Check } from "lucide-react"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
+import { useTimeout } from "@/hooks/use-timeout"
+
+import { useGetInviteCodeMutation } from "@/api/servers"
 
 import {
   selectInviteServerDialog,
@@ -18,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { Spinner } from "@/components/ui/spinner"
 
 import { copyToClipboard } from "@/utils/copy"
 
@@ -26,23 +30,24 @@ export function InviteToServer() {
   const dispatch = useAppDispatch()
   const inviteServer = useAppSelector(selectInviteServerDialog)
   const [copied, setCopied] = useState(false)
-  const code = "912381283128"
+  const [getInviteCode, { isLoading, data }] = useGetInviteCodeMutation()
+
+  useTimeout(
+    () => {
+      if (data) {
+        copyToClipboard(data.code)
+        setCopied(false)
+      }
+    },
+    1500,
+    copied
+  )
 
   useEffect(() => {
-    let id: NodeJS.Timeout | null = null
-
-    if (copied) {
-      copyToClipboard(code)
-
-      id = setTimeout(() => {
-        setCopied(false)
-      }, 2000)
+    if (inviteServer) {
+      getInviteCode(inviteServer.id)
     }
-
-    return () => {
-      id && clearTimeout(id)
-    }
-  }, [copied, setCopied])
+  }, [getInviteCode, inviteServer])
 
   return (
     <Dialog
@@ -61,14 +66,18 @@ export function InviteToServer() {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex justify-center">
-          <span className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
-            {code}
-          </span>
+        <div className="flex justify-center h-[45px]">
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <span className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
+              {data?.code}
+            </span>
+          )}
         </div>
 
         <DialogFooter className="flex !justify-center">
-          <Button onClick={() => setCopied(true)}>
+          <Button disabled={isLoading} onClick={() => setCopied(true)}>
             {copied ? (
               <>
                 {t("common.copied")} <Check />

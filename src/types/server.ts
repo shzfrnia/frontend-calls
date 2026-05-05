@@ -38,3 +38,9 @@ export const isCategory = (
 ): channel is Category => {
   return "channels" in channel
 }
+
+export type Invite = {
+  code: string
+  id: uuid4
+  used: number
+}
