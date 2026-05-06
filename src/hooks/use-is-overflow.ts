@@ -17,7 +17,7 @@ export function useIsOverflow<T extends HTMLElement = HTMLElement>({
 
   const checkSize = useCallback(() => {
     const element = ref.current
-    if (!element) {
+    if (!element || !enabled) {
       return false
     }
 
@@ -25,7 +25,7 @@ export function useIsOverflow<T extends HTMLElement = HTMLElement>({
       element.scrollWidth > element.clientWidth ||
       element.scrollHeight > element.clientHeight
     )
-  }, [ref])
+  }, [ref, enabled])
 
   const [isOverflow, setIsOverflow] = useState(false)
 
