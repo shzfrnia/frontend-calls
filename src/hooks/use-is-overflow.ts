@@ -8,10 +8,11 @@ import {
 
 import { useResize } from "./use-resize"
 
-export function useIsOverflow<T extends HTMLElement = HTMLElement>(): [
-  ref: MutableRefObject<T | null>,
-  boolean,
-] {
+export function useIsOverflow<T extends HTMLElement = HTMLElement>({
+  enabled = true,
+}: {
+  enabled?: boolean
+} = {}): [ref: MutableRefObject<T | null>, boolean] {
   const ref = useRef<T | null>(null)
 
   const checkSize = useCallback(() => {
@@ -28,7 +29,11 @@ export function useIsOverflow<T extends HTMLElement = HTMLElement>(): [
 
   const [isOverflow, setIsOverflow] = useState(false)
 
-  useResize(() => setIsOverflow(checkSize()), { ref, throttle: 200 })
+  useResize(() => setIsOverflow(checkSize()), {
+    ref,
+    debounce: 300,
+    enabled,
+  })
 
   useLayoutEffect(() => {
     setIsOverflow(checkSize())

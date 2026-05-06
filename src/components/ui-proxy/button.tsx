@@ -24,16 +24,18 @@ export function Button({
   const { content, onOpenChange } =
     typeof tooltip === "string" ? { content: tooltip } : { ...tooltip }
 
-  const [ref, isOverflow] = useIsOverflow<HTMLButtonElement>()
-  const hasClipTooltip = isClipped && isOverflow
+  const [ref, isOverflow] = useIsOverflow<HTMLButtonElement>({
+    enabled: isClipped,
+  })
+  const childrenToTooltip = isClipped && isOverflow
 
   return (
     <Tooltip
       delayDuration={200}
-      open={content || hasClipTooltip ? undefined : false}
+      open={content || childrenToTooltip ? undefined : false}
       onOpenChange={onOpenChange}
     >
-      <TooltipContent>{hasClipTooltip ? children : content}</TooltipContent>
+      <TooltipContent>{childrenToTooltip ? children : content}</TooltipContent>
 
       <TooltipTrigger asChild>
         <UIButton

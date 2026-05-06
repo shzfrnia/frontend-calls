@@ -12,6 +12,7 @@ export function useResize<T extends HTMLElement = HTMLElement>(
     ref?: MutableRefObject<T | null>
     debounce?: number
     throttle?: number
+    enabled?: boolean
   } = {}
 ): MutableRefObject<T | null> {
   const internalRef = useRef<T | null>(null)
@@ -24,7 +25,7 @@ export function useResize<T extends HTMLElement = HTMLElement>(
     savedCallback.current = callback
   })
 
-  const { debounce: debounceMs, throttle: throttleMs } = options
+  const { debounce: debounceMs, throttle: throttleMs, enabled } = options
 
   const throttledCallback = useMemo(() => {
     const fn = (size: Size) => savedCallback.current(size)
@@ -38,9 +39,7 @@ export function useResize<T extends HTMLElement = HTMLElement>(
   useLayoutEffect(() => {
     const element = target.current
 
-    console.log(target)
-
-    if (!element) {
+    if (!element || !enabled) {
       return
     }
 
@@ -57,7 +56,7 @@ export function useResize<T extends HTMLElement = HTMLElement>(
     return () => {
       resizeObserver?.disconnect()
     }
-  }, [throttledCallback])
+  }, [throttledCallback, target, enabled])
 
   return target
 }
