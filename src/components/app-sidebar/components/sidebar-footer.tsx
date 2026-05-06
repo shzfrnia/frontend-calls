@@ -1,8 +1,9 @@
-import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { CirclePlus } from "lucide-react"
 
-import { cn } from "@/lib/utils"
+import { useAppDispatch } from "@/hooks/use-store"
+
+import { openCreateServerDialog } from "@/store/slices/servers-slice"
 
 import {
   SidebarFooter as SidebarFooterComponent,
@@ -10,26 +11,21 @@ import {
 } from "./sidebar"
 import { sidebarMenuButtonLg } from "./sidebar-menu-button"
 
-import { CreateServerDialog } from "../../dialogs/create-server-dialog"
+import { cn } from "@/lib/utils"
 
 export function SidebarFooter() {
   const { t } = useTranslation()
-  const [createServerDialogOpen, setCreateServerDialogOpen] = useState(false)
+  const dispatch = useAppDispatch()
 
   return (
     <SidebarFooterComponent>
       <SidebarMenuButton
         className={cn(sidebarMenuButtonLg())}
         tooltip={t("sidebar.footer.add-server-tooltip")}
-        onClick={() => setCreateServerDialogOpen(true)}
+        onClick={() => dispatch(openCreateServerDialog())}
       >
         <CirclePlus />
       </SidebarMenuButton>
-
-      <CreateServerDialog
-        open={createServerDialogOpen}
-        onOpenChange={setCreateServerDialogOpen}
-      />
     </SidebarFooterComponent>
   )
 }

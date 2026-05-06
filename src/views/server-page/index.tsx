@@ -36,7 +36,7 @@ export function ServerPage() {
         setTitle(server.name)
         dispatch(setServer(server))
       } else {
-        navigate("/404")
+        navigate("/")
       }
     }
   }, [serversIsLoaded, server, setTitle, dispatch, navigate])

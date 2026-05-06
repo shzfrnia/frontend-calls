@@ -56,7 +56,7 @@ export function CallPanel() {
           size="icon-sm"
           variant="ghost"
           tooltip={t("common.disconnect")}
-          onClick={() => left({ channel })}
+          onClick={() => left()}
         >
           <PhoneOff />
         </Button>

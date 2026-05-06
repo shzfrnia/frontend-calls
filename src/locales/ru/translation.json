@@ -170,6 +170,17 @@
     "invite-to-server": {
       "title": "Пригласить на сервер {{serverName}}",
       "description": "Ваш код для приглашения"
+    },
+    "create-server": {
+      "title": "Создайте свой сервер",
+      "has-invite-code-title": "У вас уже есть код-приглашение?"
+    },
+    "join-server": {
+      "title": "Присоединиться к серверу",
+      "description": "Введите код-приглашение, чтобы присоединится к серверу"
+    },
+    "join-server-accept": {
+      "description": "Вступить на сервер?"
     }
   },
   "empty": {
@@ -202,6 +213,12 @@
       },
       "buttons": {
         "create": "Создать сервер"
+      }
+    },
+    "join-server": {
+      "code": {
+        "label": "Код-приглашения",
+        "error": "Код должен быть форматом ХХХХ-ХХХХ-ХХХХ"
       }
     },
     "errors": {

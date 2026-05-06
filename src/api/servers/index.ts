@@ -33,6 +33,23 @@ export const serversApi = api.injectEndpoints({
       }),
       invalidatesTags: ["invites"],
     }),
+    getServerByInvite: build.query<Server, string>({
+      query: (code) => ({
+        url: `servers/invite/${code}`,
+      }),
+    }),
+    joinServerByInvite: build.mutation<void, string>({
+      query: (code) => ({
+        url: `servers/invite/${code}`,
+        method: "POST",
+      }),
+    }),
+    leaveServer: build.mutation<void, uuid4>({
+      query: (id) => ({
+        url: `servers/${id}/leave`,
+        method: "POST",
+      }),
+    }),
   }),
 })
 
@@ -43,4 +60,7 @@ export const {
   useLazyGetInvitesQuery,
   useDeleteInviteMutation,
   useCleanInvitesMutation,
+  useLazyGetServerByInviteQuery,
+  useJoinServerByInviteMutation,
+  useLeaveServerMutation,
 } = serversApi

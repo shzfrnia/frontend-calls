@@ -8,17 +8,13 @@ import { useApplicationServer } from "./api/app-server"
 import { useLazyMeQuery } from "./api/users"
 import { useInitWsQuery } from "./api/ws"
 
-import { selectSettingsDialog } from "./store/slices/settings-slice"
 import { selectToken } from "./store/slices/auth-slice"
 
 import { Layout } from "./components/layout"
 import { ApplicationVersions } from "./components/application-versions"
 import { EmptyServerFailed } from "./components/empty-server-failed"
 import { ApplicationLoading } from "./components/application-loading"
-import { SettingsDialog } from "./components/dialogs/settings-dialog"
-import { LeaveServerDialog } from "./components/dialogs/leave-server-dialog"
-import { ChangeCallDialog } from "./components/dialogs/change-call-dialog"
-import { InviteToServer } from "./components/dialogs/invite-to-server"
+import { GlobalDialogs } from "./components/dialogs/global-dialogs"
 
 import "./App.css"
 
@@ -31,7 +27,6 @@ function App() {
   const { applicationServerStatus } = useApplicationServer()
   const [me] = useLazyMeQuery()
 
-  const { opened } = useAppSelector(selectSettingsDialog)
   const token = useAppSelector(selectToken)
 
   useEffect(() => {
@@ -62,10 +57,7 @@ function App() {
     <Layout>
       <Outlet />
 
-      <SettingsDialog open={opened} />
-      <LeaveServerDialog />
-      <ChangeCallDialog />
-      <InviteToServer />
+      <GlobalDialogs />
 
       <ApplicationVersions />
     </Layout>

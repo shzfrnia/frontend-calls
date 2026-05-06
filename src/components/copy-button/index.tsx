@@ -21,16 +21,7 @@ export function CopyButton({
   const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
 
-  useTimeout(
-    () => {
-      if (content) {
-        copyToClipboard(content)
-        setCopied(false)
-      }
-    },
-    1500,
-    copied
-  )
+  useTimeout(() => setCopied(false), 1500, copied)
 
   const asIcon = size?.startsWith("icon")
   const text = t(copied ? "common.copied" : "common.copy")
@@ -44,7 +35,10 @@ export function CopyButton({
       disabled={isDisabled}
       variant={variant}
       tooltip={asIcon ? text : undefined}
-      onClick={() => setCopied(true)}
+      onClick={() => {
+        content && copyToClipboard(content)
+        setCopied(true)
+      }}
     >
       {asIcon ? (
         icon

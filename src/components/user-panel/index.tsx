@@ -63,12 +63,16 @@ export function UserPanel() {
 
       <Block
         variant="secondary-2"
-        className={cn("flex p-1", channel ? "rounded-b-sm" : "rounded-sm")}
+        className={cn(
+          "flex items-center p-1",
+          channel ? "rounded-b-sm" : "rounded-sm"
+        )}
       >
         <Avatar className="overflow-visible mr-2">
           <AvatarFallback>{displayName.charAt(0)}</AvatarFallback>
           {status}
         </Avatar>
+
         <div className="flex gap-2 items-center overflow-hidden">
           <div className="flex flex-col overflow-hidden">
             <p className="text-xs truncate">{displayName}</p>

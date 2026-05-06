@@ -2,9 +2,12 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { UserRoundPen, Cog } from "lucide-react"
 
-import { useAppDispatch } from "@/hooks/use-store"
+import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
 
-import { closeSettingsDialog } from "@/store/slices/settings-slice"
+import {
+  closeSettingsDialog,
+  selectSettingsDialog,
+} from "@/store/slices/settings-slice"
 
 import { SettingsProfile } from "./components/tabs/profile"
 import { SettingsApplication } from "./components/tabs/application"
@@ -15,9 +18,11 @@ import { SidebarDialog, type Items } from "../templates/sidebar-dialog"
 
 const defaultPath = "user-settings|profile|general"
 
-export function SettingsDialog({ open }: { open: boolean }) {
+export function SettingsDialog() {
   const dispatch = useAppDispatch()
+  const { opened: open } = useAppSelector(selectSettingsDialog)
   const { t } = useTranslation()
+
   const [items] = useState<Items>({
     "user-settings": {
       title: t("dialog.settings.nav.profile-settings.title"),

@@ -22,7 +22,7 @@ import { Spinner } from "@/components/ui/spinner"
 
 import { CopyButton } from "@/components/copy-button"
 
-export function InviteToServer() {
+export function InviteToServerDialog() {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const inviteServer = useAppSelector(selectInviteServerDialog)
