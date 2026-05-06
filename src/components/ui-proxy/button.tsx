@@ -1,12 +1,16 @@
 import { type ComponentProps } from "react"
 
-import { Button as UIButton } from "../ui/button"
+import { useIsOverflow } from "@/hooks/use-is-overflow"
 
+import { Button as UIButton } from "../ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
+import { cn } from "@/lib/utils"
 
 export function Button({
   children,
   tooltip,
+  isClipped,
+  className,
   ...props
 }: ComponentProps<typeof UIButton> & {
   tooltip?:
@@ -14,20 +18,31 @@ export function Button({
         content: string
       } & Pick<ComponentProps<typeof Tooltip>, "onOpenChange">)
     | string
+} & {
+  isClipped?: boolean
 }) {
   const { content, onOpenChange } =
     typeof tooltip === "string" ? { content: tooltip } : { ...tooltip }
 
+  const [ref, isOverflow] = useIsOverflow<HTMLButtonElement>()
+  const hasClipTooltip = isClipped && isOverflow
+
   return (
     <Tooltip
       delayDuration={200}
-      open={content ? undefined : false}
+      open={content || hasClipTooltip ? undefined : false}
       onOpenChange={onOpenChange}
     >
-      <TooltipContent>{content}</TooltipContent>
+      <TooltipContent>{hasClipTooltip ? children : content}</TooltipContent>
 
       <TooltipTrigger asChild>
-        <UIButton {...props}>{children}</UIButton>
+        <UIButton
+          {...props}
+          ref={ref}
+          className={cn(className, isClipped ? "truncate block" : undefined)}
+        >
+          {children}
+        </UIButton>
       </TooltipTrigger>
     </Tooltip>
   )
