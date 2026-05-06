@@ -1,6 +1,10 @@
 import { api } from ".."
 
-import { uuid4 } from "@/types"
+import type { RootState } from "@/store"
+
+import { endCall } from "@/store/slices/channel-slice"
+
+import type { uuid4 } from "@/types"
 import type { Server, ServerDraft, Invite } from "@/types/server"
 
 export const serversApi = api.injectEndpoints({
@@ -49,6 +53,16 @@ export const serversApi = api.injectEndpoints({
         url: `servers/${id}/leave`,
         method: "POST",
       }),
+      async onQueryStarted(id, { dispatch, getState }) {
+        const {
+          channel: { channel },
+        } = getState() as RootState
+        if (channel && channel.server_id == id) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const endpoints = api.endpoints as any
+          dispatch(endpoints.leftChannel.initiate())
+        }
+      },
     }),
   }),
 })
