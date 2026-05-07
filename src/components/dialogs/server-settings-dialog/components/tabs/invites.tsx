@@ -105,7 +105,9 @@ export function Invites() {
 
                 <TableCell>
                   <div className="flex gap-1 items-center">
-                    <span>{code}</span>
+                    <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+                      {code}
+                    </span>
                     <CopyButton variant="ghost" content={code} />
                   </div>
                 </TableCell>
