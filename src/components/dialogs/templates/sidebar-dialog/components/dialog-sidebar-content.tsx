@@ -29,8 +29,8 @@ export function DialogSidebarContent({
         <Separator />
       </div>
 
-      <ScrollArea className="flex-1 p-4 overflow-auto">
-        <div className="max-w-[700px] mx-auto">{children}</div>
+      <ScrollArea className="flex-1 min-h-0">
+        <div className="max-w-[700px] p-4 mx-auto">{children}</div>
       </ScrollArea>
     </SidebarInset>
   )

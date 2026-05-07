@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/table"
 
 import { CopyButton } from "@/components/copy-button"
+import { InlineCode } from "@/components/code"
 
 import { formatDate } from "@/utils/date"
 
@@ -35,7 +36,7 @@ export function Invites() {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const server = useAppSelector(selectServer)
-  const [fetchInvites, { data, isLoading }] = useLazyGetInvitesQuery()
+  const [fetchInvites, { data }] = useLazyGetInvitesQuery()
   const [deleteInvite] = useDeleteInviteMutation()
   const [clearInvites] = useCleanInvitesMutation()
 
@@ -105,9 +106,7 @@ export function Invites() {
 
                 <TableCell>
                   <div className="flex gap-1 items-center">
-                    <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-                      {code}
-                    </span>
+                    <InlineCode>{code}</InlineCode>
                     <CopyButton variant="ghost" content={code} />
                   </div>
                 </TableCell>
