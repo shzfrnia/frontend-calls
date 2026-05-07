@@ -26,9 +26,14 @@
     "nickname": "Отображаемое имя",
     "not-set": "Не задано",
     "members": "Участники",
-    "invite": "Пригласить",
+    "invite-to-server": "Пригласить на сервер",
     "join": "Присоединится",
-    "disconnect": "Отключиться"
+    "disconnect": "Отключиться",
+    "copy": "Скопировать",
+    "copied": "Скопировано",
+    "delete-all": "Удалить все",
+    "delete": "Удалить",
+    "created": "Создан"
   },
   "views": {
     "login": {
@@ -76,7 +81,7 @@
     "header": { "house-tooltip": "Личные сообщения" },
     "footer": { "add-server-tooltip": "Добавить сервер" }
   },
-  "dialogs": {
+  "dialog": {
     "server-url": {
       "title": "Войдите на свой сервер",
       "url": {
@@ -132,7 +137,19 @@
           "title": "Люди",
           "nav": {
             "users": { "title": "Участники" },
-            "roles": { "title": "Роли" }
+            "roles": { "title": "Роли" },
+            "invites": {
+              "title": "Приглашения",
+              "description": "Активные коды-приглашения",
+              "get-invite-code": "Получить код приглашения",
+              "table": {
+                "header": {
+                  "creator": "Приглашающий",
+                  "code": "Код приглашения",
+                  "used": "Использований"
+                }
+              }
+            }
           }
         },
         "remove-section": {
@@ -149,6 +166,21 @@
     "leave-server": {
       "title": "Покинуть",
       "description": "Вы уверены что хотите покинуть <bold>{{serverName}}</bold>? Вы не сможете вернутся на сервер, пока вас не пригласят."
+    },
+    "invite-to-server": {
+      "title": "Пригласить на сервер {{serverName}}",
+      "description": "Ваш код для приглашения"
+    },
+    "create-server": {
+      "title": "Создайте свой сервер",
+      "has-invite-code-title": "У вас уже есть код-приглашение?"
+    },
+    "join-server": {
+      "title": "Присоединиться к серверу",
+      "description": "Введите код-приглашение, чтобы присоединится к серверу"
+    },
+    "join-server-accept": {
+      "description": "Вступить на сервер?"
     }
   },
   "empty": {
@@ -181,6 +213,12 @@
       },
       "buttons": {
         "create": "Создать сервер"
+      }
+    },
+    "join-server": {
+      "code": {
+        "label": "Код-приглашения",
+        "error": "Код должен быть форматом ХХХХ-ХХХХ-ХХХХ"
       }
     },
     "errors": {

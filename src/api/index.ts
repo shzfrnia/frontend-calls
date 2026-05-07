@@ -4,7 +4,7 @@ import { baseQuery } from "./base-query"
 
 export const api = createApi({
   baseQuery: baseQuery({ baseUrl: "/api/v1/" }),
-  tagTypes: [],
+  tagTypes: ["invites"],
   endpoints: () => ({}),
 })
 

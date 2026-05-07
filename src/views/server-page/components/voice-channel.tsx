@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { NavLink, useMatch } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { Volume2, Settings, UserRoundPlus } from "lucide-react"
+import { Volume2, Settings } from "lucide-react"
 
 import { useAppSelector } from "@/hooks/use-store"
 
@@ -62,7 +62,6 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
               className={cn(
                 "group",
                 "flex items-center gap-2",
-
                 "p-1",
                 "cursor-pointer",
                 "rounded-md",
@@ -95,17 +94,17 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
               </div>
 
               <div className="flex ml-auto items-center shrink-0">
-                {limit !== 0 && (
+                {/* {limit !== 0 && (
                   <Badge
                     variant="outline"
                     className={cn(
-                      "text-[.6rem] absolute group-hover:hidden",
+                      "text-[.6rem] group-hover:hidden",
                       isCurrentCall || tooltipIsOpened ? "hidden" : undefined
                     )}
                   >
                     0 / {limit}
                   </Badge>
-                )}
+                )} */}
 
                 <ButtonGroup
                   className={cn(
@@ -117,17 +116,6 @@ export function VoiceChannel({ channel }: { channel: VoiceChannel }) {
                     e.stopPropagation()
                   }}
                 >
-                  <Button
-                    size="icon-xs"
-                    variant="ghost"
-                    tooltip={{
-                      content: t("common.invite"),
-                      onOpenChange: setTooltipIsOpened,
-                    }}
-                  >
-                    <UserRoundPlus />
-                  </Button>
-
                   <Button
                     size="icon-xs"
                     variant="ghost"

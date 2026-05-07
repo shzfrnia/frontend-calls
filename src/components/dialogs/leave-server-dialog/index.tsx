@@ -4,6 +4,8 @@ import { SquareArrowRightExit } from "lucide-react"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/use-store"
 
+import { useLeaveServerMutation } from "@/api/servers"
+
 import {
   closeLeaveServerDialog,
   selectLeaveServer,
@@ -20,12 +22,14 @@ import {
   AlertDialogMedia,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { Spinner } from "@/components/ui/spinner"
 
 export function LeaveServerDialog() {
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const serverForLeave = useAppSelector(selectLeaveServer)
   const [server, setServer] = useState(serverForLeave)
+  const [leave, { isLoading }] = useLeaveServerMutation()
 
   useEffect(() => {
     if (serverForLeave) {
@@ -50,12 +54,12 @@ export function LeaveServerDialog() {
           </AlertDialogMedia>
 
           <AlertDialogTitle>
-            {t("dialogs.leave-server.title")} '{server?.name}'?
+            {t("dialog.leave-server.title")} '{server?.name}'?
           </AlertDialogTitle>
 
           <AlertDialogDescription>
             <Trans
-              i18nKey="dialogs.leave-server.description"
+              i18nKey="dialog.leave-server.description"
               values={{ serverName: server?.name }}
               components={{ bold: <strong /> }}
             />
@@ -67,7 +71,12 @@ export function LeaveServerDialog() {
             {t("common.cancel")}
           </AlertDialogCancel>
 
-          <AlertDialogAction variant="destructive" onClick={closeDialog}>
+          <AlertDialogAction
+            variant="destructive"
+            disabled={isLoading}
+            onClick={() => server && leave(server.id).then(closeDialog)}
+          >
+            {isLoading && <Spinner />}
             {t("views.server.header.dropdown.leave-server")}
           </AlertDialogAction>
         </AlertDialogFooter>

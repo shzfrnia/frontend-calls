@@ -2,8 +2,12 @@ import { Outlet, NavLink } from "react-router-dom"
 import { UserRound } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
+import { useAppDispatch } from "@/hooks/use-store"
+
+import { openJoinServerDialog } from "@/store/slices/servers-slice"
+
 import { DefaultLayout } from "@/components/layout"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui-proxy/button"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { UserCardList, UserCard } from "./components/user-card"
@@ -37,13 +41,19 @@ const people = new Array(3).fill("").map((_, index) => {
 
 export function HomePage() {
   const { t } = useTranslation()
+  const dispatch = useAppDispatch()
   usePageTitle(t("views.home.title"))
 
   return (
     <DefaultLayout>
       <DefaultLayout.LayoutLeftPanel>
         <DefaultLayout.LayoutHeaderPanel>
-          <Button variant="outline" className="w-full truncate block">
+          <Button
+            variant="outline"
+            className="w-full"
+            isClipped
+            onClick={() => dispatch(openJoinServerDialog())}
+          >
             {t("views.home.find-or-start-call")}
           </Button>
         </DefaultLayout.LayoutHeaderPanel>

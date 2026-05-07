@@ -14,7 +14,7 @@ import { UserPanel } from "../user-panel"
 
 import { cn } from "@/lib/utils"
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider open={false} defaultOpen={false}>
       <AppSidebar />
@@ -59,7 +59,9 @@ function LayoutLeftPanelContent({ children }: { children: React.ReactNode }) {
 function LayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <ResizablePanel defaultSize="75%">
-      <div className="flex flex-col h-full overflow-hidden">{children}</div>
+      <div className="flex flex-col h-full overflow-hidden [&_.layout-header-panel]:px-4">
+        {children}
+      </div>
     </ResizablePanel>
   )
 }
@@ -86,8 +88,14 @@ function LayoutHeaderPanel({
   separator?: boolean
 }) {
   return (
-    <div className={cn(layoutHeaderPanel({ variant }), className)}>
-      <div className="flex flex-1 align-center px-4 py-2">{children}</div>
+    <div
+      className={cn(
+        layoutHeaderPanel({ variant }),
+        className,
+        "layout-header-panel"
+      )}
+    >
+      <div className="flex flex-1 align-center p-2">{children}</div>
     </div>
   )
 }
