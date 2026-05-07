@@ -4,6 +4,8 @@ import type { ChannelUser, User } from "./user"
 export type Server = {
   id: uuid4
   name: string
+  created_at: string
+  owner_id: uuid4
 }
 
 export type WSServer = Server & {
@@ -11,7 +13,7 @@ export type WSServer = Server & {
   channels: Array<Category | VoiceChannel>
 }
 
-export type ServerDraft = Omit<Server, "id">
+export type ServerDraft = Omit<Server, "id" | "created_at" | "owner_id">
 
 export type Channel = {
   id: uuid4

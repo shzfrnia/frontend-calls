@@ -48,7 +48,6 @@ export function HomePage() {
     <DefaultLayout>
       <DefaultLayout.LayoutLeftPanel>
         <DefaultLayout.LayoutHeaderPanel>
-          {/* TODO button isClipped */}
           <Button
             variant="outline"
             className="w-full"

@@ -12,6 +12,7 @@ import {
   openLeaveServerDialog,
   openInviteServerDialog,
 } from "@/store/slices/servers-slice"
+import { selectCurrentUser } from "@/store/slices/auth-slice"
 
 import { selectServer } from "../store"
 
@@ -35,6 +36,7 @@ export function ServerHeader({
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const server = useAppSelector(selectServer)
+  const currentUser = useAppSelector(selectCurrentUser)
 
   const openInviteDialog = useCallback(() => {
     if (server) {
@@ -45,6 +47,8 @@ export function ServerHeader({
   if (!server) {
     return <Skeleton className="w-full h-full" />
   }
+
+  const isOwner = currentUser?.id == server.owner_id
 
   return (
     <div className="w-full flex flex-1 items-center justify-between gap-2">
@@ -63,10 +67,12 @@ export function ServerHeader({
               {t("common.invite-to-server")}
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={openSettingsDialogClick}>
-              <Settings />
-              {t("views.server.header.dropdown.server-settings")}
-            </DropdownMenuItem>
+            {isOwner && (
+              <DropdownMenuItem onClick={openSettingsDialogClick}>
+                <Settings />
+                {t("views.server.header.dropdown.server-settings")}
+              </DropdownMenuItem>
+            )}
 
             {/* <DropdownMenuItem>
             Billing
