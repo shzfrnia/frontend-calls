@@ -189,15 +189,15 @@ export function LoginPage() {
               </div>
             </div>
             <div className="max-w-[200px]">
-              <Text
-                tooltipContentClassName=""
-              >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, nihil magnam quos repudiandae, quisquam numquam odio hic officia quo deserunt mollitia in, illo minima cumque quas. Voluptatum deserunt sint vitae!
+              <Text isCliped lines={1}>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Eveniet, nihil magnam quos repudiandae, quisquam numquam odio
+                hic officia quo deserunt mollitia in, illo minima cumque quas.
+                Voluptatum deserunt sint vitae!
               </Text>
             </div>
-            
-            <Separator />
 
+            <Separator />
             <SignInForm
               submitError={canLogin ? "" : t("views.login-page.server-tip")}
               loading={isLoading || signupIsLoading}

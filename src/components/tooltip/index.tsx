@@ -1,87 +1,95 @@
-import React, { useRef, useState, useLayoutEffect, useCallback } from "react"
+import React, { type ComponentProps, useState, useEffect } from "react"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-
-interface TextProps {
-  children: React.ReactNode
-  className?: string
-  maxWidth?: string | number
-  delayDuration?: number
-  sideOffset?: number
-  tooltipContentClassName?: string
-  side?: "top" | "right" | "bottom" | "left"
-}
+import { cn } from "@/lib/utils"
+import { useResize } from "@/hooks/use-overflow-options"
 
 export default function Text({
   children,
   className = "",
-  maxWidth,
-  delayDuration = 300,
-  sideOffset = 8,
-  tooltipContentClassName = "",
-  side = "top",
-}: TextProps) {
-  const textRef = useRef<HTMLDivElement>(null)
+  tooltip,
+  isCliped = false,
+  as = "span",
+  mode = 2,
+  lines = 1,
+}: {
+  children: React.ReactNode
+  className?: string
+  isCliped?: boolean
+  as?: keyof HTMLElementTagNameMap
+  tooltip?: Partial<
+    Pick<ComponentProps<typeof TooltipContent>, "side" | "className">
+  >
+  mode?: 1 | 2
+  lines?: number
+}) {
   const [isOverflowing, setIsOverflowing] = useState(false)
 
-  const checkOverflow = useCallback(() => {
-    const el = textRef.current
+  const ref = useResize(
+    () => {
+      const el = ref.current
+      if (!el) return
+
+      const overflowing =
+        el.scrollWidth > el.clientWidth || el.scrollHeight > el.clientHeight
+
+      setIsOverflowing(overflowing)
+    },
+    { mode }
+  )
+
+  useEffect(() => {
+    const el = ref.current
     if (!el) return
-    const overflowing = el.scrollWidth > el.clientWidth + 1
+
+    const overflowing =
+      el.scrollWidth > el.clientWidth || el.scrollHeight > el.clientHeight
+
     setIsOverflowing(overflowing)
-  }, [])
-  useLayoutEffect(() => {
-    checkOverflow()
-    const observer = new ResizeObserver(checkOverflow)
-    if (textRef.current?.parentElement) {
-      observer.observe(textRef.current.parentElement)
-    }
-    window.addEventListener("resize", checkOverflow)
-    return () => {
-      observer.disconnect()
-      window.removeEventListener("resize", checkOverflow)
-    }
-  }, [checkOverflow, children])
+  }, [ref])
 
-  const fullText =
-    typeof children === "string" ? children : String(children ?? "")
+  const shouldShowTooltip = isCliped && isOverflowing
 
-  // Если текст помещается — рендерим без 
-  if (!isOverflowing) {
-    return (
-      <div
-        ref={textRef}
-        className={`truncate ${className}`}
-        style={{ maxWidth: maxWidth ?? "100%" }}
-      >
-        {children}
-      </div>
-    )
+  const TextComponent = as as React.ElementType
+
+  const content = (
+    <TextComponent
+      ref={ref}
+      className={cn(
+        isCliped && [
+          "overflow-hidden",
+          lines === 1 && [
+            "block",
+            "whitespace-nowrap",
+            "text-ellipsis",
+            "truncate",
+          ],
+          lines > 1 && `line-clamp-${lines}`,
+        ],
+        className
+      )}
+    >
+      {children}
+    </TextComponent>
+  )
+
+  if (!shouldShowTooltip) {
+    return content
   }
-  // Если не помещается включаем tooltip
-  return (
-    <TooltipProvider delayDuration={delayDuration}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <div
-            ref={textRef}
-            className={`truncate cursor-help ${className}`}
-            style={{ maxWidth: maxWidth ?? "100%" }}
-          >
-            {children}
-          </div>
-        </TooltipTrigger>
 
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>{content}</TooltipTrigger>
         <TooltipContent
-          side={side}
-          sideOffset={sideOffset}
-          className={`max-w-[340px] break-words ${tooltipContentClassName}`}
+          side={tooltip?.side || "top"}
+          className={cn("max-w-[340px] break-words", tooltip?.className)}
         >
-          {fullText}
+          {children}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
