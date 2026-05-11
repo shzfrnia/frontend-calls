@@ -41,6 +41,7 @@ import { ApplicationVersions } from "@/components/application-versions"
 import { ServerUrlDialog } from "@/components/dialogs/server-url-dialog"
 import { SignInForm } from "@/components/forms/sign-in-form"
 import CatImage from "../../assets/cat.jpg"
+import TruncatedText from "@/components/tooltip"
 
 const cardBlock = cva("py-6")
 
@@ -188,9 +189,14 @@ export function LoginPage() {
                 </div>
               </div>
             </div>
+            <TruncatedText isClipped lines={2}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
+              dolores dolore in ratione eius eligendi. Unde sequi nostrum fugiat
+              cum quis? Commodi modi fugiat eius tempore eum incidunt
+              exercitationem iure.
+            </TruncatedText>
 
             <Separator />
-
             <SignInForm
               submitError={canLogin ? "" : t("views.login.server-tip")}
               loading={isLoading || signupIsLoading}
