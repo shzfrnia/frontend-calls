@@ -6,7 +6,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-interface SmartTextProps {
+interface TextProps {
   children: React.ReactNode
   className?: string
   maxWidth?: string | number
@@ -16,7 +16,7 @@ interface SmartTextProps {
   side?: "top" | "right" | "bottom" | "left"
 }
 
-export default function SmartText({
+export default function Text({
   children,
   className = "",
   maxWidth,
@@ -24,7 +24,7 @@ export default function SmartText({
   sideOffset = 8,
   tooltipContentClassName = "",
   side = "top",
-}: SmartTextProps) {
+}: TextProps) {
   const textRef = useRef<HTMLDivElement>(null)
   const [isOverflowing, setIsOverflowing] = useState(false)
 
