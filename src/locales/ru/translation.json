@@ -7,7 +7,7 @@
     "search": "Поиск",
     "back": "Назад",
     "localizations": { "ru": "Русский", "en": "Английский" },
-    "theme": { "light": "Cветлая", "dark": "Темная", "system": "Системная" },
+    "theme": { "light": "Светлая", "dark": "Темная", "system": "Системная" },
     "edit": "Редактировать",
     "server": "Сервер",
     "cancel": "Отмена",
@@ -24,10 +24,19 @@
     "mic-on": "Вкл. микрофон",
     "logout": "Выйти",
     "nickname": "Отображаемое имя",
-    "not-set": "Не задано"
+    "not-set": "Не задано",
+    "members": "Участники",
+    "invite-to-server": "Пригласить на сервер",
+    "join": "Присоединится",
+    "disconnect": "Отключиться",
+    "copy": "Скопировать",
+    "copied": "Скопировано",
+    "delete-all": "Удалить все",
+    "delete": "Удалить",
+    "created": "Создан"
   },
   "views": {
-    "login-page": {
+    "login": {
       "title": "Войти",
       "server-tip": "Для работы приложения нужно указать ссылку на self-hosted сервер",
       "server-url-is-not-supported": "Указанный сервер не поддерживается или не найден",
@@ -35,12 +44,30 @@
         "Incorrect username or password": "Неверное имя пользователя или пароль"
       }
     },
-    "home-page": {
+    "home": {
+      "views": {
+        "friends": {
+          "title": "Друзья"
+        }
+      },
       "title": "Домашняя страница",
       "find-or-start-call": "Найти или начать беседу"
     },
-    "friends": {
-      "title": "Друзья"
+    "server": {
+      "views": {
+        "users": "Участники",
+        "voice-channel": {
+          "nobody": "Сейчас в голосовом чате никого нет"
+        }
+      },
+      "header": {
+        "dropdown": {
+          "server-settings": "Настройки сервера",
+          "leave-server": "Покинуть сервер"
+        }
+      },
+      "voice-channels": "Голосовые каналы",
+      "create-channel": "Создать канал"
     },
     "404": {
       "title": "404",
@@ -54,7 +81,7 @@
     "header": { "house-tooltip": "Личные сообщения" },
     "footer": { "add-server-tooltip": "Добавить сервер" }
   },
-  "dialogs": {
+  "dialog": {
     "server-url": {
       "title": "Войдите на свой сервер",
       "url": {
@@ -73,7 +100,8 @@
               "title": "Моя учетная запись",
               "nav": {
                 "general": {
-                  "title": "Основные"
+                  "title": "Основные",
+                  "edit-account-button": "Редактировать профиль"
                 },
                 "privacy": {
                   "title": "Приватность"
@@ -99,11 +127,65 @@
           }
         }
       }
+    },
+    "server-settings": {
+      "nav": {
+        "server-profile": {
+          "title": "Профиль сервера"
+        },
+        "users": {
+          "title": "Люди",
+          "nav": {
+            "users": { "title": "Участники" },
+            "roles": { "title": "Роли" },
+            "invites": {
+              "title": "Приглашения",
+              "description": "Активные коды-приглашения",
+              "get-invite-code": "Получить код приглашения",
+              "table": {
+                "header": {
+                  "creator": "Приглашающий",
+                  "code": "Код приглашения",
+                  "used": "Использований"
+                }
+              }
+            }
+          }
+        },
+        "remove-section": {
+          "title": "Удалить сервер",
+          "server-name": {
+            "label": "Название сервера",
+            "placeholder": "Введите название сервера"
+          },
+
+          "description": "Вы уверены, что хотите удалить сервер <bold>{{serverName}}</bold>? Это действие нельзя отменить."
+        }
+      }
+    },
+    "leave-server": {
+      "title": "Покинуть",
+      "description": "Вы уверены что хотите покинуть <bold>{{serverName}}</bold>? Вы не сможете вернутся на сервер, пока вас не пригласят."
+    },
+    "invite-to-server": {
+      "title": "Пригласить на сервер {{serverName}}",
+      "description": "Ваш код для приглашения"
+    },
+    "create-server": {
+      "title": "Создайте свой сервер",
+      "has-invite-code-title": "У вас уже есть код-приглашение?"
+    },
+    "join-server": {
+      "title": "Присоединиться к серверу",
+      "description": "Введите код-приглашение, чтобы присоединится к серверу"
+    },
+    "join-server-accept": {
+      "description": "Вступить на сервер?"
     }
   },
   "empty": {
     "server-failed": {
-      "title": "Cервер недоступен",
+      "title": "Сервер недоступен",
       "buttons": {
         "change-server": "Сменить сервер",
         "try-connect": "Проверить соединение"
@@ -122,6 +204,21 @@
       "buttons": {
         "login": "Войти",
         "create-account": "Создать аккаунт"
+      }
+    },
+    "create-server": {
+      "name": {
+        "label": "Имя сервера",
+        "placeholder": "Введите имя сервера"
+      },
+      "buttons": {
+        "create": "Создать сервер"
+      }
+    },
+    "join-server": {
+      "code": {
+        "label": "Код-приглашения",
+        "error": "Код должен быть форматом ХХХХ-ХХХХ-ХХХХ"
       }
     },
     "errors": {

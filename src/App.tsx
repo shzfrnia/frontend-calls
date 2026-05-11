@@ -5,29 +5,29 @@ import { usePageTitle } from "./hooks/use-page-title"
 import { useAppSelector } from "./hooks/use-store"
 
 import { useApplicationServer } from "./api/app-server"
-import { useApplicationDataQuery } from "./api/application-ws"
+import { useLazyMeQuery } from "./api/users"
+import { useInitWsQuery } from "./api/ws"
 
-import { selectSettingsDialog } from "./store/slices/settings-slice"
 import { selectToken } from "./store/slices/auth-slice"
 
-import Layout from "./components/layout"
-import { useLazyMeQuery } from "./api/user"
+import { Layout } from "./components/layout"
 import { ApplicationVersions } from "./components/application-versions"
 import { EmptyServerFailed } from "./components/empty-server-failed"
 import { ApplicationLoading } from "./components/application-loading"
-import { SettingsDialog } from "./components/dialogs/settings-dialog"
+import { GlobalDialogs } from "./components/dialogs/global-dialogs"
 
 import "./App.css"
 
 function App() {
-  const navigate = useNavigate()
   usePageTitle("Цитатник")
+
+  const navigate = useNavigate()
+
+  const { data } = useInitWsQuery()
   const { applicationServerStatus } = useApplicationServer()
   const [me] = useLazyMeQuery()
-  const { opened } = useAppSelector(selectSettingsDialog)
-  const token = useAppSelector(selectToken)
 
-  const { data } = useApplicationDataQuery() // init ws
+  const token = useAppSelector(selectToken)
 
   useEffect(() => {
     if (applicationServerStatus === "success" && token) {
@@ -57,8 +57,9 @@ function App() {
     <Layout>
       <Outlet />
 
+      <GlobalDialogs />
+
       <ApplicationVersions />
-      <SettingsDialog open={opened} />
     </Layout>
   )
 }

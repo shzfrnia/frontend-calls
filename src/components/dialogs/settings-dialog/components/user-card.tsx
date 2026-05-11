@@ -8,6 +8,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -39,7 +40,7 @@ function UserCardInfoRow({
       </div>
 
       <div>
-        <Button size="sm" onClick={onChangeClick}>
+        <Button size="sm" variant="secondary" onClick={onChangeClick}>
           {t("common.edit")}
         </Button>
       </div>
@@ -88,6 +89,14 @@ export function UserCard() {
           onChangeClick={() => alert("login")}
         />
       </CardContent>
+
+      <CardFooter>
+        <Button className="w-full">
+          {t(
+            "dialog.settings.nav.profile-settings.nav.profile.nav.general.edit-account-button"
+          )}
+        </Button>
+      </CardFooter>
     </Card>
   )
 }

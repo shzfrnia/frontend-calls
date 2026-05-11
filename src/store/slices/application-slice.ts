@@ -1,5 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
-import type { PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
 import type { RootState } from "../index"
 
@@ -15,7 +14,7 @@ export function getApplicationServerUrlLocalStorage(): string {
 
 const initialState: { url: string } = {
   url: getApplicationServerUrlLocalStorage(),
-}
+} as const
 
 export const applicationSlice = createSlice({
   name: "application",

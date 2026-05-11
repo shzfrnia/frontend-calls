@@ -14,7 +14,7 @@ type ServerConnectionStatus = "checking" | "failed" | "success"
 export function useApplicationServer() {
   const dispatch = useAppDispatch()
   const currentUrl = useAppSelector(selectApplicationServerUrl)
-  const { isLoading, isSuccess, data, isUninitialized, refetch } =
+  const { data, isLoading, isSuccess, isUninitialized, refetch } =
     useGetServerInfoQuery()
 
   useEffect(() => {

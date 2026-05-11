@@ -27,7 +27,7 @@ export function Page404() {
         <EmptyDescription>{t("views.404.empty.description")}</EmptyDescription>
       </EmptyHeader>
       <EmptyContent className="flex-row justify-center gap-2">
-        <Button onClick={() => navigate(-1)}>{t("common.back")}</Button>
+        <Button onClick={() => navigate("/")}>{t("common.back")}</Button>
       </EmptyContent>
     </Empty>
   )

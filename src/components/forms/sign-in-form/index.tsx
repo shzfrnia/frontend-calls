@@ -26,6 +26,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
+import type { FormProps } from "../types"
+
 const signInSchema = z.object({
   login: z
     .string()
@@ -52,6 +54,8 @@ const signUpSchema = signInSchema
       })
     }
   })
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  .transform(({ confirmPassword, ...rest }) => rest)
 
 type FormType = z.infer<typeof signInSchema | typeof signUpSchema>
 
@@ -59,11 +63,7 @@ export function SignInForm({
   submitError,
   onSubmit,
   loading,
-}: {
-  submitError?: string
-  onSubmit: (data: FormType) => void
-  loading?: boolean
-}) {
+}: FormProps<FormType>) {
   const { zodT: t } = useZodTranslation()
 
   const [showPassword, setShowPassword] = useState(false)

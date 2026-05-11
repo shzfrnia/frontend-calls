@@ -1,3 +1,5 @@
+import { cva, type VariantProps } from "class-variance-authority"
+
 import { SidebarProvider } from "../app-sidebar/components/sidebar"
 import { AppSidebar, SidebarInset } from "@/components/app-sidebar"
 import {
@@ -5,19 +7,21 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { Separator } from "@/components/ui/separator"
-
-import { cn } from "@/lib/utils"
+import { ScrollArea } from "../ui/scroll-area"
 
 import { Block } from "../Block"
 import { UserPanel } from "../user-panel"
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+import { cn } from "@/lib/utils"
+
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider open={false} defaultOpen={false}>
       <AppSidebar />
 
-      <SidebarInset className="flex flex-col w-full">{children}</SidebarInset>
+      <SidebarInset className="flex flex-col w-full overflow-hidden">
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   )
 }
@@ -35,7 +39,8 @@ function LayoutLeftPanel({ children }: { children: React.ReactNode }) {
     <>
       <ResizablePanel defaultSize="25%" minSize="190px" maxSize="360px">
         <Block variant="secondary" className="flex flex-col h-full">
-          <div className="flex-1">{children}</div>
+          <div className="flex flex-col flex-1 overflow-hidden">{children}</div>
+
           <div className="p-1">
             <UserPanel />
           </div>
@@ -47,29 +52,50 @@ function LayoutLeftPanel({ children }: { children: React.ReactNode }) {
   )
 }
 
+function LayoutLeftPanelContent({ children }: { children: React.ReactNode }) {
+  return <ScrollArea className="min-h-0">{children}</ScrollArea>
+}
+
 function LayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <ResizablePanel defaultSize="75%">
-      <div className="flex flex-col h-full overflow-hidden">{children}</div>
+      <div className="flex flex-col h-full overflow-hidden [&_.layout-header-panel]:px-4">
+        {children}
+      </div>
     </ResizablePanel>
   )
 }
 
+const layoutHeaderPanel = cva("h-[54px] max-h-[54px] flex flex-col shrink-0", {
+  variants: {
+    variant: {
+      default: "border-b",
+      ghost: "absolute z-1",
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+})
+
 function LayoutHeaderPanel({
   children,
   className,
-  separator = true,
-}: {
+  variant = "default",
+}: VariantProps<typeof layoutHeaderPanel> & {
   children: React.ReactNode
   className?: string
   separator?: boolean
 }) {
   return (
     <div
-      className={cn("h-[54px] max-h-[54px] flex flex-col shrink-0", className)}
+      className={cn(
+        layoutHeaderPanel({ variant }),
+        className,
+        "layout-header-panel"
+      )}
     >
       <div className="flex flex-1 align-center p-2">{children}</div>
-      {separator && <Separator />}
     </div>
   )
 }
@@ -77,5 +103,6 @@ function LayoutHeaderPanel({
 DefaultLayout.LayoutLeftPanel = LayoutLeftPanel
 DefaultLayout.LayoutContent = LayoutContent
 DefaultLayout.LayoutHeaderPanel = LayoutHeaderPanel
+DefaultLayout.LayoutLeftPanelContent = LayoutLeftPanelContent
 
 export { DefaultLayout }

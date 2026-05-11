@@ -13,10 +13,10 @@ export function SettingsApplication() {
     <MainBlock>
       <SecondaryBlock
         header={t(
-          "dialogs.settings.nav.general.nav.application-settings.choose-theme.header"
+          "dialog.settings.nav.general.nav.application-settings.choose-theme.header"
         )}
         description={t(
-          "dialogs.settings.nav.general.nav.application-settings.choose-theme.description"
+          "dialog.settings.nav.general.nav.application-settings.choose-theme.description"
         )}
       >
         <ThemeToggler />
@@ -24,10 +24,10 @@ export function SettingsApplication() {
 
       <SecondaryBlock
         header={t(
-          "dialogs.settings.nav.general.nav.application-settings.choose-language.header"
+          "dialog.settings.nav.general.nav.application-settings.choose-language.header"
         )}
         description={t(
-          "dialogs.settings.nav.general.nav.application-settings.choose-language.description"
+          "dialog.settings.nav.general.nav.application-settings.choose-language.description"
         )}
       >
         <LocalizationToggler />

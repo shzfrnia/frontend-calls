@@ -301,7 +301,7 @@ class CommonGL {
   height = 1;
   pixelRatio = 1;
   renderer: THREE.WebGLRenderer | null = null;
-  clock: THREE.Clock | null = null;
+  clock: THREE.Timer | null = null;
   time = 0;
   delta = 0;
   container: HTMLElement | null = null;
@@ -319,8 +319,7 @@ class CommonGL {
     el.style.width = "100%";
     el.style.height = "100%";
     el.style.display = "block";
-    this.clock = new THREE.Clock();
-    this.clock.start();
+    this.clock = new THREE.Timer();
   }
 
   resize() {
