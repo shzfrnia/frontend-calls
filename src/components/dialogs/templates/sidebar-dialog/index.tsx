@@ -52,7 +52,7 @@ export function SidebarDialog({
   }) {
   const [navPath, setNavPath] = useState<string>(defaultPath)
 
-  const { Icon, title, subTitle, Component } = useMemo<{
+  const { Icon, title, Component } = useMemo<{
     Icon: ComponentType<{ className: string }>
     title: string
     subTitle?: string
