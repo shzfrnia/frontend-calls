@@ -10,6 +10,7 @@ import { SidebarDialog, type Items } from "../templates/sidebar-dialog"
 import { DeleteServerAlert } from "./components/delete-server-alert"
 import { ServerProfile } from "./components/tabs/server-profile"
 import { Invites } from "./components/tabs/invites"
+import { Roles } from "./components/tabs/roles"
 
 const defaultPath = "server-settings|server-profile"
 
@@ -46,7 +47,7 @@ export function ServerSettingsDialog({
           },
           roles: {
             title: t("dialog.server-settings.nav.users.nav.roles.title"),
-            Component: ServerProfile,
+            Component: Roles,
           },
           invites: {
             title: t("dialog.server-settings.nav.users.nav.invites.title"),

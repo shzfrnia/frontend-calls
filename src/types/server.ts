@@ -45,6 +45,6 @@ export type Invite = {
   code: string
   id: uuid4
   used: number
-  user: User
+  owner: User
   created_at: string
 }

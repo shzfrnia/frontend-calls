@@ -98,10 +98,10 @@ export function Invites() {
           </TableHeader>
 
           <TableBody>
-            {(data?.data || []).map(({ id, user, code, used, created_at }) => (
+            {(data?.data || []).map(({ id, owner, code, used, created_at }) => (
               <TableRow key={id}>
                 <TableCell>
-                  <UserCard user={user} />
+                  <UserCard user={owner} />
                 </TableCell>
 
                 <TableCell>

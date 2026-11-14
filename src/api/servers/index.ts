@@ -16,7 +16,7 @@ export const serversApi = api.injectEndpoints({
       query: (id) => ({ url: `servers/${id}`, method: "DELETE" }),
     }),
     getInviteCode: build.mutation<Invite, uuid4>({
-      query: (id) => ({ url: `servers/${id}/invite`, method: "POST" }),
+      query: (id) => ({ url: `servers/${id}/invites`, method: "POST" }),
       invalidatesTags: ["invites"],
     }),
     getInvites: build.query<{ data: Invite[]; count: number }, uuid4>({
@@ -25,7 +25,7 @@ export const serversApi = api.injectEndpoints({
     }),
     deleteInvite: build.mutation<void, { server: uuid4; invite: uuid4 }>({
       query: ({ server, invite }) => ({
-        url: `servers/${server}/invite/${invite}`,
+        url: `servers/${server}/invites/${invite}`,
         method: "DELETE",
       }),
       invalidatesTags: ["invites"],
