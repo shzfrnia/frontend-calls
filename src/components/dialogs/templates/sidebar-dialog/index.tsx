@@ -52,9 +52,10 @@ export function SidebarDialog({
   }) {
   const [navPath, setNavPath] = useState<string>(defaultPath)
 
-  const { Icon, title, Component } = useMemo<{
+  const { Icon, title, subTitle, Component } = useMemo<{
     Icon: ComponentType<{ className: string }>
     title: string
+    subTitle?: string
     Component: ComponentType
   }>(() => {
     const path = navPath.split("|").reverse()
@@ -122,6 +123,7 @@ export function SidebarDialog({
             title={
               <div className="flex gap-2 items-center">
                 <Icon className="h-[1.3em]" />
+
                 <h1>{title}</h1>
               </div>
             }

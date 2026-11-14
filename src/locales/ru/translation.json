@@ -33,7 +33,8 @@
     "copied": "Скопировано",
     "delete-all": "Удалить все",
     "delete": "Удалить",
-    "created": "Создан"
+    "created": "Создан",
+    "duplicate": "Дублировать"
   },
   "views": {
     "login": {
@@ -137,7 +138,13 @@
           "title": "Люди",
           "nav": {
             "users": { "title": "Участники" },
-            "roles": { "title": "Роли" },
+            "roles": {
+              "title": "Роли",
+              "default-role": "Права по умолчанию",
+              "default-role-description": "распространяется на всех участников сервера",
+              "show-users": "Показать участников",
+              "create-role": "Создать роль"
+            },
             "invites": {
               "title": "Приглашения",
               "description": "Активные коды-приглашения",
